@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Badminton Career Simulator</title>
+  <style>
+    :root {
+      --ink: #17231d; --muted: #647068; --paper: #f5f2e9; --card: #fffdf7;
+      --green: #176b4d; --green-2: #0f4d38; --lime: #d7f05b; --line: #dce1d8;
+      --red: #b94838; --gold: #d69b2d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; color: var(--ink); background:
+        radial-gradient(circle at 0 0, #dbe8d8 0, transparent 28rem), var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .hidden { display: none !important; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 48px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .logo {
+      width: 46px; height: 46px; display: grid; place-items: center; border-radius: 14px;
+      background: var(--green); color: white; font-size: 24px; transform: rotate(-6deg); box-shadow: 0 8px 20px #176b4d33;
+    }
+    h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(22px, 3vw, 34px); letter-spacing: -.03em; }
+    .subtitle { margin: 3px 0 0; color: var(--muted); font-size: 14px; }
+    .week-pill { background: var(--ink); color: white; border-radius: 999px; padding: 9px 15px; font-size: 13px; font-weight: 700; }
+    .header-actions { display: flex; align-items: center; gap: 9px; }
+    .rules-button { border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; background: var(--card); color: var(--ink); font-size: 13px; font-weight: 800; }
+    .rules-button:hover { border-color: var(--green); color: var(--green); }
+    .layout { display: grid; grid-template-columns: 1fr 390px; gap: 20px; }
+    .panel { background: color-mix(in srgb, var(--card) 94%, transparent); border: 1px solid #ffffff;
+      border-radius: 22px; box-shadow: 0 12px 35px #27372d10; }
+    .hero { padding: 28px; position: relative; overflow: hidden; background: var(--green); color: white; }
+    .hero::after { content: ""; position: absolute; width: 260px; height: 260px; right: -90px; top: -110px;
+      border: 42px solid #ffffff12; border-radius: 50%; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: 11px; font-weight: 800; color: var(--lime); }
+    .hero h2 { margin: 9px 0 8px; font-family: Georgia, serif; font-size: 32px; }
+    .hero p { margin: 0; color: #e0ede7; max-width: 580px; line-height: 1.55; }
+    .profile-avatar { float: left; width: 102px; height: 102px; margin: 0 20px 12px 0; border: 4px solid #ffffff33; border-radius: 24px; background: #d9eadf; object-fit: cover; }
+    .profile-avatar.partner { margin-left: -32px; transform: translateY(12px); }
+    .ranking { position: absolute; right: 28px; bottom: 25px; text-align: right; z-index: 1; }
+    .ranking span { display: block; font-size: 11px; opacity: .7; text-transform: uppercase; letter-spacing: .12em; }
+    .ranking strong { font-family: Georgia, serif; font-size: 42px; color: var(--lime); }
+    .overall { display: inline-grid; place-items: center; width: 76px; height: 76px; margin-top: 19px; border-radius: 19px;
+      color: var(--ink); background: var(--lime); box-shadow: 0 8px 24px #10291f38; transform: rotate(-2deg); }
+    .overall strong { display: block; font: 36px/1 Georgia, serif; }
+    .overall span { font-size: 9px; font-weight: 900; letter-spacing: .14em; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 18px 0; }
+    .stat { padding: 17px; }
+    .stat-top { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; font-weight: 700; }
+    .stat strong { color: var(--ink); font-size: 22px; }
+    .bar { height: 6px; border-radius: 10px; background: #e8ebe4; margin-top: 12px; overflow: hidden; }
+    .bar i { display: block; height: 100%; width: 50%; border-radius: inherit; background: var(--green); transition: width .3s; }
+    .actions { padding: 24px; }
+    .section-title { display: flex; align-items: end; justify-content: space-between; margin-bottom: 15px; }
+    .section-title h3 { margin: 0; font-family: Georgia, serif; font-size: 22px; }
+    .section-title span { color: var(--muted); font-size: 12px; }
+    .action-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .action {
+      border: 1px solid var(--line); border-radius: 16px; background: #fff; padding: 16px; text-align: left;
+      transition: .18s ease; color: var(--ink);
+    }
+    .action:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 8px 20px #1c51321a; }
+    .action b { display: block; margin-bottom: 5px; }
+    .action small { color: var(--muted); line-height: 1.4; }
+    .action.primary { background: var(--lime); border-color: var(--lime); }
+    .side { display: flex; flex-direction: column; gap: 16px; }
+    .card { padding: 21px; }
+    .card h3 { font-size: 15px; margin: 0 0 16px; }
+    .profile-portraits { display: flex; justify-content: center; margin: 2px 0 18px; }
+    .card-avatar { width: 108px; height: 108px; border: 4px solid white; border-radius: 24px; background: #d9eadf; object-fit: cover; box-shadow: 0 8px 24px #22382b1f; }
+    .card-avatar + .card-avatar { margin-left: -28px; transform: translateY(12px); }
+    .profile-rank-block { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 14px 0; }
+    .profile-rank { padding: 13px; border-radius: 13px; background: #edf2eb; text-align: center; }
+    .profile-rank span { display: block; color: var(--muted); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+    .profile-rank strong { display: block; margin-top: 3px; font: 27px Georgia, serif; color: var(--green); }
+    .achievement-list { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; max-width: 230px; }
+    .achievement-badge { padding: 4px 7px; border-radius: 999px; background: #edf2eb; color: var(--green-2); font-size: 10px; }
+    .storyline-card { margin-top: 16px; padding: 16px; border-radius: 15px; background: var(--green-2); color: white; }
+    .storyline-card span { display: block; margin-bottom: 5px; color: var(--lime); font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .storyline-card b { display: block; margin-bottom: 7px; font-family: Georgia, serif; font-size: 18px; }
+    .storyline-card p { margin: 0; color: #dfebe5; font-size: 12px; line-height: 1.5; }
+    .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .detail-row:last-child { border: 0; }
+    .detail-row span { color: var(--muted); }
+    .healthy { color: var(--green); font-weight: 800; }
+    .hurt { color: var(--red); font-weight: 800; }
+    .timeline-panel { margin-top: 20px; padding: 30px; min-height: 620px; }
+    .timeline-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+    .log-filters { display: flex; flex-wrap: wrap; gap: 7px; }
+    .log-count { color: var(--muted); font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .filter-btn { border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; background: white; color: var(--muted); font-size: 11px; font-weight: 800; transition: .16s ease; }
+    .filter-btn:hover { border-color: var(--green); color: var(--green); }
+    .filter-btn.active { border-color: var(--green); background: var(--green); color: white; }
+    .log { min-height: 510px; max-height: none; overflow: visible; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; gap: 12px; }
+    .log-entry { display: grid; grid-template-columns: 36px 1fr; gap: 10px; min-height: 108px; padding: 14px; border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 14px; background: white; font-size: 12px; line-height: 1.45; box-shadow: 0 5px 14px #263c2e0a; }
+    .log-entry.category-match { border-left-color: #3478b8; } .log-entry.category-training { border-left-color: #3f8d50; }
+    .log-entry.category-injury { border-left-color: var(--red); } .log-entry.category-ranking { border-left-color: var(--gold); }
+    .log-entry.category-news { border-left-color: #7b59a5; } .log-entry.category-rivalry { border-left-color: #d46b2c; }
+    .log-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: #edf2eb; font-size: 16px; }
+    .log-entry b { display: flex; align-items: center; justify-content: space-between; gap: 5px; font-size: 10px; color: var(--green); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 5px; }
+    .log-date { color: var(--muted); font-size: 9px; margin-left: 0; letter-spacing: 0; white-space: nowrap; }
+    .load-more { display: block; margin: 18px auto 0; padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--green); font-size: 11px; font-weight: 800; }
+    .load-more:hover { border-color: var(--green); }
+    .empty { color: var(--muted); font-size: 13px; }
+    .overlay { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; background: #11251dbd; backdrop-filter: blur(7px); z-index: 20; }
+    .overlay.hidden { display: none; }
+    .modal { width: min(560px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; background: var(--card); border-radius: 24px; padding: 30px; box-shadow: 0 30px 80px #0005; }
+    .modal h2 { margin: 6px 0 9px; font: 32px/1.1 Georgia, serif; }
+    .modal p { color: var(--muted); line-height: 1.55; }
+    .name-row { display: flex; gap: 10px; margin-top: 22px; }
+    input, select { min-width: 0; flex: 1; padding: 13px 15px; border: 1px solid var(--line); border-radius: 12px; outline: none; background: white; }
+    input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px #176b4d18; }
+    .go { border: 0; border-radius: 12px; background: var(--green); color: white; padding: 0 20px; font-weight: 800; }
+    .tournaments { display: grid; gap: 9px; margin-top: 20px; }
+    .tour { border: 1px solid var(--line); background: white; padding: 14px; border-radius: 13px; display: flex; justify-content: space-between; text-align: left; }
+    .tour:hover { border-color: var(--green); }
+    .tour span { color: var(--muted); font-size: 12px; }
+    .cancel { display: block; margin: 16px auto 0; border: 0; background: none; color: var(--muted); }
+    .wide-modal { width: min(720px, 100%); }
+    .match-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 20px 0; }
+    .competitor { flex: 1; padding: 18px; border-radius: 15px; background: #edf2eb; }
+    .competitor.away { text-align: right; }
+    .competitor b { display: block; font-size: 17px; }
+    .competitor span { color: var(--muted); font-size: 12px; }
+    .match-avatar { width: 54px; height: 54px; margin-bottom: 8px; border-radius: 14px; background: #d9eadf; }
+    .versus { font: italic 18px Georgia, serif; color: var(--muted); }
+    .bracket { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 13px; }
+    .round-chip { flex: 0 0 auto; padding: 8px 10px; border-radius: 999px; background: #e8ebe4; color: var(--muted); font-size: 10px; font-weight: 800; }
+    .round-chip.done { background: var(--green); color: white; }
+    .round-chip.current { background: var(--lime); color: var(--ink); }
+    .scoreboard { min-height: 58px; padding: 14px; border: 1px solid var(--line); border-radius: 13px; text-align: center; line-height: 1.6; }
+    .scoreboard strong { font-size: 20px; }
+    .match-btn { display: block; width: 100%; margin-top: 14px; padding: 14px; border: 0; border-radius: 12px; background: var(--green); color: white; font-weight: 800; }
+    .upgrade-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+    .upgrade { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: white; text-align: left; }
+    .upgrade:hover { border-color: var(--green); }
+    .upgrade b, .upgrade span { display: block; }
+    .upgrade span { margin-top: 4px; color: var(--muted); font-size: 12px; }
+    .rules-list { display: grid; gap: 11px; margin: 20px 0 4px; }
+    .welcome-banner { margin: -30px -30px 25px; padding: 34px 30px 30px; border-radius: 24px 24px 18px 18px; background: linear-gradient(135deg, var(--green-2), var(--green)); color: white; overflow: hidden; position: relative; }
+    .welcome-banner::after { content: ""; position: absolute; width: 180px; height: 180px; right: -75px; top: -80px; border: 30px solid #ffffff12; border-radius: 50%; }
+    .welcome-banner .eyebrow { position: relative; z-index: 1; }
+    .welcome-banner h2 { position: relative; z-index: 1; margin-top: 10px; font-size: clamp(30px, 5vw, 46px); }
+    .welcome-banner p { position: relative; z-index: 1; max-width: 580px; margin-bottom: 0; color: #deeee6; }
+    .rules-heading { margin: 0 0 5px; font: 24px Georgia, serif; }
+    .rule { padding: 14px 15px; border: 1px solid var(--line); border-radius: 13px; background: white; line-height: 1.45; }
+    .rule b { display: block; margin-bottom: 3px; }
+    .rule span { color: var(--muted); font-size: 13px; }
+    .onboarding-step.hidden { display: none; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .form-field:first-child { grid-column: 1 / -1; }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-field label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+    .form-field input, .form-field select { width: 100%; }
+    .player-fields { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: #fafbf7; }
+    .player-fields h3 { grid-column: 1 / -1; margin: 0 0 3px; font: 18px Georgia, serif; }
+    .player-fields.hidden { display: none; }
+    .story-card { display: grid; grid-template-columns: 120px 1fr; gap: 18px; align-items: center; margin: 20px 0; padding: 18px; border-radius: 17px; background: #edf2eb; }
+    .story-avatar { width: 120px; height: 120px; border-radius: 23px; background: #d9eadf; }
+    .story-card p { margin: 0; font-size: 14px; }
+    .result { text-align: center; }
+    .result .trophy { font-size: 54px; }
+    .result h2 { font-size: 38px; }
+    .result-stats { background: #edf2eb; border-radius: 14px; padding: 14px; margin: 18px 0; line-height: 1.7; }
+    @media (max-width: 1000px) { .log { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 850px) { .layout { grid-template-columns: 1fr; } .side { display: grid; grid-template-columns: 1fr; } }
+    @media (max-width: 620px) { .shell { width: min(100% - 20px, 1180px); padding-top: 15px; } header { align-items: flex-start; }
+      .stats { grid-template-columns: repeat(2, 1fr); } .action-grid, .side, .upgrade-grid, .log { grid-template-columns: 1fr; } .ranking { position: static; text-align: left; margin-top: 20px; }
+      .hero { padding: 22px; } .profile-avatar { float: none; display: block; } .name-row { flex-direction: column; } .go { padding: 13px; } .form-grid, .story-card { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="brand"><div class="logo">◒</div><div><h1>Badminton Career Simulator</h1><p class="subtitle">One athlete. One week at a time.</p></div></div>
+      <div class="header-actions"><button class="rules-button" id="rulesBtn">How to play</button><div class="week-pill" id="weekPill">Season 1 · Week 1</div></div>
+    </header>
+
+    <div class="layout">
+      <section>
+        <div class="panel hero">
+          <img class="profile-avatar" id="playerAvatar" alt="Player profile portrait"><img class="profile-avatar partner hidden" id="playerAvatar2" alt="Partner profile portrait"><div class="eyebrow">Professional profile</div><h2 id="playerName">Your Player</h2>
+          <p id="heroText">A 16-year-old prospect beginning the long climb to badminton immortality.</p>
+          <div class="overall"><strong id="overall">46</strong><span>OVERALL</span></div>
+          <div class="ranking"><span>World ranking</span><strong id="ranking">#1000</strong></div>
+        </div>
+        <div class="stats" id="stats"></div>
+        <div class="panel actions">
+          <div class="section-title"><h3>Choose your week</h3><span>Each action advances time</span></div>
+          <div class="action-grid">
+            <button class="action" data-action="technical"><b>🏸 Technical training</b><small>Build skill, spend stamina, risk injury.</small></button>
+            <button class="action" data-action="fitness"><b>⚡ Fitness training</b><small>Improve conditioning through hard work.</small></button>
+            <button class="action" data-action="rest"><b>🌿 Rest & recovery</b><small>Restore stamina and heal injuries.</small></button>
+            <button class="action primary" data-action="tournament"><b>🏆 Enter tournament</b><small>Earn money, titles, and ranking points.</small></button>
+            <button class="action" data-action="upgrade"><b>💰 Player development</b><small>Spend earnings to permanently improve ratings.</small></button>
+          </div>
+        </div>
+      </section>
+      <aside class="side">
+        <div class="panel card"><h3>Player profile</h3><div class="profile-portraits" id="profilePortraits"></div><div id="details"></div></div>
+      </aside>
+    </div>
+    <section class="panel timeline-panel"><div class="section-title"><h3>Career timeline</h3><span>Matches, development, health, rankings, and world stories</span></div><div class="timeline-toolbar"><div class="log-filters" id="logFilters"><button class="filter-btn active" data-filter="All">All entries</button><button class="filter-btn" data-filter="Match">Matches</button><button class="filter-btn" data-filter="Training">Training updates</button><button class="filter-btn" data-filter="Injury">Injuries</button><button class="filter-btn" data-filter="Ranking">Rankings</button><button class="filter-btn" data-filter="News">News events</button><button class="filter-btn" data-filter="Rivalry">Rivalries</button></div><span class="log-count" id="logCount">0 entries</span></div><div class="log" id="log"><div class="empty">Your story begins here.</div></div><button class="load-more hidden" id="loadMoreLog">Show older entries</button></section>
+  </main>
+
+  <div class="overlay" id="startOverlay">
+    <div class="modal wide-modal">
+      <div class="onboarding-step" id="onboardingRules"><div class="welcome-banner"><div class="eyebrow">Welcome to the world tour</div><h2>Badminton Career Simulator</h2><p>Create an athlete, survive the pressure of professional competition, and build a legacy from unknown prospect to world number one.</p></div><h3 class="rules-heading">How to Play & Game Rules</h3><p>Every decision advances your career. Read the systems below before stepping onto the court.</p><div class="rules-list"><div class="rule"><b>🏸 Training system</b><span>Choose technical or fitness training to earn small, gradual improvements. Development becomes harder at elite ratings, while excessive work drains stamina and increases injury risk.</span></div><div class="rule"><b>🏆 Tournaments</b><span>Pay entry fees and play each match from qualification or the Round of 64 through the final. Results affect prize money, development, form, confidence, rivalries, and ranking points.</span></div><div class="rule"><b>🌍 Rankings</b><span>Successful tournament runs improve your world ranking. Points can decay between seasons, and active rivals may pass an inactive or struggling player.</span></div><div class="rule"><b>📈 OVR (Overall Rating)</b><span>OVR summarizes technical skill, fitness, and confidence. It changes gradually through sustained development, strong performances, health, form, and age—not after every minor action.</span></div><div class="rule"><b>🩹 Injuries system</b><span>Low stamina, overtraining, and heavy match loads increase injury risk. Injuries interrupt training, weaken form, may reduce ability, and can potentially end a career.</span></div><div class="rule"><b>🔥 Form and confidence</b><span>Wins, rest, and positive events build momentum. Losses, inactivity, illness, burnout, and slumps reduce form and confidence, directly affecting match performance.</span></div><div class="rule"><b>📅 Aging and career progression</b><span>Each action represents one week, and age increases every 52 weeks. Younger athletes generally develop faster; older athletes must manage fitness carefully to slow decline.</span></div><div class="rule"><b>🎙 Retirement system</b><span>The player retires at age 35, after financial ruin, or following a career-ending injury. A completed career receives a final record and achievement summary.</span></div><div class="rule"><b>⚔️ Rivalries and storylines</b><span>Repeated meetings, close matches, upsets, injuries, comebacks, title races, and ranking battles generate evolving rivalries, career chapters, and news stories.</span></div></div><button class="match-btn" id="toCreate">Start Career</button></div>
+      <div class="onboarding-step hidden" id="onboardingCreate"><div class="eyebrow">Step 2 of 3 · Player creation</div><h2>Create your entry</h2><p>Choose an event and create every athlete in the entry. Ages shape starting ratings and long-term development.</p><div class="form-grid"><div class="form-field full"><label for="eventTypeInput">Event</label><select id="eventTypeInput"><option value="Singles">Singles</option><option value="Doubles">Doubles</option><option value="Mixed">Mixed Doubles</option></select></div><div class="player-fields"><h3 id="playerOneHeading">Player</h3><div class="form-field full"><label for="nameInput">Name</label><input id="nameInput" maxlength="28" placeholder="Enter player name"></div><div class="form-field"><label for="ageInput">Age</label><input id="ageInput" type="number" min="14" max="35" value="16"></div><div class="form-field"><label for="genderInput">Gender</label><select id="genderInput"><option value="Male">Male</option><option value="Female">Female</option><option value="Non-binary">Non-binary</option></select></div><div class="form-field full"><label for="nationalityInput">Nationality</label><input id="nationalityInput" maxlength="32" list="nationalityOptions" placeholder="e.g. Canada"></div></div><div class="player-fields hidden" id="partnerFields"><h3>Player 2</h3><div class="form-field full"><label for="partnerNameInput">Name</label><input id="partnerNameInput" maxlength="28" placeholder="Enter partner name"></div><div class="form-field"><label for="partnerAgeInput">Age</label><input id="partnerAgeInput" type="number" min="14" max="35" value="16"></div><div class="form-field"><label for="partnerGenderInput">Gender</label><select id="partnerGenderInput"><option value="Female">Female</option><option value="Male">Male</option><option value="Non-binary">Non-binary</option></select></div><div class="form-field full"><label for="partnerNationalityInput">Nationality</label><input id="partnerNationalityInput" maxlength="32" list="nationalityOptions" placeholder="e.g. Japan"></div></div><datalist id="nationalityOptions"><option value="Canada"><option value="China"><option value="Denmark"><option value="England"><option value="France"><option value="India"><option value="Indonesia"><option value="Japan"><option value="Korea"><option value="Malaysia"><option value="Singapore"><option value="Thailand"><option value="United States"></datalist></div><p id="creationError" class="hurt" aria-live="polite"></p><button class="match-btn" id="startBtn">Create profile</button><button class="cancel" id="backToRules">Back to rules</button></div>
+      <div class="onboarding-step hidden" id="onboardingStory"><div class="eyebrow">Step 3 of 3 · Created profile</div><h2 id="storyTitle">A new challenger appears</h2><div class="story-card"><div><img class="story-avatar" id="storyAvatar" alt="Generated player portrait"><img class="story-avatar hidden" id="storyAvatar2" alt="Generated partner portrait"></div><p id="storyText"></p></div><button class="match-btn" id="beginCareer">Begin the career</button><button class="cancel" id="editPlayer">Edit entry</button></div>
+    </div>
+  </div>
+  <div class="overlay hidden" id="tournamentOverlay"><div class="modal"><div class="eyebrow">Competition week</div><h2>Choose your stage</h2><p>Higher tiers offer bigger rewards—and much tougher opposition.</p><div class="tournaments" id="tournamentList"></div><button class="cancel" id="cancelTournament">Cancel</button></div></div>
+  <div class="overlay hidden" id="matchOverlay"><div class="modal wide-modal"><div class="eyebrow" id="matchTournament">Tournament</div><h2 id="matchRound">Round of 64</h2><div class="bracket" id="bracket"></div><div class="match-head"><div class="competitor"><img class="match-avatar" id="matchPlayerAvatar" alt="Player"><b id="matchPlayer">Player</b><span id="matchPlayerRating">OVR 46</span></div><div class="versus">vs</div><div class="competitor away"><img class="match-avatar" id="matchOpponentAvatar" alt="Opponent"><b id="matchOpponent">Opponent</b><span id="matchOpponentRating">Country · OVR 80</span><a id="matchBwfLink" href="https://bwfbadminton.com/players/" target="_blank" rel="noopener">Official BWF player directory ↗</a></div></div><div class="scoreboard" id="scoreboard">The players are warming up.</div><button class="match-btn" id="playMatch">Play match</button></div></div>
+  <div class="overlay hidden" id="upgradeOverlay"><div class="modal wide-modal"><div class="eyebrow">Player development</div><h2>Invest in your game</h2><p id="upgradeMoney">Available balance</p><div class="upgrade-grid" id="upgradeList"></div><button class="cancel" id="closeUpgrade">Return to career</button></div></div>
+  <div class="overlay hidden" id="rulesOverlay"><div class="modal wide-modal"><div class="eyebrow">Game guide</div><h2>How to play</h2><p>Build a complete athlete, manage the risks of a long season, and earn your place at the top of world badminton.</p><div class="rules-list"><div class="rule"><b>🏆 Your objective</b><span>Reach world rank #1 and win the Season-Ending Championship before retiring at age 35.</span></div><div class="rule"><b>📅 Weekly choices</b><span>Every training, recovery, or tournament action uses one week. Your player ages after every 52 weeks.</span></div><div class="rule"><b>📈 Ratings and overall</b><span>Permanent skill, fitness, and confidence create your NBA 2K-style overall. Stamina affects current match form without changing your career rating.</span></div><div class="rule"><b>💰 Player development</b><span>Spend prize and sponsorship money to permanently improve skill, fitness, or confidence. Entry fees and weekly expenses still apply.</span></div><div class="rule"><b>🏸 Tournament draws</b><span>Players ranked outside the top 100 begin in qualification. Win each simulated match to advance through the Round of 64, Round of 32, Round of 16, quarter-finals, semi-finals, and final.</span></div><div class="rule"><b>🩹 Health and stamina</b><span>Training and matches reduce stamina. Low stamina and overtraining increase injury risk; rest restores energy and helps injuries heal.</span></div><div class="rule"><b>⛔ Career-ending conditions</b><span>The career ends immediately after financial ruin, a career-ending injury, or reaching age 35 without completing the objective.</span></div></div><button class="match-btn" id="closeRules">Got it—back to the game</button></div></div>
+  <div class="overlay hidden" id="endOverlay"><div class="modal result"><div class="trophy" id="endIcon">🏆</div><div class="eyebrow" id="endLabel">Career complete</div><h2 id="endTitle"></h2><p id="endReason"></p><div class="result-stats" id="endStats"></div><button class="go" style="padding:13px 22px" onclick="location.reload()">Start a new career</button></div></div>
+
+  <script>
+    const tours = [
+      {name:'Local Tournament', cost:100, difficulty:34, prize:1000, points:35},
+      {name:'National Tournament', cost:350, difficulty:48, prize:3500, points:80},
+      {name:'International Tournament', cost:900, difficulty:62, prize:10000, points:160},
+      {name:'Major Championship', cost:1800, difficulty:76, prize:30000, points:300}
+    ];
+    // Real international singles players; OVR numbers are fictional game ratings.
+    const mensOpponents = [
+      ['Edward Patai','Cook Islands',48],['Luc Guyenne','New Caledonia',50],['Landon Kurniawan','Australia',53],
+      ['Garret Tan','USA',57],['Jonathan Matias','Brazil',59],['Ygor Coelho','Brazil',61],['Kevin Cordon','Guatemala',64],
+      ['Uriel Canjura','El Salvador',66],['Xiaodong Sheng','Canada',69],['Julien Carraggi','Belgium',71],
+      ['Victor Lai','Canada',74],['Brian Yang','Canada',77],['Kenta Nishimoto','Japan',82],['Lee Cheuk Yiu','Hong Kong China',83],
+      ['Weng Hong Yang','China',84],['Lu Guang Zu','China',85],['Christo Popov','France',86],['Loh Kean Yew','Singapore',87],
+      ['Kodai Naraoka','Japan',88],['Alex Lanier','France',89],['Chou Tien Chen','Chinese Taipei',90],['Jonatan Christie','Indonesia',91],
+      ['Li Shi Feng','China',92],['Viktor Axelsen','Denmark',93],['Kunlavut Vitidsarn','Thailand',94],
+      ['Anders Antonsen','Denmark',95],['Shi Yu Qi','China',96]
+    ].map(([name,country,rating])=>({name,country,rating}));
+    const womensOpponents = [
+      ['Geneva Siamupangila','Zambia',48],['Trisha Kyuuka','Uganda',50],['Rachel Chan','Canada',54],
+      ['Wen Yu Zhang','Canada',58],['Natsuki Nidaira','Japan',62],['Malvika Bansod','India',65],
+      ['Line Christophersen','Denmark',68],['Kirsty Gilmour','Scotland',70],['Michelle Li','Canada',74],
+      ['Yeo Jia Min','Singapore',78],['Pusarla V. Sindhu','India',82],['Ratchanok Intanon','Thailand',85],
+      ['Gregoria Mariska Tunjung','Indonesia',87],['Tomoka Miyazaki','Japan',88],['Pornpawee Chochuwong','Thailand',89],
+      ['Chen Yu Fei','China',91],['Han Yue','China',92],['Akane Yamaguchi','Japan',93],
+      ['Wang Zhi Yi','China',95],['An Se Young','Korea',97]
+    ].map(([name,country,rating])=>({name,country,rating}));
+    const multipliers = {Champion:[1,1], 'Runner-Up':[.55,.72], 'Semi-Finalist':[.3,.48], 'Quarter-Finalist':[.15,.28], 'Early Exit':[0,.08]};
+    let p=null, ended=false, tournamentRun=null, currentOpponent=null, matchResolved=false, pendingMatch=null;
+    let worldPlayers=[],logEntries=[],activeLogFilter='All',logDisplayLimit=36,trainedThisWeek=false;
+    const $=id=>document.getElementById(id);
+    const clamp=(n,min=0,max=100)=>Math.max(min,Math.min(max,n));
+    const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+    const money=n=>'$'+Math.round(n).toLocaleString();
+    const seasonWeek=()=>((p.week-1)%52)+1;
+    const season=()=>Math.floor((p.week-1)/52)+1;
+    function baseRatingRaw(entity){return entity.skill*.55+entity.fitness*.30+entity.confidence*.15+(entity.equipment||0);}
+    function ratingRaw(entity){const base=baseRatingRaw(entity),formEffect=(entity.form||0)*.12,injuryEffect=entity.injury==='Serious Injury'?-2:entity.injury==='Minor Injury'?-.6:0;return clamp(base+formEffect+injuryEffect);}
+    const overallRaw=()=>ratingRaw(p);
+    const overall=()=>Math.round(overallRaw());
+    const aiOverall=ai=>Math.round(ratingRaw(ai));
+    function refreshAIRating(ai){ai.rating=ai.skill*.55+ai.fitness*.30+ai.confidence*.15+(ai.equipment||0);return ai.rating;}
+    function aiGrowthFactor(ai){const ageFactor=ai.age<=23?1.28:ai.age<=28?1:ai.age<=31?.64:.32,eliteResistance=Math.max(.1,(100-ai.rating)/60);return ageFactor*eliteResistance;}
+    const decimalRand=(min,max)=>min+Math.random()*(max-min);
+    function skillResistance(skill){return skill>=90?.25:skill>=85?.42:skill>=75?.68:skill>=60?.85:1;}
+    function realisticSkillGain(min,max,skill,multiplier=1){return clamp(decimalRand(min,max)*skillResistance(skill)*multiplier,min,max);}
+    function losingStreakPenalty(entity){if((entity.losingStreak||0)<3||entity.losingStreak%3!==0)return 0;const loss=decimalRand(.5,2);entity.skill=clamp(entity.skill-loss);entity.form=clamp(entity.form-1.2,-10,10);if(entity!==p)refreshAIRating(entity);return loss;}
+
+    function newPlayer(members,eventType){
+      const averageAge=members.reduce((sum,m)=>sum+m.age,0)/members.length,years=averageAge-14;
+      const styles=['Explosive attacker','Patient counter-attacker','Deceptive all-court player','Relentless retriever','Front-court tactician','Fast-paced shot-maker'];
+      const name=members.map(m=>m.name).join(' / '),nationality=[...new Set(members.map(m=>m.nationality))].join(' / '),gender=members.length===1?members[0].gender:eventType==='Mixed'?'Mixed':members[0].gender;
+      return{name,age:Math.max(...members.map(m=>m.age)),gender,nationality,eventType,members,playingStyle:styles[rand(0,styles.length-1)],skill:40+years*2,fitness:40+years,stamina:72,confidence:48+years,form:0,money:1000,ranking:1000,rankingChange:0,injury:'Healthy',injuryWeeks:0,titles:0,week:1,tournaments:0,wins:0,losses:0,losingStreak:0,runnerUps:0,earnings:0,rankingPoints:0,bestRank:1000,seasonWon:false,equipment:0,story:'',originStory:'',storyType:'',storyChapters:[],avatar:'',partnerAvatar:'',achievements:[],rivalries:{},weeksWithoutTraining:0,trainingStreak:0,lastOverall:0};
+    }
+    function avatarData(name,age,gender){
+      let seed=0;for(const ch of name)seed=(seed*31+ch.charCodeAt(0))>>>0;seed+=(gender==='Female'?211:gender==='Non-binary'?421:0);
+      const skins=['#f2c6a0','#d99b71','#a96745','#75432e'],shirts=['#176b4d','#315a9b','#a23c57','#6c4e9b','#d18d25'];
+      const skin=skins[seed%skins.length],shirt=shirts[(seed>>3)%shirts.length],bg='#ffffff';
+      const longHair=gender==='Female'||(gender==='Non-binary'&&seed%2===0);const hair=['#2b211c','#5b3827','#171717','#7a5137'][(seed>>7)%4];
+      const hairShape=longHair?`<path d="M32 61Q31 22 64 19Q98 23 96 64L91 102H36Z" fill="${hair}"/>`:`<path d="M34 56Q35 20 65 20Q91 21 95 51Q80 39 62 39Q45 40 34 56Z" fill="${hair}"/>`;
+      const ageMark=age>=30?'<path d="M39 62h8M81 62h8" stroke="#8d634f" stroke-width="1" opacity=".45"/>':'';
+      const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="24" fill="${bg}"/><circle cx="105" cy="24" r="20" fill="#ffffff55"/>${hairShape}<path d="M19 128Q24 91 64 89Q104 91 109 128" fill="${shirt}"/><ellipse cx="64" cy="59" rx="29" ry="35" fill="${skin}"/><path d="M42 51Q49 46 55 51M73 51Q80 46 87 51" fill="none" stroke="#372b27" stroke-width="2.5" stroke-linecap="round"/><circle cx="51" cy="55" r="2.5" fill="#27211f"/><circle cx="78" cy="55" r="2.5" fill="#27211f"/>${ageMark}<path d="M55 73Q64 79 73 73" fill="none" stroke="#8f4b45" stroke-width="2.5" stroke-linecap="round"/><path d="M89 103L109 81" stroke="#f7f3e8" stroke-width="5" stroke-linecap="round"/><ellipse cx="112" cy="77" rx="7" ry="11" fill="none" stroke="#f7f3e8" stroke-width="3"/></svg>`;
+      return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+    }
+    // Confirmed BWF member IDs. The headshots below are served by BWF's image CDN.
+    const BWF_PLAYER_IDS={
+      'Kevin Cordon':54897,'Victor Lai':94151,'Brian Yang':63122,'Kenta Nishimoto':85394,
+      'Lee Cheuk Yiu':94780,'Lu Guang Zu':77427,'Loh Kean Yew':76115,'Kodai Naraoka':62063,
+      'Chou Tien Chen':34810,'Jonatan Christie':73442,'Li Shi Feng':95476,'Viktor Axelsen':25831,
+      'Kunlavut Vitidsarn':64032,'Anders Antonsen':91554,'Shi Yu Qi':57945,
+      'Michelle Li':84523,'Yeo Jia Min':68759,'Pusarla V. Sindhu':73173,'Ratchanok Intanon':35642,
+      'Gregoria Mariska Tunjung':83802,'Chen Yu Fei':78778,'Han Yue':92967,'Akane Yamaguchi':96312,
+      'Wang Zhi Yi':61854,'An Se Young':87442
+    };
+    const BWF_OFFICIAL_PHOTOS=Object.fromEntries(Object.entries(BWF_PLAYER_IDS).map(([name,id])=>[name,`https://img.bwfbadminton.com/image/upload/t_96_player_profile/assets/players/thumbnail/${id}.png`]));
+    function bwfProfileUrl(name){const id=BWF_PLAYER_IDS[name],slug=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');return id?`https://bwfbadminton.com/player/${id}/${slug}`:'https://bwfbadminton.com/players/';}
+    function opponentPlaceholder(name){const initials=name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="22" fill="#fff"/><circle cx="64" cy="47" r="25" fill="#d9ddd9"/><path d="M24 123Q27 78 64 78Q101 78 104 123" fill="#c8ceca"/><circle cx="103" cy="23" r="18" fill="#c7282d"/><text x="103" y="28" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#fff">BWF</text><text x="64" y="119" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#657069">${initials}</text></svg>`;return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);}
+    function opponentPhoto(name){return BWF_OFFICIAL_PHOTOS[name]||opponentPlaceholder(name);}
+    function generateStory(player){
+      const origins=['a small community gym where the court lines were faded','a busy school club known for producing fearless competitors','a family-run badminton centre filled with former regional players','outdoor courts where wind made every rally unpredictable'];
+      const moments=['won an exhausting three-game junior final','upset the top seed at a regional championship','was noticed while training alone after everyone else had gone home','returned from an early setback with a completely rebuilt game'];
+      const styles=['patient rally construction and sudden changes of pace','explosive attacks and a dangerous jump smash','quick footwork, stubborn defense, and relentless retrieval','deceptive net play and an instinct for reading opponents'];
+      const dreams=['becoming the first player from the local club to reach world #1','lifting a major trophy in front of a packed arena','proving that discipline can beat natural talent','building a career that inspires the next generation'];
+      const pick=a=>a[rand(0,a.length-1)],averageAge=player.members.reduce((sum,m)=>sum+m.age,0)/player.members.length;
+      const archetypes=averageAge<=17?['Young prodigy with high expectations','Former junior champion entering senior level','Local star aiming for international success']:averageAge<=21?['Underdog trying to rise through rankings','Former junior champion entering senior level','Local star aiming for international success']:['Late bloomer chasing breakthrough success','Underdog trying to rise through rankings','Local star aiming for international success'];
+      player.storyType=pick(archetypes);
+      if(player.members.length>1){const story=`${player.name} formed a ${player.eventType.toLowerCase()} partnership after crossing paths at ${pick(origins)}. Representing ${player.nationality}, the pair ${pick(moments)} and discovered a shared strength in ${pick(styles)}. Cast as a ${player.storyType.toLowerCase()}, their first professional season begins with one ambition: ${pick(dreams)}.`;player.originStory=story;player.storyChapters=[{trigger:'Origin',text:story}];return story;}
+      const pronoun=player.gender==='Male'?'He':player.gender==='Female'?'She':'They',possessive=player.gender==='Male'?'his':player.gender==='Female'?'her':'their';
+      const story=`${player.name}, a ${player.age}-year-old prospect representing ${player.nationality}, learned the game at ${pick(origins)}. ${pronoun} ${pick(moments)}, catching the attention of a travelling coach. Seen as a ${player.storyType.toLowerCase()} and known for ${pick(styles)}, ${player.name} begins with one ambition: ${pick(dreams)}. Everything now depends on ${possessive} next decision.`;player.originStory=story;player.storyChapters=[{trigger:'Origin',text:story}];return story;
+    }
+    function addStoryChapter(trigger,text){if(!p||!p.storyChapters)return;p.story=text;p.storyChapters.push({trigger,text,week:p.week});if(p.storyChapters.length>30)p.storyChapters.shift();log(text,`${trigger} storyline`,'News');}
+    function aiStory(player){
+      const paths=['a decorated junior prospect carrying enormous expectations','a late-blooming outsider who built a career without federation support','a former national champion searching for an international breakthrough','a fearless shot-maker rebuilding after an early-career slump','a disciplined academy graduate known for relentless preparation'];
+      return `${player.name} is ${paths[rand(0,paths.length-1)]}. At ${player.age}, the ${player.nationality} player is known as a ${player.playingStyle.toLowerCase()} and enters this season ranked #${player.ranking}.`;
+    }
+    function createWorld(){
+      const build=(base,gender,index)=>{const age=Math.max(17,Math.min(34,rand(20,31)+(base.rating>90?2:0))),confidence=clamp(base.rating+(Math.random()-.5)*10);const styles=['Explosive attacker','Patient counter-attacker','Deceptive all-court player','Relentless retriever','Front-court tactician'];const player={...base,gender,nationality:base.country,age,playingStyle:styles[rand(0,styles.length-1)],skill:clamp(base.rating+(Math.random()-.5)*4),fitness:clamp(base.rating+(Math.random()-.5)*5),confidence,form:rand(-3,4),equipment:0,ranking:index+1,rankingPoints:Math.max(25,(base.rating-44)*32+rand(-20,20)),titles:base.rating>90?rand(2,8):base.rating>80?rand(0,3):0,wins:rand(12,90),losses:rand(8,55),losingStreak:0,earnings:Math.max(0,(base.rating-55)*rand(700,1800)),injury:'Healthy',injuryWeeks:0,retired:false,development:Math.random(),trainingStreak:rand(0,5),weeksWithoutTraining:0,achievements:[],avatar:'',bwfProfileUrl:bwfProfileUrl(base.name),photoIsOfficial:Boolean(BWF_OFFICIAL_PHOTOS[base.name]),story:'',rivalMeetings:0,rivalries:{}};refreshAIRating(player);player.avatar=opponentPhoto(player.name);player.story=aiStory(player);return player;};
+      worldPlayers=[...mensOpponents.filter(x=>BWF_PLAYER_IDS[x.name]).map((x,i)=>build(x,'Male',i)),...womensOpponents.filter(x=>BWF_PLAYER_IDS[x.name]).map((x,i)=>build(x,'Female',i))];updateAIRankings();
+    }
+    function updateAIRankings(){
+      ['Male','Female'].forEach(gender=>{worldPlayers.filter(x=>x.gender===gender&&!x.retired).sort((a,b)=>(b.rankingPoints+b.form*3)-(a.rankingPoints+a.form*3)).forEach((x,i)=>x.ranking=i+1);});
+    }
+    function retireAI(ai,reason){
+      if(ai.retired)return;const activeInDivision=worldPlayers.filter(x=>x.gender===ai.gender&&!x.retired).length;if(activeInDivision<=8)return;ai.retired=true;log(`<strong>${ai.name}</strong> (${ai.nationality}) retires at ${ai.age}. ${reason} Final record: ${ai.wins}–${ai.losses}, ${ai.titles} titles.`,'World news','News');
+    }
+    function updateAIRivalry(winner,loser){
+      const rivalry=winner.rivalries[loser.name]||loser.rivalries[winner.name]||{meetings:0,wins:{}};rivalry.meetings++;rivalry.wins[winner.name]=(rivalry.wins[winner.name]||0)+1;winner.rivalries[loser.name]=rivalry;loser.rivalries[winner.name]=rivalry;
+      if(rivalry.meetings===3||rivalry.meetings===6)log(`${winner.name} defeats ${loser.name} in another major meeting. Their independent rivalry has now reached ${rivalry.meetings} matches.`,'World news','Rivalry');
+    }
+    function simulateWorldTournament(){
+      const gender=Math.random()<.5?'Male':'Female',pool=worldPlayers.filter(x=>x.gender===gender&&!x.retired&&x.injury!=='Serious Injury');if(pool.length<8)return;
+      const shuffled=[...pool].sort(()=>Math.random()-.5).slice(0,12);const weighted=[...shuffled].sort((a,b)=>(aiOverall(b)+b.form*.25+Math.random()*12)-(aiOverall(a)+a.form*.25+Math.random()*12));const champion=weighted[0],runner=weighted[1];
+      champion.wins+=4;champion.losingStreak=0;champion.titles++;champion.achievements.push(`International title #${champion.titles}`);champion.earnings+=rand(8000,30000);champion.rankingPoints+=rand(55,110);champion.form=clamp(champion.form+2.5,-10,10);champion.confidence=clamp(champion.confidence+1.2);champion.skill=clamp(champion.skill+realisticSkillGain(.8,2,champion.skill));champion.development+=.25;updateAIRivalry(champion,runner);
+      runner.wins+=3;runner.losses++;runner.losingStreak=0;runner.earnings+=rand(3000,12000);runner.rankingPoints+=rand(30,70);runner.form=Math.min(10,runner.form+1);runner.confidence=clamp(runner.confidence+.35);runner.skill=clamp(runner.skill+realisticSkillGain(.5,1.5,runner.skill));
+      weighted.slice(2).forEach((x,i)=>{x.losses++;x.losingStreak=(x.losingStreak||0)+1;x.rankingPoints+=Math.max(3,24-i*3);x.form=Math.max(-10,x.form-(i>4?.5:.1));x.confidence=clamp(x.confidence-(i>5?.12:.04));losingStreakPenalty(x);refreshAIRating(x);});updateAIRankings();
+      refreshAIRating(champion);refreshAIRating(runner);if(p.week%4===0||champion.titles===1)log(`<strong>${champion.name}</strong> defeats ${runner.name} to win an international title. The ${champion.age}-year-old rises to world #${champion.ranking} with a current ${aiOverall(champion)} OVR.`,'World news','News');
+    }
+    function simulateWorld(){
+      for(const ai of worldPlayers){
+        if(ai.retired)continue;
+        if(ai.injury!=='Healthy'){ai.injuryWeeks--;ai.form=Math.max(-10,ai.form-.15);ai.fitness=clamp(ai.fitness-(ai.injury==='Serious Injury'?.025:.008));ai.weeksWithoutTraining++;if(ai.injuryWeeks<=0){ai.injury='Healthy';ai.injuryWeeks=0;if(Math.random()<.12)log(`${ai.name} completes a difficult rehabilitation and launches a comeback attempt.`,'World news','News');}refreshAIRating(ai);continue;}
+        const trains=Math.random()<(ai.form<-5?.48:.72);if(trains){ai.trainingStreak++;ai.weeksWithoutTraining=0;const target=Math.random()<.58?'skill':'fitness',ageMultiplier=ai.age<=23?1:ai.age<=29?.9:ai.age<=32?.72:.55,consistency=1+Math.min(.15,ai.trainingStreak*.012),gain=realisticSkillGain(.1,.5,ai[target],ageMultiplier*consistency);ai[target]=clamp(ai[target]+gain);ai.development+=gain;}else{ai.trainingStreak=Math.max(0,ai.trainingStreak-1);ai.weeksWithoutTraining++;}
+        if(ai.weeksWithoutTraining>10){ai.skill=clamp(ai.skill-.012);ai.fitness=clamp(ai.fitness-.018);}
+        ai.form=Math.max(-10,Math.min(10,ai.form*.985+(Math.random()-.5)*.18));
+        if(Math.random()<.0025){ai.injury=Math.random()<.18?'Serious Injury':'Minor Injury';ai.injuryWeeks=ai.injury==='Serious Injury'?rand(6,16):rand(2,5);const injuryLoss=ai.injury==='Serious Injury'?decimalRand(2,5):decimalRand(1,2);ai.skill=clamp(ai.skill-injuryLoss);ai.fitness=clamp(ai.fitness-injuryLoss*.5);ai.form=Math.max(-10,ai.form-2);if(aiOverall(ai)>82)log(`${ai.name}'s season is interrupted by a ${ai.injury.toLowerCase()}, costing ${injuryLoss.toFixed(1)} skill.`,'World news','News');}
+        refreshAIRating(ai);if(aiOverall(ai)>=88&&ai.development>.8&&Math.random()<.02)log(`${ai.name}'s consistent work is drawing attention around the tour. The ${ai.nationality} player now carries a current ${aiOverall(ai)} OVR.`,'World news','News');
+        if(p.week%52===0){ai.age++;ai.rankingPoints*=.9;if(ai.age>29){const decline=decimalRand(.1,1)*Math.min(1,(ai.age-28)/5);ai.skill=clamp(ai.skill-decline);ai.fitness=clamp(ai.fitness-decline*.5);refreshAIRating(ai);}if(ai.age>=35||(ai.age>=33&&aiOverall(ai)<70&&Math.random()<.35))retireAI(ai,ai.injury!=='Healthy'?'Injuries finally made the decision unavoidable.':'The player says it is time for a new chapter.');}
+      }
+      if(p.week%3===0)simulateWorldTournament();updateAIRankings();
+    }
+    function trackRivalRankings(){
+      for(const [name,rivalry] of Object.entries(p.rivalries)){const rival=worldPlayers.find(x=>x.name===name);if(!rival||rival.retired)continue;const nowAhead=rival.ranking<p.ranking;if(rivalry.wasAhead!==undefined&&nowAhead!==rivalry.wasAhead)log(nowAhead?`${rival.name} moves ahead of ${p.name} in the rankings, adding fuel to their rivalry.`:`${p.name} reclaims ranking superiority over ${rival.name}. The response from the rival camp is immediate.`,'Rivalry','Rivalry');rivalry.wasAhead=nowAhead;}
+    }
+    function log(message,tag='Career event',category){
+      const lookup={Training:'Training',Recovery:'Training','Player development':'Training',Tournament:'Match','Match result':'Match',Injury:'Injury','Medical team':'Injury','Medical update':'Injury',Ranking:'Ranking',Sponsorship:'Career',Equipment:'Career','Career begins':'Career','Origin story':'Career','New season':'Career',Rivalry:'Rivalry','World news':'News',News:'News',Burnout:'Injury',Illness:'Injury'};
+      const resolved=category||lookup[tag]||'Career',icons={Career:'⭐',Match:'🏸',Training:'📈',Injury:'🩹',Ranking:'🌍',News:'📰',Rivalry:'⚔️'};
+      logEntries.unshift({message,tag,category:resolved,icon:icons[resolved]||'•',date:p?`Season ${season()} · Week ${seasonWeek()}`:'Pre-career'});renderLog();
+    }
+    function renderLog(){
+      const box=$('log'),filtered=logEntries.filter(e=>activeLogFilter==='All'||e.category===activeLogFilter),items=filtered.slice(0,logDisplayLimit);
+      box.innerHTML=items.length?items.map(e=>`<article class="log-entry category-${e.category.toLowerCase()}"><div class="log-icon">${e.icon}</div><div><b>${e.tag}<span class="log-date">${e.date}</span></b><div>${e.message}</div></div></article>`).join(''):'<div class="empty">No entries in this category yet.</div>';
+      $('logCount').textContent=`Showing ${items.length} of ${filtered.length} ${filtered.length===1?'entry':'entries'}`;$('loadMoreLog').classList.toggle('hidden',items.length>=filtered.length);
+    }
+    function render(){
+      $('playerName').textContent=p.name;$('playerAvatar').src=p.avatar;$('playerAvatar2').src=p.partnerAvatar||'';$('playerAvatar2').classList.toggle('hidden',!p.partnerAvatar);$('ranking').textContent='#'+p.ranking;$('overall').textContent=overall();$('weekPill').textContent=`Season ${season()} · Week ${seasonWeek()}`;
+      $('heroText').textContent=seasonWeek()===52?'Championship week. The biggest stage is waiting.':p.story;
+      $('stats').innerHTML=['Skill','Fitness','Stamina','Confidence'].map(k=>{const v=p[k.toLowerCase()];return `<div class="panel stat"><div class="stat-top"><span>${k}</span><strong>${Number(v).toFixed(1)}</strong></div><div class="bar"><i style="width:${v}%"></i></div></div>`}).join('');
+      $('profilePortraits').innerHTML=p.members.map((member,i)=>`<img class="card-avatar" src="${i?p.partnerAvatar:p.avatar}" alt="${member.name} profile picture">`).join('');
+      const names=p.members.map(m=>m.name).join(' / '),ages=p.members.map(m=>m.age).join(' / '),genders=p.members.map(m=>m.gender).join(' / '),nationalities=p.members.map(m=>m.nationality).join(' / ');
+      const achievements=p.achievements.length?p.achievements.map(a=>`<span class="achievement-badge">${a}</span>`).join(''):'<span class="achievement-badge">Career just started</span>';
+      const latestChapter=p.storyChapters[p.storyChapters.length-1];
+      $('details').innerHTML=`<div class="detail-row"><span>Name</span><b>${names}</b></div><div class="detail-row"><span>Age</span><b>${ages}</b></div><div class="detail-row"><span>Gender</span><b>${genders}</b></div><div class="detail-row"><span>Nationality</span><b>${nationalities}</b></div><div class="detail-row"><span>Current OVR</span><b>${overall()} OVR</b></div><div class="detail-row"><span>Money</span><b>${money(p.money)}</b></div><div class="detail-row"><span>Status</span><b class="${p.injury==='Healthy'?'healthy':'hurt'}">${p.injury}</b></div><div class="profile-rank-block"><div class="profile-rank"><span>Current world rank</span><strong>#${p.ranking}</strong></div><div class="profile-rank"><span>Highest world rank</span><strong>#${p.bestRank}</strong></div></div><div class="detail-row"><span>Career record</span><b>${p.wins}–${p.losses}</b></div><div class="detail-row"><span>Titles won</span><b>${p.titles}</b></div><div class="detail-row"><span>Career achievements</span><div class="achievement-list">${achievements}</div></div><div class="storyline-card"><span>Current storyline</span><b>${p.storyType}</b><p>${latestChapter?latestChapter.text:p.originStory}</p></div>`;
+    }
+    function injure(base){let risk=base+(p.stamina<40?(40-p.stamina)*.006:0)+(p.stamina<15?.1:0)+(p.injury!=='Healthy'?.12:0);if(Math.random()>=risk)return;const r=Math.random();if((p.injury==='Serious Injury'&&r<.12)||r<.015){const penalty=5;p.injury='Career-Ending Injury';p.skill=clamp(p.skill-penalty);p.fitness=clamp(p.fitness-penalty);log(`A devastating injury costs ${penalty.toFixed(1)} skill and ends the career.`,'Injury');addStoryChapter('Injury',`${p.name}'s career story reaches a heartbreaking conclusion after a devastating injury.`);}else if(r<.23||p.injury==='Minor Injury'){const penalty=decimalRand(2,5);p.injury='Serious Injury';p.injuryWeeks=rand(5,10);p.skill=clamp(p.skill-penalty);p.fitness=clamp(p.fitness-penalty*.5);p.form=clamp(p.form-3,-10,10);log(`A serious injury causes a -${penalty.toFixed(1)} skill decline and begins a difficult rehabilitation.`,'Injury');addStoryChapter('Injury',`Momentum disappears as ${p.name} suffers a serious injury. The next chapter is no longer about rankings—it is about completing a difficult comeback.`);}else{const penalty=decimalRand(1,2);p.injury='Minor Injury';p.injuryWeeks=rand(2,4);p.skill=clamp(p.skill-penalty);p.form=clamp(p.form-1,-10,10);log(`A minor injury causes a -${penalty.toFixed(1)} skill decline and needs careful management.`,'Injury');addStoryChapter('Injury',`${p.name}'s rise is briefly interrupted by a minor injury, testing patience and schedule management.`);}}
+    function rest(){const s=rand(20,34),c=.2+Math.random()*.6;p.stamina=clamp(p.stamina+s);p.confidence=clamp(p.confidence+c);p.form=clamp(p.form+.15,-10,10);let msg=`A restorative week adds ${s} stamina and ${c.toFixed(1)} confidence.`;if(p.injury!=='Healthy'){p.injuryWeeks-=Math.random()<.35?2:1;if(p.injuryWeeks<=0){p.injury='Healthy';p.injuryWeeks=0;msg+=' The injury has fully healed, opening a comeback storyline.'}}log(msg,'Recovery');finishWeek();}
+    function playerGrowth(stat){const ageFactor=p.age<=18?1.25:p.age<=23?1.1:p.age<=28?1:p.age<=31?.72:.4,eliteResistance=Math.max(.1,(100-p[stat])/60),consistency=1+Math.min(.25,(p.trainingStreak||0)*.025);return ageFactor*eliteResistance*consistency;}
+    function train(type){
+      if(p.injury==='Serious Injury'){log('The doctor blocks training. The week becomes mandatory recovery.','Medical team');rest();return;}
+      p.trainingStreak=(p.trainingStreak||0)+1;const ageMultiplier=p.age<=23?1:p.age<=29?.92:p.age<=32?.78:.62,consistency=1+Math.min(.15,p.trainingStreak*.015),gain=realisticSkillGain(.1,.5,p[type],ageMultiplier*consistency),cost=rand(type==='skill'?10:11,type==='skill'?18:19);p[type]=clamp(p[type]+gain);p.stamina=clamp(p.stamina-cost);p.form=clamp(p.form+.12,-10,10);trainedThisWeek=true;
+      log(`${type==='skill'?'Technical':'Fitness'} training adds +${gain.toFixed(2)} ${type}. Session gains stay between 0.1 and 0.5, with slower improvement near 90+.`,'Training');injure(type==='skill'?.04:.05);finishWeek();
+    }
+
+    function showUpgrades(){renderUpgrades();$('upgradeOverlay').classList.remove('hidden');}
+    function upgradeCost(stat){return 150+p[stat]*10;}
+    function renderUpgrades(){
+      $('upgradeMoney').textContent=`Available balance: ${money(p.money)} · Overall ${overall()}`;
+      const labels={skill:'Technical skill',fitness:'Athletic fitness',confidence:'Mental confidence'};
+      $('upgradeList').innerHTML=Object.keys(labels).map(stat=>`<button class="upgrade" data-upgrade="${stat}" ${p[stat]>=99.8?'disabled':''}><b>${labels[stat]} · ${p[stat].toFixed(1)}</b><span>Specialist program · ${money(upgradeCost(stat))}</span></button>`).join('');
+    }
+    function buyUpgrade(stat){const cost=upgradeCost(stat);if(p[stat]>=99.8)return;if(p.money<cost){log(`You need ${money(cost)} to fund this ${stat} program.`,'Player development');return;}const gain=(.28+Math.random()*.22)*playerGrowth(stat);p.money-=cost;p[stat]=clamp(p[stat]+gain);log(`A specialist program costs ${money(cost)} and adds ${gain.toFixed(2)} ${stat}. Development remains gradual at ${overall()} OVR.`,'Player development');render();renderUpgrades();}
+
+    function tourAccess(i){if(i===0)return[true,'Open entry'];if(i===1)return[p.ranking<=500||overall()>=46,'Requires top 500 or 46 OVR'];if(i===2)return[p.ranking<=200,'Requires world top 200'];if(seasonWeek()===52)return[p.ranking<=8,'Season finale requires world top 8'];return[p.ranking<=64,'Requires world top 64'];}
+    function showTournaments(){if(p.injury==='Serious Injury'){log('Medical clearance denied. A recovery week is required.','Medical team');rest();return;}$('tournamentList').innerHTML=tours.map((t,i)=>{const name=i===3&&seasonWeek()===52?'Season-Ending Championship':t.name,[open,note]=tourAccess(i);return `<button class="tour" data-tour="${i}" ${open?'':'disabled'}><b>${name}</b><span>${open?`${money(t.cost)} entry · full draw`:note}</span></button>`}).join('');$('tournamentOverlay').classList.remove('hidden');}
+    function startTournament(i){
+      $('tournamentOverlay').classList.add('hidden');const t={...tours[i]},finalEvent=i===3&&seasonWeek()===52;if(finalEvent)t.name='Season-Ending Championship';
+      if(p.money<t.cost){log(`The ${t.name} is unaffordable. No week passes.`,'Finances');return;}
+      p.money-=t.cost;p.tournaments++;
+      const rounds=p.ranking>100?['Qualification','Round of 64','Round of 32','Round of 16','Quarter-Final','Semi-Final','Final']:['Round of 64','Round of 32','Round of 16','Quarter-Final','Semi-Final','Final'];
+      tournamentRun={t,tier:i,finalEvent,rounds,roundIndex:0,used:[],wins:0};$('matchOverlay').classList.remove('hidden');prepareMatch();render();
+    }
+    function chooseOpponent(){
+      const target=tournamentRun.t.difficulty+10+tournamentRun.roundIndex*2.5-(tournamentRun.rounds[0]==='Qualification'?3:0);
+      const pool=worldPlayers.filter(o=>!o.retired&&o.injury!=='Serious Injury'&&(p.gender==='Non-binary'||o.gender===p.gender));
+      const available=pool.filter(o=>!tournamentRun.used.includes(o.name)).sort((a,b)=>Math.abs(a.rating-target)-Math.abs(b.rating-target));
+      const shortlist=available.slice(0,Math.min(4,available.length));const picked=shortlist[rand(0,shortlist.length-1)];tournamentRun.used.push(picked.name);return picked;
+    }
+    function prepareMatch(){
+      currentOpponent=chooseOpponent();matchResolved=false;pendingMatch=null;const round=tournamentRun.rounds[tournamentRun.roundIndex];
+      $('matchTournament').textContent=tournamentRun.t.name;$('matchRound').textContent=round;$('matchPlayerAvatar').src=p.avatar;$('matchOpponentAvatar').src=currentOpponent.avatar;$('matchOpponentAvatar').onerror=()=>{$('matchOpponentAvatar').src=opponentPlaceholder(currentOpponent.name);};$('matchPlayer').textContent=p.name;$('matchPlayerRating').textContent=`${p.age} · ${p.nationality} · OVR ${overall()} · World #${p.ranking}`;$('matchOpponent').textContent=currentOpponent.name;$('matchOpponentRating').innerHTML=`Age ${currentOpponent.age} · ${currentOpponent.gender} · ${currentOpponent.nationality}<br>OVR ${aiOverall(currentOpponent)} · World #${currentOpponent.ranking}<br>${currentOpponent.wins}–${currentOpponent.losses} · Official BWF photo`;$('matchOpponentRating').title=currentOpponent.story;$('matchBwfLink').href=currentOpponent.bwfProfileUrl;
+      $('bracket').innerHTML=tournamentRun.rounds.map((r,i)=>`<div class="round-chip ${i<tournamentRun.roundIndex?'done':i===tournamentRun.roundIndex?'current':''}">${r}</div>`).join('');$('scoreboard').textContent='The players are warming up.';$('playMatch').textContent='Play match';
+    }
+    function gameScore(winner){const loser=rand(8,19);return winner?`21–${loser}`:`${loser}–21`;}
+    function simulateMatch(){
+      let playerRating=overall()+p.form*.32+(p.stamina-70)*.08,opponentRating=aiOverall(currentOpponent)+currentOpponent.form*.28;let chance=1/(1+Math.exp(-(playerRating-opponentRating)/8));chance=Math.max(.07,Math.min(.93,chance));const won=Math.random()<chance,three=Math.random()<.38;let scores;
+      if(won)scores=three?[gameScore(true),gameScore(false),gameScore(true)]:[gameScore(true),gameScore(true)];else scores=three?[gameScore(false),gameScore(true),gameScore(false)]:[gameScore(false),gameScore(false)];
+      p.stamina=clamp(p.stamina-rand(4,8));p.wins+=won?1:0;p.losses+=won?0:1;p.losingStreak=won?0:p.losingStreak+1;p.form=clamp(p.form+(won?.65:-.8),-10,10);p.confidence=clamp(p.confidence+(won?.18:-.22));const slumpLoss=losingStreakPenalty(p);if(slumpLoss)log(`A ${p.losingStreak}-match losing streak causes a -${slumpLoss.toFixed(1)} skill decline.`,'Burnout');currentOpponent.wins+=won?0:1;currentOpponent.losses+=won?1:0;currentOpponent.losingStreak=won?(currentOpponent.losingStreak||0)+1:0;currentOpponent.form=clamp(currentOpponent.form+(won?-.55:.45),-10,10);currentOpponent.confidence=clamp(currentOpponent.confidence+(won?-.15:.12));currentOpponent.rankingPoints+=won?2:8;losingStreakPenalty(currentOpponent);refreshAIRating(currentOpponent);updateRivalry(currentOpponent,won);injure(.008);matchResolved=true;pendingMatch={won,scores};$('scoreboard').innerHTML=`<strong>${won?'MATCH WON':'MATCH LOST'}</strong><br>${p.name} ${scores.join(' · ')} ${currentOpponent.name}`;
+      log(`${p.name} ${won?'defeats':'loses to'} <strong>${currentOpponent.name}</strong> (${aiOverall(currentOpponent)} OVR) in the ${tournamentRun.rounds[tournamentRun.roundIndex]}: ${scores.join(', ')}.`,'Match result','Match');
+      const last=tournamentRun.roundIndex===tournamentRun.rounds.length-1;$('playMatch').textContent=won&&!last?'Continue to next round':'Complete tournament';
+    }
+    function updateRivalry(opponent,won){
+      const r=p.rivalries[opponent.name]||{meetings:0,playerWins:0,opponentWins:0,intensity:0};r.meetings++;r.playerWins+=won?1:0;r.opponentWins+=won?0:1;r.intensity+=1+(Math.abs(overall()-aiOverall(opponent))<5?1:0);p.rivalries[opponent.name]=r;opponent.rivalMeetings++;
+      if(r.meetings===2){log(`A rivalry is taking shape between ${p.name} and ${opponent.name}. Their series stands ${r.playerWins}–${r.opponentWins}.`,'Rivalry','Rivalry');addStoryChapter('Rivalry',`${opponent.name} emerges as the defining rival in ${p.name}'s career. Their growing feud now stands ${r.playerWins}–${r.opponentWins}.`);}
+      else if(r.meetings>2&&r.meetings%2===1){log(`${p.name} and ${opponent.name} meet again. The rivalry record is now ${r.playerWins}–${r.opponentWins}.`,'Rivalry','Rivalry');addStoryChapter('Rivalry',`Another tense meeting with ${opponent.name} pushes the rivalry to ${r.meetings} matches, with ${p.name} holding a ${r.playerWins}–${r.opponentWins} record.`);}
+    }
+    function continueTournament(){
+      if(!matchResolved){simulateMatch();return;}
+      const last=tournamentRun.roundIndex===tournamentRun.rounds.length-1;if(pendingMatch.won&&!last){tournamentRun.wins++;tournamentRun.roundIndex++;prepareMatch();return;}
+      if(pendingMatch.won)tournamentRun.wins++;const round=tournamentRun.rounds[tournamentRun.roundIndex];let result;
+      if(pendingMatch.won&&last)result='Champion';else if(round==='Final')result='Runner-Up';else if(round==='Semi-Final')result='Semi-Finalist';else if(round==='Quarter-Final')result='Quarter-Finalist';else result='Early Exit';finishTournament(result);
+    }
+    function finishTournament(result){
+      const run=tournamentRun,[pm,rm]=multipliers[result],prize=Math.round(run.t.prize*pm),points=Math.max(1,Math.round(run.t.points*rm));p.money+=prize;p.earnings+=prize;p.rankingPoints+=points;const old=p.ranking;p.ranking=Math.min(p.ranking,Math.max(1,1000-Math.floor(p.rankingPoints*1.65)));p.rankingChange=old-p.ranking;p.bestRank=Math.min(p.bestRank,p.ranking);const conf={Champion:2,'Runner-Up':1.1,'Semi-Finalist':.55,'Quarter-Finalist':.1,'Early Exit':-1}[result];let development=0;if(result==='Champion')development=run.tier===3?realisticSkillGain(1,3,p.skill):realisticSkillGain(.5,2,p.skill);else if(result==='Runner-Up')development=realisticSkillGain(.8,2,p.skill);else if(result==='Semi-Finalist')development=realisticSkillGain(.6,1.5,p.skill);else if(result==='Quarter-Finalist')development=realisticSkillGain(.5,1,p.skill);p.confidence=clamp(p.confidence+conf);p.skill=clamp(p.skill+development);if(result==='Champion'){p.titles++;p.achievements.push(`${run.t.name} champion`);if(run.finalEvent)p.seasonWon=true;if(p.titles===1){log(`${p.name}'s first career title transforms an underdog story into a genuine rise through the sport.`,'News','News');addStoryChapter('Achievement',`${p.name} captures a first professional title at the ${run.t.name}. The achievement permanently changes how the badminton world views this career.`);}}if(result==='Runner-Up')p.runnerUps++;
+      log(`<strong>${result}</strong> at the ${run.t.name} after ${run.wins} match win${run.wins===1?'':'s'}. Prize ${money(prize)}, +${points} ranking points, and +${development.toFixed(2)} skill from competitive experience.`,'Tournament','Match');addStoryChapter('Match result',result==='Champion'?`${p.name} completes a championship run at the ${run.t.name}, turning growing promise into a defining career achievement.`:result==='Early Exit'?`An early loss at the ${run.t.name} creates a difficult chapter for ${p.name}, with questions growing around form and preparation.`:`A ${result.toLowerCase()} finish at the ${run.t.name} moves ${p.name}'s career forward while leaving unfinished business.`);if(old!==p.ranking){log(`${p.name} moves from world #${old} to <strong>#${p.ranking}</strong>.`,'Ranking','Ranking');addStoryChapter('Ranking',`${p.name}'s latest results produce a ranking move from #${old} to #${p.ranking}, changing expectations for the next stretch of the season.`);}
+      if(old>100&&p.ranking<=100){p.achievements.push('Entered world top 100');log(`${p.name} breaks into the world top 100, completing the first major chapter of the career.`,'News','News');addStoryChapter('Achievement',`${p.name} enters the world top 100 for the first time—a landmark achievement that changes the career from hopeful journey to international contender story.`);}
+      $('matchOverlay').classList.add('hidden');tournamentRun=null;finishWeek();
+    }
+
+    function randomEvent(){
+      if(Math.random()>.2)return;const e=rand(0,6);
+      if(e===0){const x=rand(500,3500)+p.titles*250;p.money+=x;p.earnings+=x;log(`A sponsor invests ${money(x)} in the career after noticing the recent storyline.`,'Sponsorship');}
+      if(e===1){const x=(.18+Math.random()*.24)*playerGrowth('skill');p.skill=clamp(p.skill+x);log(`A respected coach identifies a technical detail. Skill improves by a realistic ${x.toFixed(2)}.`,'Training');}
+      if(e===2){const names=Object.keys(p.rivalries);if(names.length){const rival=names[rand(0,names.length-1)],x=.3+Math.random()*.5;p.confidence=clamp(p.confidence+(Math.random()<.55?x:-x));log(`Comments from ${rival}'s camp add tension to the next chapter of the rivalry.`,'Rivalry','Rivalry');}else log('A highly rated prospect publicly names your player as someone to watch.','News','News');}
+      if(e===3){const x=rand(10,22);p.stamina=clamp(p.stamina-x);p.form=clamp(p.form-.7,-10,10);log(`Illness drains ${x} stamina and interrupts the player's form.`,'Illness');}
+      if(e===4){log('A practice slip puts the body at risk.','Injury');injure(.75);}
+      if(e===5){const x=.6+Math.random()*.8;p.confidence=clamp(p.confidence-x);p.stamina=clamp(p.stamina-8);p.form=clamp(p.form-1.2,-10,10);log(`Burnout costs ${x.toFixed(1)} confidence, eight stamina, and creates a worrying form slump.`,'Burnout');}
+      if(e===6){const x=rand(300,900);if(p.money>=x){p.money-=x;p.equipment=Math.min(4,p.equipment+.35);log(`New equipment costs ${money(x)} and adds a modest performance benefit.`,'Equipment');}else log('An equipment upgrade is out of budget.','Equipment');}
+    }
+    function finishWeek(){
+      if(checkEnd())return;randomEvent();if(checkEnd())return;
+      p.money-=p.ranking<200?65:45;p.weeksWithoutTraining=trainedThisWeek?0:p.weeksWithoutTraining+1;if(!trainedThisWeek)p.trainingStreak=Math.max(0,(p.trainingStreak||0)-1);
+      if(p.weeksWithoutTraining>10){p.skill=clamp(p.skill-.018);p.fitness=clamp(p.fitness-.025);if(p.weeksWithoutTraining===11)log('A long spell without focused training begins to erode sharpness.','News','News');}
+      if(p.injury==='Serious Injury')p.fitness=clamp(p.fitness-.035);
+      p.form=clamp(p.form*.97,-10,10);
+      if(p.injury!=='Healthy'&&p.injury!=='Career-Ending Injury'){p.injuryWeeks--;if(p.injuryWeeks<=0){p.injury='Healthy';p.injuryWeeks=0;log('The injury has healed. A comeback chapter begins now.','Medical update');addStoryChapter('Comeback',`${p.name} receives medical clearance after rehabilitation. Attention now turns to whether the comeback can restore lost form and momentum.`);}}
+      simulateWorld();if(p.week%3===0&&p.ranking>1&&p.ranking<1000){const drift=rand(0,2);p.ranking=Math.min(1000,p.ranking+drift);}trackRivalRankings();
+      if(p.week%52===0){p.members.forEach(m=>m.age++);p.age=Math.max(...p.members.map(m=>m.age));p.avatar=avatarData(p.members[0].name,p.members[0].age,p.members[0].gender);if(p.members[1])p.partnerAvatar=avatarData(p.members[1].name,p.members[1].age,p.members[1].gender);if(p.age>29){const decline=clamp(decimalRand(.1,1)*Math.min(1,(p.age-28)/5),.1,1);p.skill=clamp(p.skill-decline);p.fitness=clamp(p.fitness-decline*.5);log(`Post-peak aging causes a gradual -${decline.toFixed(1)} skill decline this season.`,'Career development','Training');}p.rankingPoints*=.92;if(p.ranking>1){const old=p.ranking;p.ranking=Math.min(1000,p.ranking+rand(8,25));log(`Seasonal point decay moves ${p.name} from #${old} to #${p.ranking}.`,'Ranking','Ranking');}log(`A season ends. ${p.name} reaches age ${p.age}; the development curve now adjusts for age and recovery.`,'New season');}
+      const newOverall=overall();if(p.lastOverall&&newOverall!==p.lastOverall){log(`${p.name}'s overall ${newOverall>p.lastOverall?'rises':'falls'} from ${p.lastOverall} to <strong>${newOverall} OVR</strong> after the latest run of training, form, health, and results.`,'Career development','Training');}p.lastOverall=newOverall;
+      trainedThisWeek=false;p.week++;render();checkEnd();
+    }
+    function checkEnd(){let won=false,reason='';if(p.ranking===1&&p.seasonWon){won=true;reason='World #1 and Season-Ending Champion—the ultimate double.';}else if(p.money<0)reason='The career has ended in financial ruin.';else if(p.injury==='Career-Ending Injury')reason='A career-ending injury forces an early retirement.';else if(p.age>=35)reason=p.ranking!==1?'Age 35 arrived before the climb to world #1 was complete.':'Retirement arrived before completing the championship double.';if(!won&&!reason)return false;ended=true;$('matchOverlay').classList.add('hidden');$('endIcon').textContent=won?'🏆':'🏸';$('endLabel').textContent=won?'Career victory':'Career complete';$('endTitle').textContent=won?`${p.name} conquered the world!`:`${p.name}'s final chapter`;$('endReason').textContent=reason;$('endStats').innerHTML=`Final overall: <b>${overall()}</b><br>Best ranking: <b>#${p.bestRank}</b><br>Titles: <b>${p.titles}</b> · Tournaments: <b>${p.tournaments}</b><br>Career earnings: <b>${money(p.earnings)}</b><br>Final skill / fitness: <b>${p.skill} / ${p.fitness}</b>`;$('endOverlay').classList.remove('hidden');return true;}
+    function showOnboarding(id){['onboardingRules','onboardingCreate','onboardingStory'].forEach(step=>$(step).classList.toggle('hidden',step!==id));}
+    function toggleEntryFields(){const type=$('eventTypeInput').value,isTeam=type!=='Singles';$('partnerFields').classList.toggle('hidden',!isTeam);$('playerOneHeading').textContent=isTeam?'Player 1':'Player';$('creationError').textContent='';if(type==='Mixed'){$('genderInput').value='Male';$('partnerGenderInput').value='Female';}else if(type==='Doubles')$('partnerGenderInput').value=$('genderInput').value;}
+    function generatePlayer(){
+      const eventType=$('eventTypeInput').value,members=[{name:$('nameInput').value.trim(),age:Number($('ageInput').value),gender:$('genderInput').value,nationality:$('nationalityInput').value.trim()}];
+      if(eventType!=='Singles')members.push({name:$('partnerNameInput').value.trim(),age:Number($('partnerAgeInput').value),gender:$('partnerGenderInput').value,nationality:$('partnerNationalityInput').value.trim()});
+      const invalid=members.find(m=>!m.name||!Number.isInteger(m.age)||m.age<14||m.age>35||!m.nationality);if(invalid){$('creationError').textContent='Complete every name, age (14–35), gender, and nationality field.';return;}
+      if(eventType==='Doubles'&&members[0].gender!==members[1].gender){$('creationError').textContent='A doubles pair must enter the same gender. Choose Mixed Doubles for a male/female pair.';return;}
+      if(eventType==='Mixed'&&new Set(members.map(m=>m.gender)).size<2){$('creationError').textContent='A mixed doubles pair must contain two different genders.';return;}
+      $('creationError').textContent='';p=newPlayer(members,eventType);p.story=generateStory(p);p.avatar=avatarData(members[0].name,members[0].age,members[0].gender);p.partnerAvatar=members[1]?avatarData(members[1].name,members[1].age,members[1].gender):'';
+      $('storyTitle').textContent=`Meet ${p.name}, ${overall()} OVR`;$('storyAvatar').src=p.avatar;$('storyAvatar2').src=p.partnerAvatar;$('storyAvatar2').classList.toggle('hidden',!p.partnerAvatar);$('storyText').textContent=p.story;showOnboarding('onboardingStory');
+    }
+    function beginCareer(){createWorld();p.lastOverall=overall();$('startOverlay').classList.add('hidden');log(p.story,'Origin story');log(`${p.name} enters the tour at age ${p.age} with a ${overall()} overall rating, representing ${p.nationality} as a ${p.playingStyle.toLowerCase()}.`,'Career begins');log(`The season opens with established champions, ambitious prospects, and rankings that evolve every week—even when ${p.name} is not competing.`,'World news','News');render();}
+
+    $('toCreate').onclick=()=>showOnboarding('onboardingCreate');$('backToRules').onclick=()=>showOnboarding('onboardingRules');$('editPlayer').onclick=()=>showOnboarding('onboardingCreate');$('startBtn').onclick=generatePlayer;$('beginCareer').onclick=beginCareer;
+    $('eventTypeInput').addEventListener('change',toggleEntryFields);$('genderInput').addEventListener('change',()=>{if($('eventTypeInput').value==='Doubles')$('partnerGenderInput').value=$('genderInput').value;});toggleEntryFields();
+    $('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')generatePlayer();});
+    document.querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>{if(ended)return;const a=b.dataset.action;if(a==='technical')train('skill');if(a==='fitness')train('fitness');if(a==='rest')rest();if(a==='tournament')showTournaments();if(a==='upgrade')showUpgrades();});
+    $('tournamentList').addEventListener('click',e=>{const b=e.target.closest('[data-tour]');if(b)startTournament(+b.dataset.tour);});
+    $('upgradeList').addEventListener('click',e=>{const b=e.target.closest('[data-upgrade]');if(b)buyUpgrade(b.dataset.upgrade);});
+    $('logFilters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(!b)return;activeLogFilter=b.dataset.filter;logDisplayLimit=36;document.querySelectorAll('.filter-btn').forEach(x=>x.classList.toggle('active',x===b));renderLog();});$('loadMoreLog').onclick=()=>{logDisplayLimit+=36;renderLog();};
+    $('playMatch').onclick=continueTournament;$('cancelTournament').onclick=()=>$('tournamentOverlay').classList.add('hidden');$('closeUpgrade').onclick=()=>$('upgradeOverlay').classList.add('hidden');$('rulesBtn').onclick=()=>$('rulesOverlay').classList.remove('hidden');$('closeRules').onclick=()=>$('rulesOverlay').classList.add('hidden');
+  </script>
+</body>
+</html>
