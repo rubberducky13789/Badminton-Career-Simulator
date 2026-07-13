@@ -1,0 +1,11 @@
+{
+  "updated_at": null,
+  "last_refresh_attempt": null,
+  "refresh_hours": 24,
+  "sources": {
+    "world_ranking": "https://bwfbadminton.com/rankings/?id=2",
+    "hsbc_race_to_finals": "https://bwfworldtour.bwfbadminton.com/rankings/?id=9&cat_id=57&ryear=2026&week=28&page_size=25&page_no=1"
+  },
+  "players": [],
+  "verification": {}
+}

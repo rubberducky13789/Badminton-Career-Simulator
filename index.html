@@ -29,6 +29,7 @@
     h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(22px, 3vw, 34px); letter-spacing: -.03em; }
     .subtitle { margin: 3px 0 0; color: var(--muted); font-size: 14px; }
     .week-pill { background: var(--ink); color: white; border-radius: 999px; padding: 9px 15px; font-size: 13px; font-weight: 700; }
+    .save-status { color: var(--muted); font-size: 10px; font-weight: 800; white-space: nowrap; }
     .header-actions { display: flex; align-items: center; gap: 9px; }
     .rules-button { border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; background: var(--card); color: var(--ink); font-size: 13px; font-weight: 800; }
     .rules-button:hover { border-color: var(--green); color: var(--green); }
@@ -50,12 +51,39 @@
       color: var(--ink); background: var(--lime); box-shadow: 0 8px 24px #10291f38; transform: rotate(-2deg); }
     .overall strong { display: block; font: 36px/1 Georgia, serif; }
     .overall span { font-size: 9px; font-weight: 900; letter-spacing: .14em; }
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 18px 0; }
+    .stats { display: block; margin: 18px 0; }
     .stat { padding: 17px; }
     .stat-top { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; font-weight: 700; }
     .stat strong { color: var(--ink); font-size: 22px; }
     .bar { height: 6px; border-radius: 10px; background: #e8ebe4; margin-top: 12px; overflow: hidden; }
     .bar i { display: block; height: 100%; width: 50%; border-radius: inherit; background: var(--green); transition: width .3s; }
+    .attribute-card { padding: 24px; background: linear-gradient(145deg,#10291f,#176b4d); color: white; overflow: hidden; }
+    .attribute-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
+    .attribute-head h3 { margin: 0; font: 22px Georgia,serif; }
+    .attribute-head p { margin: 4px 0 0; color: #cfe1d8; font-size: 11px; }
+    .radar-ovr { display: grid; place-items: center; min-width: 72px; height: 72px; border-radius: 18px; background: var(--lime); color: var(--ink); }
+    .radar-ovr strong { font: 31px/1 Georgia,serif; }
+    .radar-ovr span { font-size: 8px; font-weight: 900; letter-spacing: .12em; }
+    .radar-wrap { position: relative; width: min(100%,560px); min-height: 390px; margin: 0 auto; }
+    .radar-svg { position: absolute; inset: 42px 70px; width: calc(100% - 140px); height: calc(100% - 84px); overflow: visible; }
+    .radar-grid { fill: none; stroke: #ffffff24; stroke-width: 1; }
+    .radar-axis { stroke: #ffffff1f; stroke-width: 1; }
+    .radar-fill { fill: #d7f05b66; stroke: var(--lime); stroke-width: 2.5; filter: drop-shadow(0 5px 9px #0005); transition: points .3s ease; }
+    .radar-label { position: absolute; width: 132px; text-align: center; color: #dce9e2; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
+    .radar-label b { display: block; color: white; font: 22px Georgia,serif; }
+    .radar-label.technique { top: 0; left: 50%; transform: translateX(-50%); }
+    .radar-label.power { top: 88px; right: 0; }
+    .radar-label.speed { bottom: 72px; right: 0; }
+    .radar-label.physicality { bottom: 0; left: 50%; transform: translateX(-50%); }
+    .radar-label.defense { bottom: 72px; left: 0; }
+    .radar-label.mentality { top: 88px; left: 0; }
+    .compact-radar { margin-top: 12px; padding-top: 10px; border-top: 1px solid #cbd4cd; }
+    .compact-radar .mini-radar-title { margin-bottom: 6px; color: var(--green); font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+    .compact-radar .radar-svg { position: static; inset: auto; width: 138px; height: 120px; margin: 0 auto; display: block; }
+    .compact-radar .radar-grid { stroke: #176b4d2d; } .compact-radar .radar-axis { stroke: #176b4d25; }
+    .compact-radar .radar-fill { fill: #176b4d35; stroke: var(--green); filter: none; }
+    .compact-values { display: grid; grid-template-columns: repeat(2,1fr); gap: 3px 8px; margin-top: 5px; color: var(--muted); font-size: 9px; }
+    .compact-values b { display: inline; color: var(--ink); font-size: 9px; }
     .actions { padding: 24px; }
     .section-title { display: flex; align-items: end; justify-content: space-between; margin-bottom: 15px; }
     .section-title h3 { margin: 0; font-family: Georgia, serif; font-size: 22px; }
@@ -110,7 +138,7 @@
     .empty { color: var(--muted); font-size: 13px; }
     .overlay { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; background: #11251dbd; backdrop-filter: blur(7px); z-index: 20; }
     .overlay.hidden { display: none; }
-    .modal { width: min(560px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; background: var(--card); border-radius: 24px; padding: 30px; box-shadow: 0 30px 80px #0005; }
+    .modal { width: min(560px, calc(100vw - 40px)); max-height: calc(100vh - 40px); overflow-y: auto; overflow-x: hidden; background: var(--card); border-radius: 24px; padding: 30px; box-shadow: 0 30px 80px #0005; }
     .modal h2 { margin: 6px 0 9px; font: 32px/1.1 Georgia, serif; }
     .modal p { color: var(--muted); line-height: 1.55; }
     .name-row { display: flex; gap: 10px; margin-top: 22px; }
@@ -122,19 +150,27 @@
     .tour:hover { border-color: var(--green); }
     .tour span { color: var(--muted); font-size: 12px; }
     .cancel { display: block; margin: 16px auto 0; border: 0; background: none; color: var(--muted); }
-    .wide-modal { width: min(720px, 100%); }
+    .wide-modal { width: min(720px, calc(100vw - 40px)); }
     .match-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 20px 0; }
-    .competitor { flex: 1; padding: 18px; border-radius: 15px; background: #edf2eb; }
+    .competitor { flex: 1; min-width: 0; padding: 18px; border-radius: 15px; background: #edf2eb; }
     .competitor.away { text-align: right; }
     .competitor b { display: block; font-size: 17px; }
     .competitor span { color: var(--muted); font-size: 12px; }
+    .opponent-profile-card { display: grid; gap: 5px; margin: 10px 0 8px; color: var(--muted); font-size: 12px; line-height: 1.35; }
+    .opponent-profile-card .profile-row { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid #d9e1da; padding-bottom: 4px; }
+    .opponent-profile-card .profile-row:last-child { border-bottom: 0; }
+    .opponent-profile-card .profile-label { color: #718077; font-weight: 800; }
+    .opponent-profile-card .profile-value { color: var(--ink); font-weight: 800; text-align: right; }
+    .opponent-profile-card small { color: var(--muted); }
+    #matchBwfLink { display: inline-block; margin-top: 9px; padding: 6px 11px; border: 1px solid #176b4d45; border-radius: 999px; color: var(--green); background: white; font-size: 10px; font-weight: 900; text-decoration: none; text-transform: uppercase; letter-spacing: .08em; }
+    #matchBwfLink:hover { background: var(--green); color: white; }
     .match-avatar { width: 54px; height: 54px; margin-bottom: 8px; border-radius: 14px; background: #d9eadf; }
     .versus { font: italic 18px Georgia, serif; color: var(--muted); }
     .bracket { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 13px; }
     .round-chip { flex: 0 0 auto; padding: 8px 10px; border-radius: 999px; background: #e8ebe4; color: var(--muted); font-size: 10px; font-weight: 800; }
     .round-chip.done { background: var(--green); color: white; }
     .round-chip.current { background: var(--lime); color: var(--ink); }
-    .scoreboard { min-height: 58px; padding: 14px; border: 1px solid var(--line); border-radius: 13px; text-align: center; line-height: 1.6; }
+    .scoreboard { min-height: 58px; padding: 14px; border: 1px solid var(--line); border-radius: 13px; text-align: center; line-height: 1.6; transition: opacity .28s ease, transform .28s ease; }
     .scoreboard strong { font-size: 20px; }
     .match-btn { display: block; width: 100%; margin-top: 14px; padding: 14px; border: 0; border-radius: 12px; background: var(--green); color: white; font-weight: 800; }
     .upgrade-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
@@ -161,6 +197,31 @@
     .player-fields { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: #fafbf7; }
     .player-fields h3 { grid-column: 1 / -1; margin: 0 0 3px; font: 18px Georgia, serif; }
     .player-fields.hidden { display: none; }
+    .appearance-box { grid-column: 1 / -1; padding: 14px; border: 1px dashed #b8c4ba; border-radius: 14px; background: white; }
+    .appearance-box h4 { margin: 0 0 10px; font: 15px Georgia, serif; }
+    .appearance-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .appearance-options .full { grid-column: 1 / -1; }
+    .appearance-hint { margin: 8px 0 0 !important; font-size: 11px; }
+    .photo-preview { width: 112px; height: 112px; margin-top: 10px; border: 2px solid var(--line); border-radius: 18px; background: #edf2eb; object-fit: cover; }
+    .portrait-workspace { display: grid; grid-template-columns: 130px 1fr; gap: 14px; align-items: start; }
+    .portrait-preview-wrap { text-align: center; }
+    .portrait-preview-wrap small { display: block; margin-top: 5px; color: var(--muted); }
+    .camera-view { width: 100%; max-height: 260px; margin-top: 10px; border-radius: 16px; background: #17231d; object-fit: cover; }
+    .confirm-box { margin-top: 10px; padding: 12px; border-radius: 13px; background: #edf2eb; }
+    .confirm-box p { margin: 0 0 9px !important; color: var(--ink); font-weight: 800; }
+    .button-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .mini-btn { border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px; background: white; color: var(--ink); font-size: 11px; font-weight: 800; }
+    .mini-btn.primary { border-color: var(--green); background: var(--green); color: white; }
+    .settings-grid { display: grid; gap: 10px; margin-top: 18px; }
+    .setting-row { display: grid; grid-template-columns: 1fr 170px; gap: 14px; align-items: center; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: white; }
+    .setting-row b, .setting-row small { display: block; }
+    .setting-row small { margin-top: 4px; color: var(--muted); line-height: 1.35; }
+    body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+    body.compact-log .log-entry { min-height: 76px; padding: 9px; }
+    .difficulty-badge { display: inline-block; margin-left: 7px; padding: 3px 7px; border-radius: 999px; background: #edf2eb; color: var(--green); font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+    .tour { align-items: center; gap: 12px; }
+    .tour > span { max-width: 56%; text-align: right; line-height: 1.4; }
+    .tour:disabled { cursor: not-allowed; opacity: .58; background: #f1f2ee; }
     .story-card { display: grid; grid-template-columns: 120px 1fr; gap: 18px; align-items: center; margin: 20px 0; padding: 18px; border-radius: 17px; background: #edf2eb; }
     .story-avatar { width: 120px; height: 120px; border-radius: 23px; background: #d9eadf; }
     .story-card p { margin: 0; font-size: 14px; }
@@ -171,63 +232,525 @@
     @media (max-width: 1000px) { .log { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 850px) { .layout { grid-template-columns: 1fr; } .side { display: grid; grid-template-columns: 1fr; } }
     @media (max-width: 620px) { .shell { width: min(100% - 20px, 1180px); padding-top: 15px; } header { align-items: flex-start; }
-      .stats { grid-template-columns: repeat(2, 1fr); } .action-grid, .side, .upgrade-grid, .log { grid-template-columns: 1fr; } .ranking { position: static; text-align: left; margin-top: 20px; }
-      .hero { padding: 22px; } .profile-avatar { float: none; display: block; } .name-row { flex-direction: column; } .go { padding: 13px; } .form-grid, .story-card { grid-template-columns: 1fr; } }
+      .action-grid, .side, .upgrade-grid, .log { grid-template-columns: 1fr; } .ranking { position: static; text-align: left; margin-top: 20px; }
+      .radar-wrap { min-height: 330px; } .radar-svg { inset: 55px 48px; width: calc(100% - 96px); height: calc(100% - 110px); } .radar-label { width: 100px; font-size: 8px; } .radar-label b { font-size: 18px; } .radar-label.power,.radar-label.mentality { top: 82px; } .radar-label.speed,.radar-label.defense { bottom: 62px; }
+      .hero { padding: 22px; } .profile-avatar { float: none; display: block; } .name-row { flex-direction: column; } .go { padding: 13px; } .form-grid, .story-card, .appearance-options, .portrait-workspace, .setting-row { grid-template-columns: 1fr; } .appearance-options .full { grid-column: auto; } .modal,.wide-modal { width: calc(100vw - 20px); padding: 20px; } .modal h2 { font-size: 30px; overflow-wrap: anywhere; } .match-head { flex-direction: column; } .competitor { width: 100%; } .competitor.away { text-align: left; } .opponent-profile-card .profile-value { text-align: left; } }
   </style>
 </head>
 <body>
   <main class="shell">
     <header>
-      <div class="brand"><div class="logo">◒</div><div><h1>Badminton Career Simulator</h1><p class="subtitle">One athlete. One week at a time.</p></div></div>
-      <div class="header-actions"><button class="rules-button" id="rulesBtn">How to play</button><div class="week-pill" id="weekPill">Season 1 · Week 1</div></div>
+      <div class="brand">
+<div class="logo">◒</div>
+<div>
+<h1>Badminton Career Simulator</h1>
+<p class="subtitle">One athlete. One week at a time.</p>
+</div>
+</div>
+      <div class="header-actions">
+<span class="save-status" id="saveStatus">Checking save…</span>
+<button class="rules-button" id="bwfRefreshBtn">Update BWF Database</button>
+<button class="rules-button" id="rulesBtn">How to play</button>
+<button class="rules-button" id="settingsBtn">Settings</button>
+<div class="week-pill" id="weekPill">Season 1 · Week 1</div>
+</div>
     </header>
 
     <div class="layout">
       <section>
         <div class="panel hero">
-          <img class="profile-avatar" id="playerAvatar" alt="Player profile portrait"><img class="profile-avatar partner hidden" id="playerAvatar2" alt="Partner profile portrait"><div class="eyebrow">Professional profile</div><h2 id="playerName">Your Player</h2>
-          <p id="heroText">A 16-year-old prospect beginning the long climb to badminton immortality.</p>
-          <div class="overall"><strong id="overall">46</strong><span>OVERALL</span></div>
-          <div class="ranking"><span>World ranking</span><strong id="ranking">#1000</strong></div>
+          <img class="profile-avatar" id="playerAvatar" alt="Player profile portrait">
+<img class="profile-avatar partner hidden" id="playerAvatar2" alt="Partner profile portrait">
+<div class="eyebrow">Professional profile</div>
+<h2 id="playerName">Your Player</h2>
+          <p id="heroText">Choose an age from 14–35 and begin the climb to badminton immortality.</p>
+          <div class="overall">
+<strong id="overall">46</strong>
+<span>OVERALL</span>
+</div>
+          <div class="ranking">
+<span>World ranking</span>
+<strong id="ranking">#1000</strong>
+</div>
         </div>
-        <div class="stats" id="stats"></div>
+        <div class="stats" id="stats">
+</div>
         <div class="panel actions">
-          <div class="section-title"><h3>Choose your week</h3><span>Each action advances time</span></div>
+          <div class="section-title">
+<h3>Choose your week</h3>
+<span>Each action advances time</span>
+</div>
           <div class="action-grid">
-            <button class="action" data-action="technical"><b>🏸 Technical training</b><small>Build skill, spend stamina, risk injury.</small></button>
-            <button class="action" data-action="fitness"><b>⚡ Fitness training</b><small>Improve conditioning through hard work.</small></button>
-            <button class="action" data-action="rest"><b>🌿 Rest & recovery</b><small>Restore stamina and heal injuries.</small></button>
-            <button class="action primary" data-action="tournament"><b>🏆 Enter tournament</b><small>Earn money, titles, and ranking points.</small></button>
-            <button class="action" data-action="upgrade"><b>💰 Player development</b><small>Spend earnings to permanently improve ratings.</small></button>
+            <button class="action" data-action="technical">
+<b>🏸 Technical training</b>
+<small>Build skill, spend stamina, risk injury.</small>
+</button>
+            <button class="action" data-action="fitness">
+<b>⚡ Fitness training</b>
+<small>Improve conditioning through hard work.</small>
+</button>
+            <button class="action" data-action="rest">
+<b>🌿 Rest & recovery</b>
+<small>Restore stamina and heal injuries.</small>
+</button>
+            <button class="action primary" data-action="tournament">
+<b>🏆 Enter tournament</b>
+<small>Earn money, titles, and ranking points.</small>
+</button>
+            <button class="action" data-action="upgrade">
+<b>💰 Player development</b>
+<small>Spend earnings to permanently improve ratings.</small>
+</button>
           </div>
         </div>
       </section>
       <aside class="side">
-        <div class="panel card"><h3>Player profile</h3><div class="profile-portraits" id="profilePortraits"></div><div id="details"></div></div>
+        <div class="panel card">
+<h3>Player profile</h3>
+<div class="profile-portraits" id="profilePortraits">
+</div>
+<div id="details">
+</div>
+</div>
       </aside>
     </div>
-    <section class="panel timeline-panel"><div class="section-title"><h3>Career timeline</h3><span>Matches, development, health, rankings, and world stories</span></div><div class="timeline-toolbar"><div class="log-filters" id="logFilters"><button class="filter-btn active" data-filter="All">All entries</button><button class="filter-btn" data-filter="Match">Matches</button><button class="filter-btn" data-filter="Training">Training updates</button><button class="filter-btn" data-filter="Injury">Injuries</button><button class="filter-btn" data-filter="Ranking">Rankings</button><button class="filter-btn" data-filter="News">News events</button><button class="filter-btn" data-filter="Rivalry">Rivalries</button></div><span class="log-count" id="logCount">0 entries</span></div><div class="log" id="log"><div class="empty">Your story begins here.</div></div><button class="load-more hidden" id="loadMoreLog">Show older entries</button></section>
+    <section class="panel timeline-panel">
+<div class="section-title">
+<h3>Career timeline</h3>
+<span>Matches, development, health, rankings, and world stories</span>
+</div>
+<div class="timeline-toolbar">
+<div class="log-filters" id="logFilters">
+<button class="filter-btn active" data-filter="All">All entries</button>
+<button class="filter-btn" data-filter="Match">Matches</button>
+<button class="filter-btn" data-filter="Training">Training updates</button>
+<button class="filter-btn" data-filter="Injury">Injuries</button>
+<button class="filter-btn" data-filter="Ranking">Rankings</button>
+<button class="filter-btn" data-filter="News">News events</button>
+<button class="filter-btn" data-filter="Rivalry">Rivalries</button>
+</div>
+<span class="log-count" id="logCount">0 entries</span>
+</div>
+<div class="log" id="log">
+<div class="empty">Your story begins here.</div>
+</div>
+<button class="load-more hidden" id="loadMoreLog">Show older entries</button>
+</section>
   </main>
 
   <div class="overlay" id="startOverlay">
     <div class="modal wide-modal">
-      <div class="onboarding-step" id="onboardingRules"><div class="welcome-banner"><div class="eyebrow">Welcome to the world tour</div><h2>Badminton Career Simulator</h2><p>Create an athlete, survive the pressure of professional competition, and build a legacy from unknown prospect to world number one.</p></div><h3 class="rules-heading">How to Play & Game Rules</h3><p>Every decision advances your career. Read the systems below before stepping onto the court.</p><div class="rules-list"><div class="rule"><b>🏸 Training system</b><span>Choose technical or fitness training to earn small, gradual improvements. Development becomes harder at elite ratings, while excessive work drains stamina and increases injury risk.</span></div><div class="rule"><b>🏆 Tournaments</b><span>Pay entry fees and play each match from qualification or the Round of 64 through the final. Results affect prize money, development, form, confidence, rivalries, and ranking points.</span></div><div class="rule"><b>🌍 Rankings</b><span>Successful tournament runs improve your world ranking. Points can decay between seasons, and active rivals may pass an inactive or struggling player.</span></div><div class="rule"><b>📈 OVR (Overall Rating)</b><span>OVR summarizes technical skill, fitness, and confidence. It changes gradually through sustained development, strong performances, health, form, and age—not after every minor action.</span></div><div class="rule"><b>🩹 Injuries system</b><span>Low stamina, overtraining, and heavy match loads increase injury risk. Injuries interrupt training, weaken form, may reduce ability, and can potentially end a career.</span></div><div class="rule"><b>🔥 Form and confidence</b><span>Wins, rest, and positive events build momentum. Losses, inactivity, illness, burnout, and slumps reduce form and confidence, directly affecting match performance.</span></div><div class="rule"><b>📅 Aging and career progression</b><span>Each action represents one week, and age increases every 52 weeks. Younger athletes generally develop faster; older athletes must manage fitness carefully to slow decline.</span></div><div class="rule"><b>🎙 Retirement system</b><span>The player retires at age 35, after financial ruin, or following a career-ending injury. A completed career receives a final record and achievement summary.</span></div><div class="rule"><b>⚔️ Rivalries and storylines</b><span>Repeated meetings, close matches, upsets, injuries, comebacks, title races, and ranking battles generate evolving rivalries, career chapters, and news stories.</span></div></div><button class="match-btn" id="toCreate">Start Career</button></div>
-      <div class="onboarding-step hidden" id="onboardingCreate"><div class="eyebrow">Step 2 of 3 · Player creation</div><h2>Create your entry</h2><p>Choose an event and create every athlete in the entry. Ages shape starting ratings and long-term development.</p><div class="form-grid"><div class="form-field full"><label for="eventTypeInput">Event</label><select id="eventTypeInput"><option value="Singles">Singles</option><option value="Doubles">Doubles</option><option value="Mixed">Mixed Doubles</option></select></div><div class="player-fields"><h3 id="playerOneHeading">Player</h3><div class="form-field full"><label for="nameInput">Name</label><input id="nameInput" maxlength="28" placeholder="Enter player name"></div><div class="form-field"><label for="ageInput">Age</label><input id="ageInput" type="number" min="14" max="35" value="16"></div><div class="form-field"><label for="genderInput">Gender</label><select id="genderInput"><option value="Male">Male</option><option value="Female">Female</option><option value="Non-binary">Non-binary</option></select></div><div class="form-field full"><label for="nationalityInput">Nationality</label><input id="nationalityInput" maxlength="32" list="nationalityOptions" placeholder="e.g. Canada"></div></div><div class="player-fields hidden" id="partnerFields"><h3>Player 2</h3><div class="form-field full"><label for="partnerNameInput">Name</label><input id="partnerNameInput" maxlength="28" placeholder="Enter partner name"></div><div class="form-field"><label for="partnerAgeInput">Age</label><input id="partnerAgeInput" type="number" min="14" max="35" value="16"></div><div class="form-field"><label for="partnerGenderInput">Gender</label><select id="partnerGenderInput"><option value="Female">Female</option><option value="Male">Male</option><option value="Non-binary">Non-binary</option></select></div><div class="form-field full"><label for="partnerNationalityInput">Nationality</label><input id="partnerNationalityInput" maxlength="32" list="nationalityOptions" placeholder="e.g. Japan"></div></div><datalist id="nationalityOptions"><option value="Canada"><option value="China"><option value="Denmark"><option value="England"><option value="France"><option value="India"><option value="Indonesia"><option value="Japan"><option value="Korea"><option value="Malaysia"><option value="Singapore"><option value="Thailand"><option value="United States"></datalist></div><p id="creationError" class="hurt" aria-live="polite"></p><button class="match-btn" id="startBtn">Create profile</button><button class="cancel" id="backToRules">Back to rules</button></div>
-      <div class="onboarding-step hidden" id="onboardingStory"><div class="eyebrow">Step 3 of 3 · Created profile</div><h2 id="storyTitle">A new challenger appears</h2><div class="story-card"><div><img class="story-avatar" id="storyAvatar" alt="Generated player portrait"><img class="story-avatar hidden" id="storyAvatar2" alt="Generated partner portrait"></div><p id="storyText"></p></div><button class="match-btn" id="beginCareer">Begin the career</button><button class="cancel" id="editPlayer">Edit entry</button></div>
+      <div class="onboarding-step" id="onboardingRules">
+<div class="welcome-banner">
+<div class="eyebrow">Welcome to the world tour</div>
+<h2>Badminton Career Simulator</h2>
+<p>Create an athlete, survive the pressure of professional competition, and build a legacy from unknown prospect to world number one.</p>
+</div>
+<h3 class="rules-heading">How to Play & Game Rules</h3>
+<p>Every decision advances your career. Read the systems below before stepping onto the court.</p>
+<div class="rules-list">
+<div class="rule">
+<b>🏸 Training system</b>
+<span>Choose technical or fitness training to earn small, gradual improvements. Development becomes harder at elite ratings, while excessive work drains stamina and increases injury risk.</span>
+</div>
+<div class="rule">
+<b>🏆 Tournaments</b>
+<span>Easy, Medium, Hard, and Elite events unlock through visible OVR, title, skill, and ranking requirements. Draws become stronger each round and avoid repeatedly selecting recent opponents.</span>
+</div>
+<div class="rule">
+<b>🌍 Rankings</b>
+<span>Successful tournament runs improve your world ranking. Points can decay between seasons, and active rivals may pass an inactive or struggling player.</span>
+</div>
+<div class="rule">
+<b>📈 OVR (Overall Rating)</b>
+<span>OVR is a weighted blend of Technique, Speed & Footwork, Power, Defense, Physicality, and Mentality. Form and injuries add only small temporary modifiers.</span>
+</div>
+<div class="rule">
+<b>🩹 Injuries system</b>
+<span>Low stamina, overtraining, and heavy match loads increase injury risk. Injuries interrupt training, weaken form, may reduce ability, and can potentially end a career.</span>
+</div>
+<div class="rule">
+<b>🔥 Form and confidence</b>
+<span>Wins, rest, and positive events build momentum. Losses, inactivity, illness, burnout, and slumps reduce form and confidence, directly affecting match performance.</span>
+</div>
+<div class="rule">
+<b>📅 Aging and career progression</b>
+<span>Choose a starting age from 14–35. Each action represents one week, and age increases every 52 weeks. Younger athletes generally develop faster; older athletes must manage fitness carefully to slow decline.</span>
+</div>
+<div class="rule">
+<b>🎙 Retirement system</b>
+<span>The player retires at age 35, after financial ruin, or following a career-ending injury. A completed career receives a final record and achievement summary.</span>
+</div>
+<div class="rule">
+<b>⚔️ Rivalries and storylines</b>
+<span>Repeated meetings, close matches, upsets, injuries, comebacks, title races, and ranking battles generate evolving rivalries, career chapters, and news stories.</span>
+</div>
+</div>
+<button class="match-btn" id="toCreate">Start Career</button>
+</div>
+      <div class="onboarding-step hidden" id="onboardingCreate">
+<div class="eyebrow">Step 2 of 3 · Player creation</div>
+<h2>Create your entry</h2>
+<p>Choose an event and create every athlete in the entry. Select an age from 14–35 and provide a photo or build a custom character—no AI portrait is generated.</p>
+<div class="form-grid">
+<div class="form-field full">
+<label for="eventTypeInput">Event</label>
+<select id="eventTypeInput">
+<option value="Singles">Singles</option>
+<option value="Doubles">Doubles</option>
+<option value="Mixed">Mixed Doubles</option>
+</select>
+</div>
+<div class="player-fields">
+<h3 id="playerOneHeading">Player</h3>
+<div class="form-field full">
+<label for="nameInput">Name</label>
+<input id="nameInput" maxlength="28" placeholder="Enter player name">
+</div>
+<div class="form-field">
+<label for="ageInput">Age (14–35)</label>
+<input id="ageInput" type="number" min="14" max="35" placeholder="Choose age">
+</div>
+<div class="form-field">
+<label for="genderInput">Gender</label>
+<select id="genderInput">
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+<option value="Non-binary">Non-binary</option>
+</select>
+</div>
+<div class="form-field full">
+<label for="nationalityInput">Nationality</label>
+<input id="nationalityInput" maxlength="32" list="nationalityOptions" placeholder="e.g. Canada">
+</div>
+<div class="appearance-box">
+<h4>Profile appearance</h4>
+<div class="form-field">
+<label for="portraitMode">Portrait method</label>
+<select id="portraitMode">
+<option value="custom">Customize character</option>
+<option value="upload">Upload photo</option>
+<option value="camera">Take photo</option>
+</select>
+</div>
+<div id="customFields" class="portrait-workspace">
+<div class="portrait-preview-wrap"><img class="photo-preview" id="customPreview" alt="Custom character preview"><small>Live preview</small></div>
+<div class="appearance-options">
+<div class="form-field">
+<label for="skinInput">Skin tone</label>
+<select id="skinInput">
+<option value="#f2c6a0">Light</option>
+<option value="#d99b71">Medium</option>
+<option value="#a96745">Tan</option>
+<option value="#75432e">Deep</option>
+</select>
+</div>
+<div class="form-field">
+<label for="hairInput">Hairstyle</label>
+<select id="hairInput">
+<option value="short-dark">Short dark</option>
+<option value="short-brown">Short brown</option>
+<option value="long-dark">Long dark</option>
+<option value="long-brown">Long brown</option>
+<option value="spiky-dark">Spiky dark</option>
+<option value="bun-brown">Brown bun</option>
+</select>
+</div>
+<div class="form-field"><label for="eyesInput">Eyes</label><select id="eyesInput"><option value="round">Round</option><option value="focused">Focused</option><option value="wide">Wide</option></select></div>
+<div class="form-field"><label for="mouthInput">Mouth</label><select id="mouthInput"><option value="smile">Smile</option><option value="neutral">Neutral</option><option value="determined">Determined</option></select></div>
+<div class="form-field"><label for="racketInput">Racket colour</label><select id="racketInput"><option value="#f7f3e8">White</option><option value="#d7f05b">Lime</option><option value="#315a9b">Blue</option><option value="#d84b45">Red</option></select></div>
+<div class="form-field"><label for="backgroundInput">Background</label><select id="backgroundInput"><option value="#ffffff">White</option><option value="#dcefe4">Mint</option><option value="#dce8f5">Sky</option><option value="#f4e6c9">Warm</option><option value="#eadff4">Lavender</option></select></div>
+<div class="form-field full">
+<label for="shirtInput">Shirt colour</label>
+<select id="shirtInput">
+<option value="#176b4d">Green</option>
+<option value="#315a9b">Blue</option>
+<option value="#a23c57">Red</option>
+<option value="#6c4e9b">Purple</option>
+<option value="#d18d25">Gold</option>
+</select>
+</div>
+</div>
+</div>
+<div class="hidden" id="uploadFields"><label for="photoInput">Upload player photo</label><input id="photoInput" type="file" accept="image/*"><p class="appearance-hint">Preview and confirm the image before it becomes your profile picture.</p><div class="confirm-box hidden" id="uploadConfirm"><img class="photo-preview" id="uploadPreview" alt="Uploaded photo preview"><p>Use this uploaded photo?</p><div class="button-row"><button type="button" class="mini-btn primary" id="confirmUpload">Confirm</button><button type="button" class="mini-btn" id="cancelUpload">Cancel upload</button></div></div></div>
+<div class="hidden" id="cameraFields"><p class="appearance-hint">Camera access stays on your device. Nothing is uploaded.</p><button type="button" class="mini-btn primary" id="openCamera">Open camera</button><video class="camera-view hidden" id="cameraVideo" autoplay playsinline muted></video><canvas class="hidden" id="cameraCanvas"></canvas><button type="button" class="mini-btn hidden" id="capturePhoto">Take photo</button><p class="hurt" id="cameraError"></p><div class="confirm-box hidden" id="cameraConfirm"><img class="photo-preview" id="cameraPreview" alt="Captured photo preview"><p>Are you sure you want to use this photo?</p><div class="button-row"><button type="button" class="mini-btn" id="retakePhoto">Retake</button><button type="button" class="mini-btn primary" id="confirmCamera">Confirm</button><button type="button" class="mini-btn" id="cancelCamera">Cancel</button></div></div></div>
+</div>
+<div class="player-fields hidden" id="partnerFields">
+<h3>Player 2</h3>
+<div class="form-field full">
+<label for="partnerNameInput">Name</label>
+<input id="partnerNameInput" maxlength="28" placeholder="Enter partner name">
+</div>
+<div class="form-field">
+<label for="partnerAgeInput">Age (14–35)</label>
+<input id="partnerAgeInput" type="number" min="14" max="35" placeholder="Choose age">
+</div>
+<div class="form-field">
+<label for="partnerGenderInput">Gender</label>
+<select id="partnerGenderInput">
+<option value="Female">Female</option>
+<option value="Male">Male</option>
+<option value="Non-binary">Non-binary</option>
+</select>
+</div>
+<div class="form-field full">
+<label for="partnerNationalityInput">Nationality</label>
+<input id="partnerNationalityInput" maxlength="32" list="nationalityOptions" placeholder="e.g. Japan">
+</div>
+<div class="appearance-box">
+<h4>Partner appearance</h4>
+<div class="form-field">
+<label for="partnerPortraitMode">Portrait method</label>
+<select id="partnerPortraitMode">
+<option value="custom">Customize character</option>
+<option value="upload">Upload photo</option>
+<option value="camera">Take photo</option>
+</select>
+</div>
+<div id="partnerCustomFields" class="portrait-workspace"><div class="portrait-preview-wrap"><img class="photo-preview" id="partnerCustomPreview" alt="Partner character preview"><small>Live preview</small></div><div class="appearance-options">
+<div class="form-field">
+<label for="partnerSkinInput">Skin tone</label>
+<select id="partnerSkinInput">
+<option value="#f2c6a0">Light</option>
+<option value="#d99b71">Medium</option>
+<option value="#a96745">Tan</option>
+<option value="#75432e">Deep</option>
+</select>
+</div>
+<div class="form-field">
+<label for="partnerHairInput">Hairstyle</label>
+<select id="partnerHairInput">
+<option value="short-dark">Short dark</option>
+<option value="short-brown">Short brown</option>
+<option value="long-dark">Long dark</option>
+<option value="long-brown">Long brown</option>
+<option value="spiky-dark">Spiky dark</option>
+<option value="bun-brown">Brown bun</option>
+</select>
+</div>
+<div class="form-field"><label for="partnerEyesInput">Eyes</label><select id="partnerEyesInput"><option value="round">Round</option><option value="focused">Focused</option><option value="wide">Wide</option></select></div>
+<div class="form-field"><label for="partnerMouthInput">Mouth</label><select id="partnerMouthInput"><option value="smile">Smile</option><option value="neutral">Neutral</option><option value="determined">Determined</option></select></div>
+<div class="form-field"><label for="partnerRacketInput">Racket colour</label><select id="partnerRacketInput"><option value="#f7f3e8">White</option><option value="#d7f05b">Lime</option><option value="#315a9b">Blue</option><option value="#d84b45">Red</option></select></div>
+<div class="form-field"><label for="partnerBackgroundInput">Background</label><select id="partnerBackgroundInput"><option value="#ffffff">White</option><option value="#dcefe4">Mint</option><option value="#dce8f5">Sky</option><option value="#f4e6c9">Warm</option><option value="#eadff4">Lavender</option></select></div>
+<div class="form-field full">
+<label for="partnerShirtInput">Shirt colour</label>
+<select id="partnerShirtInput">
+<option value="#176b4d">Green</option>
+<option value="#315a9b">Blue</option>
+<option value="#a23c57">Red</option>
+<option value="#6c4e9b">Purple</option>
+<option value="#d18d25">Gold</option>
+</select>
+</div>
+</div>
+</div>
+<div class="hidden" id="partnerUploadFields"><label for="partnerPhotoInput">Upload partner photo</label><input id="partnerPhotoInput" type="file" accept="image/*"><div class="confirm-box hidden" id="partnerUploadConfirm"><img class="photo-preview" id="partnerUploadPreview" alt="Partner upload preview"><p>Use this uploaded photo?</p><div class="button-row"><button type="button" class="mini-btn primary" id="partnerConfirmUpload">Confirm</button><button type="button" class="mini-btn" id="partnerCancelUpload">Cancel upload</button></div></div></div>
+<div class="hidden" id="partnerCameraFields"><p class="appearance-hint">Camera access stays on your device. Nothing is uploaded.</p><button type="button" class="mini-btn primary" id="partnerOpenCamera">Open camera</button><video class="camera-view hidden" id="partnerCameraVideo" autoplay playsinline muted></video><canvas class="hidden" id="partnerCameraCanvas"></canvas><button type="button" class="mini-btn hidden" id="partnerCapturePhoto">Take photo</button><p class="hurt" id="partnerCameraError"></p><div class="confirm-box hidden" id="partnerCameraConfirm"><img class="photo-preview" id="partnerCameraPreview" alt="Partner captured photo preview"><p>Are you sure you want to use this photo?</p><div class="button-row"><button type="button" class="mini-btn" id="partnerRetakePhoto">Retake</button><button type="button" class="mini-btn primary" id="partnerConfirmCamera">Confirm</button><button type="button" class="mini-btn" id="partnerCancelCamera">Cancel</button></div></div></div>
+</div>
+<datalist id="nationalityOptions">
+<option value="Canada">
+<option value="China">
+<option value="Denmark">
+<option value="England">
+<option value="France">
+<option value="India">
+<option value="Indonesia">
+<option value="Japan">
+<option value="Korea">
+<option value="Malaysia">
+<option value="Singapore">
+<option value="Thailand">
+<option value="United States">
+</datalist>
+</div>
+<p id="creationError" class="hurt" aria-live="polite">
+</p>
+<button class="match-btn" id="startBtn">Create profile</button>
+<button class="cancel" id="backToRules">Back to rules</button>
+</div>
+      </div>
+</div>
+<div class="onboarding-step hidden" id="onboardingStory">
+<div class="eyebrow">Step 3 of 3 · Created profile</div>
+<h2 id="storyTitle">A new challenger appears</h2>
+<div class="story-card">
+<div>
+<img class="story-avatar" id="storyAvatar" alt="Player portrait">
+<img class="story-avatar hidden" id="storyAvatar2" alt="Partner portrait">
+</div>
+<p id="storyText">
+</p>
+</div>
+<button class="match-btn" id="beginCareer">Begin the career</button>
+<button class="cancel" id="editPlayer">Edit entry</button>
+</div>
     </div>
   </div>
-  <div class="overlay hidden" id="tournamentOverlay"><div class="modal"><div class="eyebrow">Competition week</div><h2>Choose your stage</h2><p>Higher tiers offer bigger rewards—and much tougher opposition.</p><div class="tournaments" id="tournamentList"></div><button class="cancel" id="cancelTournament">Cancel</button></div></div>
-  <div class="overlay hidden" id="matchOverlay"><div class="modal wide-modal"><div class="eyebrow" id="matchTournament">Tournament</div><h2 id="matchRound">Round of 64</h2><div class="bracket" id="bracket"></div><div class="match-head"><div class="competitor"><img class="match-avatar" id="matchPlayerAvatar" alt="Player"><b id="matchPlayer">Player</b><span id="matchPlayerRating">OVR 46</span></div><div class="versus">vs</div><div class="competitor away"><img class="match-avatar" id="matchOpponentAvatar" alt="Opponent"><b id="matchOpponent">Opponent</b><span id="matchOpponentRating">Country · OVR 80</span><a id="matchBwfLink" href="https://bwfbadminton.com/players/" target="_blank" rel="noopener">Official BWF player directory ↗</a></div></div><div class="scoreboard" id="scoreboard">The players are warming up.</div><button class="match-btn" id="playMatch">Play match</button></div></div>
-  <div class="overlay hidden" id="upgradeOverlay"><div class="modal wide-modal"><div class="eyebrow">Player development</div><h2>Invest in your game</h2><p id="upgradeMoney">Available balance</p><div class="upgrade-grid" id="upgradeList"></div><button class="cancel" id="closeUpgrade">Return to career</button></div></div>
-  <div class="overlay hidden" id="rulesOverlay"><div class="modal wide-modal"><div class="eyebrow">Game guide</div><h2>How to play</h2><p>Build a complete athlete, manage the risks of a long season, and earn your place at the top of world badminton.</p><div class="rules-list"><div class="rule"><b>🏆 Your objective</b><span>Reach world rank #1 and win the Season-Ending Championship before retiring at age 35.</span></div><div class="rule"><b>📅 Weekly choices</b><span>Every training, recovery, or tournament action uses one week. Your player ages after every 52 weeks.</span></div><div class="rule"><b>📈 Ratings and overall</b><span>Permanent skill, fitness, and confidence create your NBA 2K-style overall. Stamina affects current match form without changing your career rating.</span></div><div class="rule"><b>💰 Player development</b><span>Spend prize and sponsorship money to permanently improve skill, fitness, or confidence. Entry fees and weekly expenses still apply.</span></div><div class="rule"><b>🏸 Tournament draws</b><span>Players ranked outside the top 100 begin in qualification. Win each simulated match to advance through the Round of 64, Round of 32, Round of 16, quarter-finals, semi-finals, and final.</span></div><div class="rule"><b>🩹 Health and stamina</b><span>Training and matches reduce stamina. Low stamina and overtraining increase injury risk; rest restores energy and helps injuries heal.</span></div><div class="rule"><b>⛔ Career-ending conditions</b><span>The career ends immediately after financial ruin, a career-ending injury, or reaching age 35 without completing the objective.</span></div></div><button class="match-btn" id="closeRules">Got it—back to the game</button></div></div>
-  <div class="overlay hidden" id="endOverlay"><div class="modal result"><div class="trophy" id="endIcon">🏆</div><div class="eyebrow" id="endLabel">Career complete</div><h2 id="endTitle"></h2><p id="endReason"></p><div class="result-stats" id="endStats"></div><button class="go" style="padding:13px 22px" onclick="location.reload()">Start a new career</button></div></div>
+  <div class="overlay hidden" id="tournamentOverlay">
+<div class="modal">
+<div class="eyebrow">Competition week</div>
+<h2>Choose your stage</h2>
+<p>Higher tiers offer bigger rewards—and much tougher opposition.</p>
+<div class="tournaments" id="tournamentList">
+</div>
+<button class="cancel" id="cancelTournament">Cancel</button>
+</div>
+</div>
+  <div class="overlay hidden" id="matchOverlay">
+<div class="modal wide-modal">
+<div class="eyebrow" id="matchTournament">Tournament</div>
+<h2 id="matchRound">Round of 64</h2>
+<div class="bracket" id="bracket">
+</div>
+<div class="match-head">
+<div class="competitor">
+<img class="match-avatar" id="matchPlayerAvatar" alt="Player">
+<b id="matchPlayer">Player</b>
+<span id="matchPlayerRating">OVR 46</span>
+<div id="matchPlayerRadar"></div>
+</div>
+<div class="versus">vs</div>
+<div class="competitor away">
+<img class="match-avatar" id="matchOpponentAvatar" alt="Opponent BWF profile picture">
+<b id="matchOpponent">Opponent</b>
+<div class="opponent-profile-card" id="matchOpponentRating">Country · OVR 80</div>
+<div id="matchOpponentRadar"></div>
+<a id="matchBwfLink" href="https://bwfbadminton.com/players/" target="_blank" rel="noopener">Profile</a>
+</div>
+</div>
+<div class="scoreboard" id="scoreboard">The players are warming up.</div>
+<button class="match-btn" id="playMatch">Play match</button>
+</div>
+</div>
+  <div class="overlay hidden" id="upgradeOverlay">
+<div class="modal wide-modal">
+<div class="eyebrow">Player development</div>
+<h2>Invest in your game</h2>
+<p id="upgradeMoney">Available balance</p>
+<div class="upgrade-grid" id="upgradeList">
+</div>
+<button class="cancel" id="closeUpgrade">Return to career</button>
+</div>
+</div>
+  <div class="overlay hidden" id="settingsOverlay">
+<div class="modal wide-modal">
+<div class="eyebrow">Game preferences</div>
+<h2>Settings</h2>
+<p>Adjust how the career simulator looks and feels on this device.</p>
+<div class="settings-grid">
+<label class="setting-row">
+<span>
+<b>Sound effects</b>
+<small>Enable interface and match-result sounds.</small>
+</span>
+<select id="soundSetting">
+<option value="on">On</option>
+<option value="off">Off</option>
+</select>
+</label>
+<label class="setting-row">
+<span>
+<b>Motion</b>
+<small>Reduce interface animation and transitions.</small>
+</span>
+<select id="motionSetting">
+<option value="full">Full motion</option>
+<option value="reduced">Reduced motion</option>
+</select>
+</label>
+<label class="setting-row">
+<span>
+<b>Career log density</b>
+<small>Choose how much space each timeline entry uses.</small>
+</span>
+<select id="logDensitySetting">
+<option value="comfortable">Comfortable</option>
+<option value="compact">Compact</option>
+</select>
+</label>
+<label class="setting-row">
+<span>
+<b>Match presentation</b>
+<small>Choose normal pacing or instant result presentation.</small>
+</span>
+<select id="matchPaceSetting">
+<option value="normal">Normal</option>
+<option value="instant">Instant</option>
+</select>
+</label>
+<label class="setting-row">
+<span>
+<b>Tournament confirmation</b>
+<small>Ask before paying an entry fee and beginning a draw.</small>
+</span>
+<select id="confirmTournamentSetting">
+<option value="on">Confirm entries</option>
+<option value="off">Enter immediately</option>
+</select>
+</label>
+</div>
+<button class="match-btn" id="saveSettings">Save settings</button>
+<button class="cancel" id="closeSettings">Cancel</button>
+</div>
+</div>
+  <div class="overlay hidden" id="rulesOverlay">
+<div class="modal wide-modal">
+<div class="eyebrow">Game guide</div>
+<h2>How to play</h2>
+<p>Build a complete athlete, manage the risks of a long season, and earn your place at the top of world badminton.</p>
+<div class="rules-list">
+<div class="rule">
+<b>🏆 Your objective</b>
+<span>Reach world rank #1 and win the Season-Ending Championship before retiring at age 35.</span>
+</div>
+<div class="rule">
+<b>📅 Weekly choices</b>
+<span>Every training, recovery, or tournament action uses one week. Your player ages after every 52 weeks.</span>
+</div>
+<div class="rule">
+<b>📈 Ratings and overall</b>
+<span>Six badminton attributes create the sports-game OVR: Technique 24%, Speed 18%, Power 17%, Defense 16%, Physicality 15%, and Mentality 10%. Form and injuries apply small temporary adjustments.</span>
+</div>
+<div class="rule">
+<b>💰 Player development</b>
+<span>Spend prize and sponsorship money to develop any of the six attributes. Higher ratings cost more and improve more slowly.</span>
+</div>
+<div class="rule">
+<b>🏸 Tournament draws</b>
+<span>Players ranked outside the top 100 begin in qualification. Win each simulated match to advance through the Round of 64, Round of 32, Round of 16, quarter-finals, semi-finals, and final.</span>
+</div>
+<div class="rule">
+<b>🩹 Health and stamina</b>
+<span>Training and matches reduce stamina. Low stamina and overtraining increase injury risk; rest restores energy and helps injuries heal.</span>
+</div>
+<div class="rule">
+<b>⛔ Career-ending conditions</b>
+<span>The career ends immediately after financial ruin, a career-ending injury, or reaching age 35 without completing the objective.</span>
+</div>
+</div>
+<button class="match-btn" id="closeRules">Got it—back to the game</button>
+</div>
+</div>
+  <div class="overlay hidden" id="endOverlay">
+<div class="modal result">
+<div class="trophy" id="endIcon">🏆</div>
+<div class="eyebrow" id="endLabel">Career complete</div>
+<h2 id="endTitle">
+</h2>
+<p id="endReason">
+</p>
+<div class="result-stats" id="endStats">
+</div>
+<button class="go" style="padding:13px 22px" onclick="location.reload()">Start a new career</button>
+</div>
+</div>
 
   <script>
     const tours = [
-      {name:'Local Tournament', cost:100, difficulty:34, prize:1000, points:35},
-      {name:'National Tournament', cost:350, difficulty:48, prize:3500, points:80},
-      {name:'International Tournament', cost:900, difficulty:62, prize:10000, points:160},
-      {name:'Major Championship', cost:1800, difficulty:76, prize:30000, points:300}
+      {name:'Local Tournament', level:'Easy', cost:100, difficulty:34, prize:1000, points:35, requirements:{rating:0,titles:0,skill:0,ranking:1000}},
+      {name:'National Tournament', level:'Medium', cost:350, difficulty:48, prize:3500, points:80, requirements:{rating:48,titles:1,skill:45,ranking:750}},
+      {name:'International Tournament', level:'Hard', cost:900, difficulty:62, prize:10000, points:160, requirements:{rating:58,titles:2,skill:55,ranking:250}},
+      {name:'Major Championship', level:'Elite', cost:1800, difficulty:76, prize:30000, points:300, requirements:{rating:70,titles:3,skill:68,ranking:100}}
     ];
     // Real international singles players; OVR numbers are fictional game ratings.
     const mensOpponents = [
@@ -258,47 +781,92 @@
     const money=n=>'$'+Math.round(n).toLocaleString();
     const seasonWeek=()=>((p.week-1)%52)+1;
     const season=()=>Math.floor((p.week-1)/52)+1;
-    function baseRatingRaw(entity){return entity.skill*.55+entity.fitness*.30+entity.confidence*.15+(entity.equipment||0);}
+    let saveInFlight=false,savePending=false,saveLoaded=false;
+    function buildSaveData(){if(!p)return null;return{player:{name:p.name,age:p.age,gender:p.gender,nationality:p.nationality,skill:p.skill,fitness:p.fitness,stamina:p.stamina,confidence:p.confidence,technique:p.technique,speed:p.speed,power:p.power,defense:p.defense,physicality:p.physicality,mentality:p.mentality,money:p.money,ranking:p.ranking,ranking_points:p.rankingPoints,titles:p.titles,wins:p.wins,runner_ups:p.runnerUps,career_earnings:p.earnings,state:p},career:{week:p.week,season:season(),status:ended?'complete':'active',ended,logs:logEntries,settings:gameSettings},tournaments:logEntries.filter(entry=>entry.tag==='Tournament'||entry.category==='Match'),rankings:worldPlayers};}
+    async function writeSave(){if(!p||!saveLoaded)return;if(saveInFlight){savePending=true;return;}saveInFlight=true;$('saveStatus').textContent='Saving…';const data=buildSaveData();try{const response=await fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});if(!response.ok)throw new Error('Save API unavailable');localStorage.setItem('badmintonCareerSave',JSON.stringify(data));$('saveStatus').textContent='Saved';}catch(error){try{localStorage.setItem('badmintonCareerSave',JSON.stringify(data));$('saveStatus').textContent='Saved in browser';}catch(storageError){$('saveStatus').textContent='Save failed';}}finally{saveInFlight=false;if(savePending){savePending=false;writeSave();}}}
+    function requestSave(){writeSave();}
+    function validLoadedSave(data){return data&&data.player&&data.career&&Array.isArray(data.tournaments)&&Array.isArray(data.rankings);}
+    async function loadCareerSave(){let data=null;try{const response=await fetch('/api/save',{cache:'no-store'});if(response.ok)data=await response.json();}catch(error){}if(!validLoadedSave(data)){try{data=JSON.parse(localStorage.getItem('badmintonCareerSave')||'null');}catch(error){data=null;}}saveLoaded=true;if(!validLoadedSave(data)||!data.player.name||!data.player.state){$('saveStatus').textContent='New career';return;}p=data.player.state;ensureAttributes(p);const savedPlayers=new Map((data.rankings||[]).map(ai=>[ai.name,ai]));createWorld();worldPlayers=worldPlayers.map(ai=>savedPlayers.has(ai.name)?ensureAttributes({...ai,...savedPlayers.get(ai.name),bwfOfficialName:ai.bwfOfficialName,bwfRank:ai.bwfRank,bwfPoints:ai.bwfPoints,bwfRaceRank:ai.bwfRaceRank,bwfHighestRank:ai.bwfHighestRank,bwfCountry:ai.bwfCountry,bwfAge:ai.bwfAge,bwfBirthDate:ai.bwfBirthDate,bwfProfileUrl:ai.bwfProfileUrl,bwfRankingDate:ai.bwfRankingDate,avatar:ai.avatar,photoIsOfficial:ai.photoIsOfficial},savedPlayers.get(ai.name).rating):ai);updateAIRankings();logEntries=Array.isArray(data.career.logs)?data.career.logs:[];ended=Boolean(data.career.ended);if(data.career.settings){gameSettings={...defaultSettings,...data.career.settings};applySettings();}$('startOverlay').classList.add('hidden');$('saveStatus').textContent='Career loaded';render();if(ended)checkEnd();}
+    const ATTRIBUTE_META=[{key:'technique',label:'Technique',icon:'🎯',weight:.24},{key:'power',label:'Power',icon:'💥',weight:.17},{key:'speed',label:'Speed & Footwork',short:'Speed',icon:'⚡',weight:.18},{key:'physicality',label:'Physicality',icon:'🏃',weight:.15},{key:'defense',label:'Defense',icon:'🛡️',weight:.16},{key:'mentality',label:'Mentality',icon:'🧠',weight:.10}];
+    function stableSeed(name){let seed=0;for(const ch of name||'Player')seed=(seed*31+ch.charCodeAt(0))>>>0;return seed;}
+    function attributesFromTarget(name,target){const seed=stableSeed(name),offsets=[(seed%9)-4,((seed>>4)%11)-5,((seed>>8)%9)-4,((seed>>12)%9)-4,((seed>>16)%11)-5,((seed>>20)%9)-4],profile={};ATTRIBUTE_META.forEach((meta,i)=>profile[meta.key]=clamp(target+offsets[i],20,99));const current=ATTRIBUTE_META.reduce((sum,meta)=>sum+profile[meta.key]*meta.weight,0),correction=target-current;ATTRIBUTE_META.forEach(meta=>profile[meta.key]=clamp(profile[meta.key]+correction,20,99));return profile;}
+    function ensureAttributes(entity,target){if(entity.technique===undefined){const baseline=target??(entity.skill*.55+entity.fitness*.3+entity.confidence*.15);Object.assign(entity,attributesFromTarget(entity.name,baseline));entity.technique=clamp((entity.technique+entity.skill)/2);entity.speed=clamp((entity.speed+entity.fitness)/2);entity.physicality=clamp((entity.physicality+entity.fitness)/2);entity.mentality=clamp((entity.mentality+entity.confidence)/2);}syncLegacyStats(entity);return entity;}
+    function syncLegacyStats(entity){entity.skill=(entity.technique+entity.power+entity.defense)/3;entity.fitness=(entity.speed+entity.physicality)/2;entity.confidence=entity.mentality;return entity;}
+    function baseRatingRaw(entity){ensureAttributes(entity);return ATTRIBUTE_META.reduce((sum,meta)=>sum+entity[meta.key]*meta.weight,0)+(entity.equipment||0);}
     function ratingRaw(entity){const base=baseRatingRaw(entity),formEffect=(entity.form||0)*.12,injuryEffect=entity.injury==='Serious Injury'?-2:entity.injury==='Minor Injury'?-.6:0;return clamp(base+formEffect+injuryEffect);}
     const overallRaw=()=>ratingRaw(p);
     const overall=()=>Math.round(overallRaw());
     const aiOverall=ai=>Math.round(ratingRaw(ai));
-    function refreshAIRating(ai){ai.rating=ai.skill*.55+ai.fitness*.30+ai.confidence*.15+(ai.equipment||0);return ai.rating;}
+    function refreshAIRating(ai){syncLegacyStats(ai);ai.rating=baseRatingRaw(ai);return ai.rating;}
     function aiGrowthFactor(ai){const ageFactor=ai.age<=23?1.28:ai.age<=28?1:ai.age<=31?.64:.32,eliteResistance=Math.max(.1,(100-ai.rating)/60);return ageFactor*eliteResistance;}
     const decimalRand=(min,max)=>min+Math.random()*(max-min);
     function skillResistance(skill){return skill>=90?.25:skill>=85?.42:skill>=75?.68:skill>=60?.85:1;}
     function realisticSkillGain(min,max,skill,multiplier=1){return clamp(decimalRand(min,max)*skillResistance(skill)*multiplier,min,max);}
-    function losingStreakPenalty(entity){if((entity.losingStreak||0)<3||entity.losingStreak%3!==0)return 0;const loss=decimalRand(.5,2);entity.skill=clamp(entity.skill-loss);entity.form=clamp(entity.form-1.2,-10,10);if(entity!==p)refreshAIRating(entity);return loss;}
+    function losingStreakPenalty(entity){if((entity.losingStreak||0)<3||entity.losingStreak%3!==0)return 0;ensureAttributes(entity);const loss=decimalRand(.5,2);entity.mentality=clamp(entity.mentality-loss);entity.technique=clamp(entity.technique-loss*.25);entity.form=clamp(entity.form-1.2,-10,10);syncLegacyStats(entity);if(entity!==p)refreshAIRating(entity);return loss;}
 
     function newPlayer(members,eventType){
       const averageAge=members.reduce((sum,m)=>sum+m.age,0)/members.length,years=averageAge-14;
       const styles=['Explosive attacker','Patient counter-attacker','Deceptive all-court player','Relentless retriever','Front-court tactician','Fast-paced shot-maker'];
-      const name=members.map(m=>m.name).join(' / '),nationality=[...new Set(members.map(m=>m.nationality))].join(' / '),gender=members.length===1?members[0].gender:eventType==='Mixed'?'Mixed':members[0].gender;
-      return{name,age:Math.max(...members.map(m=>m.age)),gender,nationality,eventType,members,playingStyle:styles[rand(0,styles.length-1)],skill:40+years*2,fitness:40+years,stamina:72,confidence:48+years,form:0,money:1000,ranking:1000,rankingChange:0,injury:'Healthy',injuryWeeks:0,titles:0,week:1,tournaments:0,wins:0,losses:0,losingStreak:0,runnerUps:0,earnings:0,rankingPoints:0,bestRank:1000,seasonWon:false,equipment:0,story:'',originStory:'',storyType:'',storyChapters:[],avatar:'',partnerAvatar:'',achievements:[],rivalries:{},weeksWithoutTraining:0,trainingStreak:0,lastOverall:0};
+      const name=members.map(m=>m.name).join(' / '),nationality=[...new Set(members.map(m=>m.nationality))].join(' / '),gender=members.length===1?members[0].gender:eventType==='Mixed'?'Mixed':members[0].gender,playingStyle=styles[rand(0,styles.length-1)],base=clamp(41+Math.min(12,years*.65),41,56),attributes=attributesFromTarget(name,base);
+      if(playingStyle.includes('attacker')||playingStyle.includes('shot-maker'))attributes.power=clamp(attributes.power+3);if(playingStyle.includes('retriever')){attributes.defense=clamp(attributes.defense+3);attributes.physicality=clamp(attributes.physicality+2);}if(playingStyle.includes('tactician')||playingStyle.includes('Deceptive'))attributes.technique=clamp(attributes.technique+3);
+      const player={name,age:Math.max(...members.map(m=>m.age)),gender,nationality,eventType,members,playingStyle,...attributes,stamina:72,form:0,money:1000,ranking:1000,rankingChange:0,injury:'Healthy',injuryWeeks:0,titles:0,week:1,tournaments:0,wins:0,losses:0,losingStreak:0,runnerUps:0,earnings:0,rankingPoints:0,bestRank:1000,seasonWon:false,equipment:0,story:'',originStory:'',storyType:'',storyChapters:[],avatar:'',partnerAvatar:'',achievements:[],rivalries:{},recentOpponents:[],weeksWithoutTraining:0,trainingStreak:0,lastOverall:0};return syncLegacyStats(player);
     }
-    function avatarData(name,age,gender){
-      let seed=0;for(const ch of name)seed=(seed*31+ch.charCodeAt(0))>>>0;seed+=(gender==='Female'?211:gender==='Non-binary'?421:0);
-      const skins=['#f2c6a0','#d99b71','#a96745','#75432e'],shirts=['#176b4d','#315a9b','#a23c57','#6c4e9b','#d18d25'];
-      const skin=skins[seed%skins.length],shirt=shirts[(seed>>3)%shirts.length],bg='#ffffff';
-      const longHair=gender==='Female'||(gender==='Non-binary'&&seed%2===0);const hair=['#2b211c','#5b3827','#171717','#7a5137'][(seed>>7)%4];
-      const hairShape=longHair?`<path d="M32 61Q31 22 64 19Q98 23 96 64L91 102H36Z" fill="${hair}"/>`:`<path d="M34 56Q35 20 65 20Q91 21 95 51Q80 39 62 39Q45 40 34 56Z" fill="${hair}"/>`;
-      const ageMark=age>=30?'<path d="M39 62h8M81 62h8" stroke="#8d634f" stroke-width="1" opacity=".45"/>':'';
-      const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="24" fill="${bg}"/><circle cx="105" cy="24" r="20" fill="#ffffff55"/>${hairShape}<path d="M19 128Q24 91 64 89Q104 91 109 128" fill="${shirt}"/><ellipse cx="64" cy="59" rx="29" ry="35" fill="${skin}"/><path d="M42 51Q49 46 55 51M73 51Q80 46 87 51" fill="none" stroke="#372b27" stroke-width="2.5" stroke-linecap="round"/><circle cx="51" cy="55" r="2.5" fill="#27211f"/><circle cx="78" cy="55" r="2.5" fill="#27211f"/>${ageMark}<path d="M55 73Q64 79 73 73" fill="none" stroke="#8f4b45" stroke-width="2.5" stroke-linecap="round"/><path d="M89 103L109 81" stroke="#f7f3e8" stroke-width="5" stroke-linecap="round"/><ellipse cx="112" cy="77" rx="7" ry="11" fill="none" stroke="#f7f3e8" stroke-width="3"/></svg>`;
+    function customAvatarData(skin,hairChoice,shirt,eyes='round',mouth='smile',racket='#f7f3e8',bg='#ffffff'){
+      const hair=hairChoice.includes('brown')?'#5b3827':'#171717';
+      const hairShapes={short:`<path d="M34 56Q35 20 65 20Q91 21 95 51Q80 39 62 39Q45 40 34 56Z" fill="${hair}"/>`,long:`<path d="M32 61Q31 22 64 19Q98 23 96 64L91 102H36Z" fill="${hair}"/>`,spiky:`<path d="M33 55L38 28L48 34L57 16L67 32L81 18L84 37L98 31L94 55Q76 39 62 40Q45 40 33 55Z" fill="${hair}"/>`,bun:`<circle cx="84" cy="22" r="15" fill="${hair}"/><path d="M32 62Q31 24 64 20Q96 24 96 64L90 99H36Z" fill="${hair}"/>`};
+      const hairShape=hairChoice.startsWith('long')?hairShapes.long:hairChoice.startsWith('spiky')?hairShapes.spiky:hairChoice.startsWith('bun')?hairShapes.bun:hairShapes.short;
+      const eyeShape=eyes==='focused'?'<path d="M45 53l10 2M74 55l10-2" stroke="#27211f" stroke-width="3" stroke-linecap="round"/>':eyes==='wide'?'<ellipse cx="51" cy="55" rx="4" ry="5" fill="#fff" stroke="#27211f"/><ellipse cx="78" cy="55" rx="4" ry="5" fill="#fff" stroke="#27211f"/><circle cx="51" cy="55" r="2"/><circle cx="78" cy="55" r="2"/>':'<circle cx="51" cy="55" r="2.8" fill="#27211f"/><circle cx="78" cy="55" r="2.8" fill="#27211f"/>';
+      const mouthShape=mouth==='neutral'?'<path d="M56 75h16" stroke="#8f4b45" stroke-width="2.5" stroke-linecap="round"/>':mouth==='determined'?'<path d="M55 77Q64 71 73 77" fill="none" stroke="#8f4b45" stroke-width="2.5" stroke-linecap="round"/>':'<path d="M55 73Q64 79 73 73" fill="none" stroke="#8f4b45" stroke-width="2.5" stroke-linecap="round"/>';
+      const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="24" fill="${bg}"/><circle cx="106" cy="24" r="18" fill="#ffffff55"/>${hairShape}<path d="M19 128Q24 91 64 89Q104 91 109 128" fill="${shirt}"/><ellipse cx="64" cy="59" rx="29" ry="35" fill="${skin}"/><path d="M42 49Q49 45 56 49M72 49Q79 45 86 49" fill="none" stroke="#372b27" stroke-width="2" stroke-linecap="round"/>${eyeShape}${mouthShape}<path d="M89 103L109 81" stroke="${racket}" stroke-width="5" stroke-linecap="round"/><ellipse cx="112" cy="77" rx="7" ry="11" fill="none" stroke="${racket}" stroke-width="3"/></svg>`;
       return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
     }
-    // Confirmed BWF member IDs. The headshots below are served by BWF's image CDN.
-    const BWF_PLAYER_IDS={
-      'Kevin Cordon':54897,'Victor Lai':94151,'Brian Yang':63122,'Kenta Nishimoto':85394,
-      'Lee Cheuk Yiu':94780,'Lu Guang Zu':77427,'Loh Kean Yew':76115,'Kodai Naraoka':62063,
-      'Chou Tien Chen':34810,'Jonatan Christie':73442,'Li Shi Feng':95476,'Viktor Axelsen':25831,
-      'Kunlavut Vitidsarn':64032,'Anders Antonsen':91554,'Shi Yu Qi':57945,
-      'Michelle Li':84523,'Yeo Jia Min':68759,'Pusarla V. Sindhu':73173,'Ratchanok Intanon':35642,
-      'Gregoria Mariska Tunjung':83802,'Chen Yu Fei':78778,'Han Yue':92967,'Akane Yamaguchi':96312,
-      'Wang Zhi Yi':61854,'An Se Young':87442
-    };
-    const BWF_OFFICIAL_PHOTOS=Object.fromEntries(Object.entries(BWF_PLAYER_IDS).map(([name,id])=>[name,`https://img.bwfbadminton.com/image/upload/t_96_player_profile/assets/players/thumbnail/${id}.png`]));
+    function fileData(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});}
+    let BWF_PLAYER_IDS={},BWF_RANKINGS={},BWF_OFFICIAL_PHOTOS={},BWF_RECORDS=[],BWF_ALIAS_INDEX={};
+    function ageFromBirthDate(birthDate){
+      if(!birthDate)return null;const born=new Date(`${birthDate}T00:00:00Z`);if(Number.isNaN(born.getTime()))return null;const today=new Date();let age=today.getUTCFullYear()-born.getUTCFullYear();const beforeBirthday=today.getUTCMonth()<born.getUTCMonth()||(today.getUTCMonth()===born.getUTCMonth()&&today.getUTCDate()<born.getUTCDate());return beforeBirthday?age-1:age;
+    }
+    function normalizeBwfName(value){return String(value||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,' ');}
+    function bwfNameKeys(value){const tokens=normalizeBwfName(value).split(' ').filter(Boolean),keys=new Set([normalizeBwfName(value)]);if(tokens.length>1){keys.add(`${tokens[0]} ${tokens[tokens.length-1]}`);tokens.slice(1).forEach(token=>keys.add(`${tokens[0]} ${token}`));}return [...keys].filter(Boolean);}
+    function findBwfRecord(name){
+      for(const key of bwfNameKeys(name)){if(BWF_ALIAS_INDEX[key])return BWF_ALIAS_INDEX[key];}
+      const tokens=normalizeBwfName(name).split(' ').filter(Boolean);if(tokens.length<2)return null;const first=tokens[0],last=tokens[tokens.length-1];
+      return BWF_RECORDS.find(record=>{const official=normalizeBwfName(record.name).split(' ');return official.includes(first)&&official.includes(last);})||null;
+    }
+    function registerBwfRecord(player,stamp){
+      const birthDate=player.date_of_birth||player.birth_date||null,profileAge=ageFromBirthDate(birthDate)||player.age||null,record={name:player.name,bwfName:player.bwf_name||player.name,memberId:player.member_id,rank:player.world_ranking,points:player.world_points,raceRank:player.hsbc_race_ranking||null,highestRank:player.highest_ranking||player.world_ranking||null,country:player.country||player.nationality||'',gender:player.gender||'',age:profileAge,birthDate,profileUrl:player.profile_url||null,date:stamp,aliases:player.aliases||[]};
+      BWF_RECORDS.push(record);if(record.memberId)BWF_PLAYER_IDS[record.name]=record.memberId;BWF_RANKINGS[record.name]=record;
+      [...record.aliases,...bwfNameKeys(record.name),...bwfNameKeys(record.bwfName)].forEach(alias=>{BWF_ALIAS_INDEX[normalizeBwfName(alias)]=record;});
+      return record;
+    }
+    function applyBwfAliasesToOpponentList(){
+      [...mensOpponents,...womensOpponents].forEach(base=>{const record=findBwfRecord(base.name);if(!record)return;BWF_RANKINGS[base.name]=record;if(record.memberId)BWF_PLAYER_IDS[base.name]=record.memberId;});
+    }
+    function useOfflineBwfFallback(){
+      [mensOpponents,womensOpponents].forEach(group=>[...group].sort((a,b)=>b.rating-a.rating).forEach((player,index)=>{BWF_RANKINGS[player.name]={name:player.name,rank:index+1,points:null,raceRank:null,highestRank:index+1,country:player.country,age:null,birthDate:null,profileUrl:null,date:'offline fallback'};}));
+    }
+    async function loadBwfPlayers(){
+      BWF_PLAYER_IDS={};BWF_RANKINGS={};BWF_OFFICIAL_PHOTOS={};BWF_RECORDS=[];BWF_ALIAS_INDEX={};
+      let data;try{let response=await fetch('/api/bwf-players',{cache:'no-store'});if(!response.ok)throw new Error();data=await response.json();}catch(error){try{let response=await fetch('bwf-players.json',{cache:'no-store'});data=await response.json();}catch(fallback){console.warn('BWF ranking data could not be loaded. Start the game with server.py. Using offline opponent profile fallback.');useOfflineBwfFallback();return;}}
+      if(!data.players||!data.players.length){useOfflineBwfFallback();return;}
+      const stamp=data.updated_at?new Date(data.updated_at).toLocaleDateString():'stored snapshot';
+      data.players.forEach(player=>registerBwfRecord(player,stamp));applyBwfAliasesToOpponentList();
+      BWF_OFFICIAL_PHOTOS=Object.fromEntries(Object.entries(BWF_PLAYER_IDS).map(([name,id])=>[name,`https://img.bwfbadminton.com/image/upload/t_96_player_profile/assets/players/thumbnail/${id}.png`]));
+    }
+    async function refreshBwfDatabase(){
+      const button=$('bwfRefreshBtn');button.disabled=true;$('saveStatus').textContent='Updating BWF…';
+      try{const response=await fetch('/api/bwf-refresh',{method:'POST',cache:'no-store'});if(!response.ok)throw new Error('BWF refresh failed');const data=await response.json();if(!data.players||!data.players.length)throw new Error('BWF returned no players');await loadBwfPlayers();if(p){createWorld();render();requestSave();}$('saveStatus').textContent=`BWF updated · ${BWF_RECORDS.length} players`;}
+      catch(error){$('saveStatus').textContent='BWF update failed — run with server.py and internet';console.warn(error);}
+      finally{button.disabled=false;}
+    }
     function bwfProfileUrl(name){const id=BWF_PLAYER_IDS[name],slug=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');return id?`https://bwfbadminton.com/player/${id}/${slug}`:'https://bwfbadminton.com/players/';}
-    function opponentPlaceholder(name){const initials=name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="22" fill="#fff"/><circle cx="64" cy="47" r="25" fill="#d9ddd9"/><path d="M24 123Q27 78 64 78Q101 78 104 123" fill="#c8ceca"/><circle cx="103" cy="23" r="18" fill="#c7282d"/><text x="103" y="28" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#fff">BWF</text><text x="64" y="119" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#657069">${initials}</text></svg>`;return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);}
+    function opponentPlaceholder(name){const initials=name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<rect width="128" height="128" rx="22" fill="#fff"/>
+<circle cx="64" cy="47" r="25" fill="#d9ddd9"/>
+<path d="M24 123Q27 78 64 78Q101 78 104 123" fill="#c8ceca"/>
+<circle cx="103" cy="23" r="18" fill="#c7282d"/>
+<text x="103" y="28" text-anchor="middle" font-family="Arial" font-size="12" font-weight="700" fill="#fff">BWF</text>
+<text x="64" y="119" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#657069">${initials}</text>
+</svg>`;return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);}
     function opponentPhoto(name){return BWF_OFFICIAL_PHOTOS[name]||opponentPlaceholder(name);}
     function generateStory(player){
       const origins=['a small community gym where the court lines were faded','a busy school club known for producing fearless competitors','a family-run badminton centre filled with former regional players','outdoor courts where wind made every rally unpredictable'];
@@ -318,8 +886,8 @@
       return `${player.name} is ${paths[rand(0,paths.length-1)]}. At ${player.age}, the ${player.nationality} player is known as a ${player.playingStyle.toLowerCase()} and enters this season ranked #${player.ranking}.`;
     }
     function createWorld(){
-      const build=(base,gender,index)=>{const age=Math.max(17,Math.min(34,rand(20,31)+(base.rating>90?2:0))),confidence=clamp(base.rating+(Math.random()-.5)*10);const styles=['Explosive attacker','Patient counter-attacker','Deceptive all-court player','Relentless retriever','Front-court tactician'];const player={...base,gender,nationality:base.country,age,playingStyle:styles[rand(0,styles.length-1)],skill:clamp(base.rating+(Math.random()-.5)*4),fitness:clamp(base.rating+(Math.random()-.5)*5),confidence,form:rand(-3,4),equipment:0,ranking:index+1,rankingPoints:Math.max(25,(base.rating-44)*32+rand(-20,20)),titles:base.rating>90?rand(2,8):base.rating>80?rand(0,3):0,wins:rand(12,90),losses:rand(8,55),losingStreak:0,earnings:Math.max(0,(base.rating-55)*rand(700,1800)),injury:'Healthy',injuryWeeks:0,retired:false,development:Math.random(),trainingStreak:rand(0,5),weeksWithoutTraining:0,achievements:[],avatar:'',bwfProfileUrl:bwfProfileUrl(base.name),photoIsOfficial:Boolean(BWF_OFFICIAL_PHOTOS[base.name]),story:'',rivalMeetings:0,rivalries:{}};refreshAIRating(player);player.avatar=opponentPhoto(player.name);player.story=aiStory(player);return player;};
-      worldPlayers=[...mensOpponents.filter(x=>BWF_PLAYER_IDS[x.name]).map((x,i)=>build(x,'Male',i)),...womensOpponents.filter(x=>BWF_PLAYER_IDS[x.name]).map((x,i)=>build(x,'Female',i))];updateAIRankings();
+      const build=(base,gender,index)=>{const age=Math.max(17,Math.min(34,rand(20,31)+(base.rating>90?2:0))),styles=['Explosive attacker','Patient counter-attacker','Deceptive all-court player','Relentless retriever','Front-court tactician'],attributes=attributesFromTarget(base.name,base.rating);const player={...base,...attributes,gender,nationality:base.country,age,playingStyle:styles[rand(0,styles.length-1)],stamina:clamp(attributes.physicality),form:rand(-3,4),equipment:0,ranking:index+1,rankingPoints:Math.max(25,(base.rating-44)*32+rand(-20,20)),titles:base.rating>90?rand(2,8):base.rating>80?rand(0,3):0,wins:rand(12,90),losses:rand(8,55),losingStreak:0,earnings:Math.max(0,(base.rating-55)*rand(700,1800)),injury:'Healthy',injuryWeeks:0,retired:false,development:Math.random(),trainingStreak:rand(0,5),weeksWithoutTraining:0,achievements:[],avatar:'',bwfProfileUrl:bwfProfileUrl(base.name),photoIsOfficial:Boolean(BWF_OFFICIAL_PHOTOS[base.name]),story:'',rivalMeetings:0,rivalries:{}};refreshAIRating(player);player.avatar=opponentPhoto(player.name);player.story=aiStory(player);return player;};
+      const verifiedMen=mensOpponents.filter(x=>BWF_RANKINGS[x.name]),verifiedWomen=womensOpponents.filter(x=>BWF_RANKINGS[x.name]);worldPlayers=[...verifiedMen.map((x,i)=>build(x,'Male',i)),...verifiedWomen.map((x,i)=>build(x,'Female',i))];worldPlayers.forEach(ai=>{const official=BWF_RANKINGS[ai.name];ai.bwfOfficialName=official.name||ai.name;ai.bwfRank=official.rank;ai.bwfPoints=official.points||null;ai.bwfRaceRank=official.raceRank||null;ai.bwfHighestRank=official.highestRank||official.rank||null;ai.bwfCountry=official.country||ai.nationality;ai.bwfBirthDate=official.birthDate||null;ai.bwfAge=ageFromBirthDate(ai.bwfBirthDate)||official.age||null;ai.bwfProfileUrl=official.profileUrl||ai.bwfProfileUrl;if(official.country)ai.nationality=official.country;if(ai.bwfAge)ai.age=ai.bwfAge;ai.bwfRankingDate=official.date;});updateAIRankings();
     }
     function updateAIRankings(){
       ['Male','Female'].forEach(gender=>{worldPlayers.filter(x=>x.gender===gender&&!x.retired).sort((a,b)=>(b.rankingPoints+b.form*3)-(a.rankingPoints+a.form*3)).forEach((x,i)=>x.ranking=i+1);});
@@ -334,21 +902,21 @@
     function simulateWorldTournament(){
       const gender=Math.random()<.5?'Male':'Female',pool=worldPlayers.filter(x=>x.gender===gender&&!x.retired&&x.injury!=='Serious Injury');if(pool.length<8)return;
       const shuffled=[...pool].sort(()=>Math.random()-.5).slice(0,12);const weighted=[...shuffled].sort((a,b)=>(aiOverall(b)+b.form*.25+Math.random()*12)-(aiOverall(a)+a.form*.25+Math.random()*12));const champion=weighted[0],runner=weighted[1];
-      champion.wins+=4;champion.losingStreak=0;champion.titles++;champion.achievements.push(`International title #${champion.titles}`);champion.earnings+=rand(8000,30000);champion.rankingPoints+=rand(55,110);champion.form=clamp(champion.form+2.5,-10,10);champion.confidence=clamp(champion.confidence+1.2);champion.skill=clamp(champion.skill+realisticSkillGain(.8,2,champion.skill));champion.development+=.25;updateAIRivalry(champion,runner);
-      runner.wins+=3;runner.losses++;runner.losingStreak=0;runner.earnings+=rand(3000,12000);runner.rankingPoints+=rand(30,70);runner.form=Math.min(10,runner.form+1);runner.confidence=clamp(runner.confidence+.35);runner.skill=clamp(runner.skill+realisticSkillGain(.5,1.5,runner.skill));
-      weighted.slice(2).forEach((x,i)=>{x.losses++;x.losingStreak=(x.losingStreak||0)+1;x.rankingPoints+=Math.max(3,24-i*3);x.form=Math.max(-10,x.form-(i>4?.5:.1));x.confidence=clamp(x.confidence-(i>5?.12:.04));losingStreakPenalty(x);refreshAIRating(x);});updateAIRankings();
+      champion.wins+=4;champion.losingStreak=0;champion.titles++;champion.achievements.push(`International title #${champion.titles}`);champion.earnings+=rand(8000,30000);champion.rankingPoints+=rand(55,110);champion.form=clamp(champion.form+2.5,-10,10);champion.mentality=clamp(champion.mentality+1.2);champion.technique=clamp(champion.technique+realisticSkillGain(.8,2,champion.technique));champion.development+=.25;updateAIRivalry(champion,runner);
+      runner.wins+=3;runner.losses++;runner.losingStreak=0;runner.earnings+=rand(3000,12000);runner.rankingPoints+=rand(30,70);runner.form=Math.min(10,runner.form+1);runner.mentality=clamp(runner.mentality+.35);runner.defense=clamp(runner.defense+realisticSkillGain(.5,1.5,runner.defense));
+      weighted.slice(2).forEach((x,i)=>{x.losses++;x.losingStreak=(x.losingStreak||0)+1;x.rankingPoints+=Math.max(3,24-i*3);x.form=Math.max(-10,x.form-(i>4?.5:.1));x.mentality=clamp(x.mentality-(i>5?.12:.04));losingStreakPenalty(x);refreshAIRating(x);});updateAIRankings();
       refreshAIRating(champion);refreshAIRating(runner);if(p.week%4===0||champion.titles===1)log(`<strong>${champion.name}</strong> defeats ${runner.name} to win an international title. The ${champion.age}-year-old rises to world #${champion.ranking} with a current ${aiOverall(champion)} OVR.`,'World news','News');
     }
     function simulateWorld(){
       for(const ai of worldPlayers){
         if(ai.retired)continue;
-        if(ai.injury!=='Healthy'){ai.injuryWeeks--;ai.form=Math.max(-10,ai.form-.15);ai.fitness=clamp(ai.fitness-(ai.injury==='Serious Injury'?.025:.008));ai.weeksWithoutTraining++;if(ai.injuryWeeks<=0){ai.injury='Healthy';ai.injuryWeeks=0;if(Math.random()<.12)log(`${ai.name} completes a difficult rehabilitation and launches a comeback attempt.`,'World news','News');}refreshAIRating(ai);continue;}
-        const trains=Math.random()<(ai.form<-5?.48:.72);if(trains){ai.trainingStreak++;ai.weeksWithoutTraining=0;const target=Math.random()<.58?'skill':'fitness',ageMultiplier=ai.age<=23?1:ai.age<=29?.9:ai.age<=32?.72:.55,consistency=1+Math.min(.15,ai.trainingStreak*.012),gain=realisticSkillGain(.1,.5,ai[target],ageMultiplier*consistency);ai[target]=clamp(ai[target]+gain);ai.development+=gain;}else{ai.trainingStreak=Math.max(0,ai.trainingStreak-1);ai.weeksWithoutTraining++;}
-        if(ai.weeksWithoutTraining>10){ai.skill=clamp(ai.skill-.012);ai.fitness=clamp(ai.fitness-.018);}
+        if(ai.injury!=='Healthy'){ai.injuryWeeks--;ai.form=Math.max(-10,ai.form-.15);ai.physicality=clamp(ai.physicality-(ai.injury==='Serious Injury'?.025:.008));ai.weeksWithoutTraining++;if(ai.injuryWeeks<=0){ai.injury='Healthy';ai.injuryWeeks=0;if(Math.random()<.12)log(`${ai.name} completes a difficult rehabilitation and launches a comeback attempt.`,'World news','News');}refreshAIRating(ai);continue;}
+        const trains=Math.random()<(ai.form<-5?.48:.72);if(trains){ai.trainingStreak++;ai.weeksWithoutTraining=0;const target=ATTRIBUTE_META[rand(0,ATTRIBUTE_META.length-1)].key,ageMultiplier=ai.age<=23?1:ai.age<=29?.9:ai.age<=32?.72:.55,consistency=1+Math.min(.15,ai.trainingStreak*.012),gain=realisticSkillGain(.1,.5,ai[target],ageMultiplier*consistency);ai[target]=clamp(ai[target]+gain);ai.development+=gain;}else{ai.trainingStreak=Math.max(0,ai.trainingStreak-1);ai.weeksWithoutTraining++;}
+        if(ai.weeksWithoutTraining>10){ai.technique=clamp(ai.technique-.012);ai.speed=clamp(ai.speed-.018);}
         ai.form=Math.max(-10,Math.min(10,ai.form*.985+(Math.random()-.5)*.18));
-        if(Math.random()<.0025){ai.injury=Math.random()<.18?'Serious Injury':'Minor Injury';ai.injuryWeeks=ai.injury==='Serious Injury'?rand(6,16):rand(2,5);const injuryLoss=ai.injury==='Serious Injury'?decimalRand(2,5):decimalRand(1,2);ai.skill=clamp(ai.skill-injuryLoss);ai.fitness=clamp(ai.fitness-injuryLoss*.5);ai.form=Math.max(-10,ai.form-2);if(aiOverall(ai)>82)log(`${ai.name}'s season is interrupted by a ${ai.injury.toLowerCase()}, costing ${injuryLoss.toFixed(1)} skill.`,'World news','News');}
+        if(Math.random()<.0025){ai.injury=Math.random()<.18?'Serious Injury':'Minor Injury';ai.injuryWeeks=ai.injury==='Serious Injury'?rand(6,16):rand(2,5);const injuryLoss=ai.injury==='Serious Injury'?decimalRand(2,5):decimalRand(1,2);ai.physicality=clamp(ai.physicality-injuryLoss);ai.speed=clamp(ai.speed-injuryLoss*.5);ai.form=Math.max(-10,ai.form-2);if(aiOverall(ai)>82)log(`${ai.name}'s season is interrupted by a ${ai.injury.toLowerCase()}, costing ${injuryLoss.toFixed(1)} physicality.`,'World news','News');}
         refreshAIRating(ai);if(aiOverall(ai)>=88&&ai.development>.8&&Math.random()<.02)log(`${ai.name}'s consistent work is drawing attention around the tour. The ${ai.nationality} player now carries a current ${aiOverall(ai)} OVR.`,'World news','News');
-        if(p.week%52===0){ai.age++;ai.rankingPoints*=.9;if(ai.age>29){const decline=decimalRand(.1,1)*Math.min(1,(ai.age-28)/5);ai.skill=clamp(ai.skill-decline);ai.fitness=clamp(ai.fitness-decline*.5);refreshAIRating(ai);}if(ai.age>=35||(ai.age>=33&&aiOverall(ai)<70&&Math.random()<.35))retireAI(ai,ai.injury!=='Healthy'?'Injuries finally made the decision unavoidable.':'The player says it is time for a new chapter.');}
+        if(p.week%52===0){ai.age++;ai.rankingPoints*=.9;if(ai.age>29){const decline=decimalRand(.1,1)*Math.min(1,(ai.age-28)/5);ai.speed=clamp(ai.speed-decline);ai.physicality=clamp(ai.physicality-decline*.7);refreshAIRating(ai);}if(ai.age>=35||(ai.age>=33&&aiOverall(ai)<70&&Math.random()<.35))retireAI(ai,ai.injury!=='Healthy'?'Injuries finally made the decision unavoidable.':'The player says it is time for a new chapter.');}
       }
       if(p.week%3===0)simulateWorldTournament();updateAIRankings();
     }
@@ -362,62 +930,144 @@
     }
     function renderLog(){
       const box=$('log'),filtered=logEntries.filter(e=>activeLogFilter==='All'||e.category===activeLogFilter),items=filtered.slice(0,logDisplayLimit);
-      box.innerHTML=items.length?items.map(e=>`<article class="log-entry category-${e.category.toLowerCase()}"><div class="log-icon">${e.icon}</div><div><b>${e.tag}<span class="log-date">${e.date}</span></b><div>${e.message}</div></div></article>`).join(''):'<div class="empty">No entries in this category yet.</div>';
+      box.innerHTML=items.length?items.map(e=>`<article class="log-entry category-${e.category.toLowerCase()}">
+<div class="log-icon">${e.icon}</div>
+<div>
+<b>${e.tag}<span class="log-date">${e.date}</span>
+</b>
+<div>${e.message}</div>
+</div>
+</article>`).join(''):'<div class="empty">No entries in this category yet.</div>';
       $('logCount').textContent=`Showing ${items.length} of ${filtered.length} ${filtered.length===1?'entry':'entries'}`;$('loadMoreLog').classList.toggle('hidden',items.length>=filtered.length);
     }
+    function radarPoint(value,index,radius=82){const angle=(-90+index*60)*Math.PI/180,distance=radius*clamp(value)/100;return`${(100+Math.cos(angle)*distance).toFixed(1)},${(100+Math.sin(angle)*distance).toFixed(1)}`;}
+    function radarPolygon(entity,level){return ATTRIBUTE_META.map((meta,index)=>radarPoint(level===undefined?entity[meta.key]:level,index)).join(' ');}
+    function radarSvg(entity){ensureAttributes(entity);const grids=[25,50,75,100].map(level=>`<polygon class="radar-grid" points="${radarPolygon(entity,level)}"/>`).join(''),axes=ATTRIBUTE_META.map((meta,index)=>`<line class="radar-axis" x1="100" y1="100" x2="${radarPoint(100,index).split(',')[0]}" y2="${radarPoint(100,index).split(',')[1]}"/>`).join('');return`<svg class="radar-svg" viewBox="0 0 200 200" role="img" aria-label="Six attribute radar chart">${grids}${axes}<polygon class="radar-fill" points="${radarPolygon(entity)}"/></svg>`;}
+    function attributeCard(entity){ensureAttributes(entity);const labels=ATTRIBUTE_META.map(meta=>`<div class="radar-label ${meta.key}"><span>${meta.icon} ${meta.label}</span><b>${Math.round(entity[meta.key])}</b></div>`).join('');return`<div class="panel attribute-card"><div class="attribute-head"><div><h3>Player Attribute Profile</h3><p>Six-skill badminton scouting profile · ratings update throughout the career</p></div><div class="radar-ovr"><strong>${Math.round(ratingRaw(entity))}</strong><span>OVR</span></div></div><div class="radar-wrap">${radarSvg(entity)}${labels}</div></div>`;}
+    function compactRadar(entity,title){ensureAttributes(entity);const values=ATTRIBUTE_META.map(meta=>`<span>${meta.short||meta.label} <b>${Math.round(entity[meta.key])}</b></span>`).join('');return`<div class="compact-radar"><div class="mini-radar-title">${title} · ${Math.round(ratingRaw(entity))} OVR</div>${radarSvg(entity)}<div class="compact-values">${values}</div></div>`;}
     function render(){
       $('playerName').textContent=p.name;$('playerAvatar').src=p.avatar;$('playerAvatar2').src=p.partnerAvatar||'';$('playerAvatar2').classList.toggle('hidden',!p.partnerAvatar);$('ranking').textContent='#'+p.ranking;$('overall').textContent=overall();$('weekPill').textContent=`Season ${season()} · Week ${seasonWeek()}`;
       $('heroText').textContent=seasonWeek()===52?'Championship week. The biggest stage is waiting.':p.story;
-      $('stats').innerHTML=['Skill','Fitness','Stamina','Confidence'].map(k=>{const v=p[k.toLowerCase()];return `<div class="panel stat"><div class="stat-top"><span>${k}</span><strong>${Number(v).toFixed(1)}</strong></div><div class="bar"><i style="width:${v}%"></i></div></div>`}).join('');
+      $('stats').innerHTML=attributeCard(p);
       $('profilePortraits').innerHTML=p.members.map((member,i)=>`<img class="card-avatar" src="${i?p.partnerAvatar:p.avatar}" alt="${member.name} profile picture">`).join('');
       const names=p.members.map(m=>m.name).join(' / '),ages=p.members.map(m=>m.age).join(' / '),genders=p.members.map(m=>m.gender).join(' / '),nationalities=p.members.map(m=>m.nationality).join(' / ');
       const achievements=p.achievements.length?p.achievements.map(a=>`<span class="achievement-badge">${a}</span>`).join(''):'<span class="achievement-badge">Career just started</span>';
       const latestChapter=p.storyChapters[p.storyChapters.length-1];
-      $('details').innerHTML=`<div class="detail-row"><span>Name</span><b>${names}</b></div><div class="detail-row"><span>Age</span><b>${ages}</b></div><div class="detail-row"><span>Gender</span><b>${genders}</b></div><div class="detail-row"><span>Nationality</span><b>${nationalities}</b></div><div class="detail-row"><span>Current OVR</span><b>${overall()} OVR</b></div><div class="detail-row"><span>Money</span><b>${money(p.money)}</b></div><div class="detail-row"><span>Status</span><b class="${p.injury==='Healthy'?'healthy':'hurt'}">${p.injury}</b></div><div class="profile-rank-block"><div class="profile-rank"><span>Current world rank</span><strong>#${p.ranking}</strong></div><div class="profile-rank"><span>Highest world rank</span><strong>#${p.bestRank}</strong></div></div><div class="detail-row"><span>Career record</span><b>${p.wins}–${p.losses}</b></div><div class="detail-row"><span>Titles won</span><b>${p.titles}</b></div><div class="detail-row"><span>Career achievements</span><div class="achievement-list">${achievements}</div></div><div class="storyline-card"><span>Current storyline</span><b>${p.storyType}</b><p>${latestChapter?latestChapter.text:p.originStory}</p></div>`;
+      $('details').innerHTML=`<div class="detail-row">
+<span>Name</span>
+<b>${names}</b>
+</div>
+<div class="detail-row">
+<span>Age</span>
+<b>${ages}</b>
+</div>
+<div class="detail-row">
+<span>Gender</span>
+<b>${genders}</b>
+</div>
+<div class="detail-row">
+<span>Nationality</span>
+<b>${nationalities}</b>
+</div>
+<div class="detail-row">
+<span>Current OVR</span>
+<b>${overall()} OVR</b>
+</div>
+<div class="detail-row">
+<span>Money</span>
+<b>${money(p.money)}</b>
+</div>
+<div class="detail-row">
+<span>Status</span>
+<b class="${p.injury==='Healthy'?'healthy':'hurt'}">${p.injury}</b>
+</div>
+<div class="profile-rank-block">
+<div class="profile-rank">
+<span>Current world rank</span>
+<strong>#${p.ranking}</strong>
+</div>
+<div class="profile-rank">
+<span>Highest world rank</span>
+<strong>#${p.bestRank}</strong>
+</div>
+</div>
+<div class="detail-row">
+<span>Career record</span>
+<b>${p.wins}–${p.losses}</b>
+</div>
+<div class="detail-row">
+<span>Titles won</span>
+<b>${p.titles}</b>
+</div>
+<div class="detail-row">
+<span>Career achievements</span>
+<div class="achievement-list">${achievements}</div>
+</div>
+<div class="storyline-card">
+<span>Current storyline</span>
+<b>${p.storyType}</b>
+<p>${latestChapter?latestChapter.text:p.originStory}</p>
+</div>`;
+      requestSave();
     }
-    function injure(base){let risk=base+(p.stamina<40?(40-p.stamina)*.006:0)+(p.stamina<15?.1:0)+(p.injury!=='Healthy'?.12:0);if(Math.random()>=risk)return;const r=Math.random();if((p.injury==='Serious Injury'&&r<.12)||r<.015){const penalty=5;p.injury='Career-Ending Injury';p.skill=clamp(p.skill-penalty);p.fitness=clamp(p.fitness-penalty);log(`A devastating injury costs ${penalty.toFixed(1)} skill and ends the career.`,'Injury');addStoryChapter('Injury',`${p.name}'s career story reaches a heartbreaking conclusion after a devastating injury.`);}else if(r<.23||p.injury==='Minor Injury'){const penalty=decimalRand(2,5);p.injury='Serious Injury';p.injuryWeeks=rand(5,10);p.skill=clamp(p.skill-penalty);p.fitness=clamp(p.fitness-penalty*.5);p.form=clamp(p.form-3,-10,10);log(`A serious injury causes a -${penalty.toFixed(1)} skill decline and begins a difficult rehabilitation.`,'Injury');addStoryChapter('Injury',`Momentum disappears as ${p.name} suffers a serious injury. The next chapter is no longer about rankings—it is about completing a difficult comeback.`);}else{const penalty=decimalRand(1,2);p.injury='Minor Injury';p.injuryWeeks=rand(2,4);p.skill=clamp(p.skill-penalty);p.form=clamp(p.form-1,-10,10);log(`A minor injury causes a -${penalty.toFixed(1)} skill decline and needs careful management.`,'Injury');addStoryChapter('Injury',`${p.name}'s rise is briefly interrupted by a minor injury, testing patience and schedule management.`);}}
-    function rest(){const s=rand(20,34),c=.2+Math.random()*.6;p.stamina=clamp(p.stamina+s);p.confidence=clamp(p.confidence+c);p.form=clamp(p.form+.15,-10,10);let msg=`A restorative week adds ${s} stamina and ${c.toFixed(1)} confidence.`;if(p.injury!=='Healthy'){p.injuryWeeks-=Math.random()<.35?2:1;if(p.injuryWeeks<=0){p.injury='Healthy';p.injuryWeeks=0;msg+=' The injury has fully healed, opening a comeback storyline.'}}log(msg,'Recovery');finishWeek();}
+    function injure(base){let risk=base+(p.stamina<40?(40-p.stamina)*.006:0)+(p.stamina<15?.1:0)+(p.injury!=='Healthy'?.12:0);if(Math.random()>=risk)return;const r=Math.random();if((p.injury==='Serious Injury'&&r<.12)||r<.015){const penalty=5;p.injury='Career-Ending Injury';p.physicality=clamp(p.physicality-penalty);p.speed=clamp(p.speed-penalty);log(`A devastating injury costs ${penalty.toFixed(1)} physicality and speed and ends the career.`,'Injury');addStoryChapter('Injury',`${p.name}'s career story reaches a heartbreaking conclusion after a devastating injury.`);}else if(r<.23||p.injury==='Minor Injury'){const penalty=decimalRand(2,5);p.injury='Serious Injury';p.injuryWeeks=rand(5,10);p.physicality=clamp(p.physicality-penalty);p.speed=clamp(p.speed-penalty*.5);p.form=clamp(p.form-3,-10,10);log(`A serious injury causes a -${penalty.toFixed(1)} physicality decline and begins rehabilitation.`,'Injury');addStoryChapter('Injury',`Momentum disappears as ${p.name} suffers a serious injury. The next chapter is no longer about rankings—it is about completing a difficult comeback.`);}else{const penalty=decimalRand(1,2);p.injury='Minor Injury';p.injuryWeeks=rand(2,4);p.physicality=clamp(p.physicality-penalty);p.form=clamp(p.form-1,-10,10);log(`A minor injury causes a -${penalty.toFixed(1)} physicality decline and needs careful management.`,'Injury');addStoryChapter('Injury',`${p.name}'s rise is briefly interrupted by a minor injury, testing patience and schedule management.`);}syncLegacyStats(p);}
+    function rest(){const s=rand(20,34),c=.2+Math.random()*.6;p.stamina=clamp(p.stamina+s);p.mentality=clamp(p.mentality+c);syncLegacyStats(p);p.form=clamp(p.form+.15,-10,10);let msg=`A restorative week adds ${s} match stamina and ${c.toFixed(1)} mentality.`;if(p.injury!=='Healthy'){p.injuryWeeks-=Math.random()<.35?2:1;if(p.injuryWeeks<=0){p.injury='Healthy';p.injuryWeeks=0;msg+=' The injury has fully healed, opening a comeback storyline.'}}log(msg,'Recovery');finishWeek();}
     function playerGrowth(stat){const ageFactor=p.age<=18?1.25:p.age<=23?1.1:p.age<=28?1:p.age<=31?.72:.4,eliteResistance=Math.max(.1,(100-p[stat])/60),consistency=1+Math.min(.25,(p.trainingStreak||0)*.025);return ageFactor*eliteResistance*consistency;}
     function train(type){
       if(p.injury==='Serious Injury'){log('The doctor blocks training. The week becomes mandatory recovery.','Medical team');rest();return;}
-      p.trainingStreak=(p.trainingStreak||0)+1;const ageMultiplier=p.age<=23?1:p.age<=29?.92:p.age<=32?.78:.62,consistency=1+Math.min(.15,p.trainingStreak*.015),gain=realisticSkillGain(.1,.5,p[type],ageMultiplier*consistency),cost=rand(type==='skill'?10:11,type==='skill'?18:19);p[type]=clamp(p[type]+gain);p.stamina=clamp(p.stamina-cost);p.form=clamp(p.form+.12,-10,10);trainedThisWeek=true;
-      log(`${type==='skill'?'Technical':'Fitness'} training adds +${gain.toFixed(2)} ${type}. Session gains stay between 0.1 and 0.5, with slower improvement near 90+.`,'Training');injure(type==='skill'?.04:.05);finishWeek();
+      p.trainingStreak=(p.trainingStreak||0)+1;const technical=type==='skill',targets=technical?['technique','power','defense']:['speed','physicality'],target=targets[rand(0,targets.length-1)],ageMultiplier=p.age<=23?1:p.age<=29?.92:p.age<=32?.78:.62,consistency=1+Math.min(.15,p.trainingStreak*.015),gain=realisticSkillGain(.1,.5,p[target],ageMultiplier*consistency),cost=rand(technical?10:11,technical?18:19);p[target]=clamp(p[target]+gain);if(technical)p.technique=clamp(p.technique+gain*.15);else p.physicality=clamp(p.physicality+gain*.12);syncLegacyStats(p);p.stamina=clamp(p.stamina-cost);p.form=clamp(p.form+.12,-10,10);trainedThisWeek=true;
+      log(`${technical?'Technical':'Fitness'} training adds +${gain.toFixed(2)} ${target}. Growth stays gradual and slows near elite ratings.`,'Training');injure(technical?.04:.05);finishWeek();
     }
 
     function showUpgrades(){renderUpgrades();$('upgradeOverlay').classList.remove('hidden');}
     function upgradeCost(stat){return 150+p[stat]*10;}
     function renderUpgrades(){
       $('upgradeMoney').textContent=`Available balance: ${money(p.money)} · Overall ${overall()}`;
-      const labels={skill:'Technical skill',fitness:'Athletic fitness',confidence:'Mental confidence'};
-      $('upgradeList').innerHTML=Object.keys(labels).map(stat=>`<button class="upgrade" data-upgrade="${stat}" ${p[stat]>=99.8?'disabled':''}><b>${labels[stat]} · ${p[stat].toFixed(1)}</b><span>Specialist program · ${money(upgradeCost(stat))}</span></button>`).join('');
+      const labels={technique:'Technique',speed:'Speed & footwork',power:'Power',defense:'Defense',physicality:'Physicality',mentality:'Mentality'};
+      $('upgradeList').innerHTML=Object.keys(labels).map(stat=>`<button class="upgrade" data-upgrade="${stat}" ${p[stat]>=99.8?'disabled':''}>
+<b>${labels[stat]} · ${p[stat].toFixed(1)}</b>
+<span>Specialist program · ${money(upgradeCost(stat))}</span>
+</button>`).join('');
     }
-    function buyUpgrade(stat){const cost=upgradeCost(stat);if(p[stat]>=99.8)return;if(p.money<cost){log(`You need ${money(cost)} to fund this ${stat} program.`,'Player development');return;}const gain=(.28+Math.random()*.22)*playerGrowth(stat);p.money-=cost;p[stat]=clamp(p[stat]+gain);log(`A specialist program costs ${money(cost)} and adds ${gain.toFixed(2)} ${stat}. Development remains gradual at ${overall()} OVR.`,'Player development');render();renderUpgrades();}
+    function buyUpgrade(stat){const cost=upgradeCost(stat);if(p[stat]>=99.8)return;if(p.money<cost){log(`You need ${money(cost)} to fund this ${stat} program.`,'Player development');return;}const gain=(.28+Math.random()*.22)*playerGrowth(stat);p.money-=cost;p[stat]=clamp(p[stat]+gain);syncLegacyStats(p);log(`A specialist program costs ${money(cost)} and adds ${gain.toFixed(2)} ${stat}. Development remains gradual at ${overall()} OVR.`,'Player development');render();renderUpgrades();}
 
-    function tourAccess(i){if(i===0)return[true,'Open entry'];if(i===1)return[p.ranking<=500||overall()>=46,'Requires top 500 or 46 OVR'];if(i===2)return[p.ranking<=200,'Requires world top 200'];if(seasonWeek()===52)return[p.ranking<=8,'Season finale requires world top 8'];return[p.ranking<=64,'Requires world top 64'];}
-    function showTournaments(){if(p.injury==='Serious Injury'){log('Medical clearance denied. A recovery week is required.','Medical team');rest();return;}$('tournamentList').innerHTML=tours.map((t,i)=>{const name=i===3&&seasonWeek()===52?'Season-Ending Championship':t.name,[open,note]=tourAccess(i);return `<button class="tour" data-tour="${i}" ${open?'':'disabled'}><b>${name}</b><span>${open?`${money(t.cost)} entry · full draw`:note}</span></button>`}).join('');$('tournamentOverlay').classList.remove('hidden');}
+    function tourAccess(i){
+      const t=tours[i],r=t.requirements,missing=[];
+      if(overall()<r.rating)missing.push(`${r.rating} OVR`);if(p.titles<r.titles)missing.push(`${r.titles} title${r.titles===1?'':'s'}`);if(p.skill<r.skill)missing.push(`${r.skill} skill`);if(p.ranking>r.ranking)missing.push(`world top ${r.ranking}`);
+      if(i===3&&seasonWeek()===52&&p.ranking>8)missing.push('world top 8 for season finale');
+      return[missing.length===0,missing.length?`Locked: ${missing.join(' · ')}`:'All entry requirements met'];
+    }
+    function showTournaments(){if(p.injury==='Serious Injury'){log('Medical clearance denied. A recovery week is required.','Medical team');rest();return;}$('tournamentList').innerHTML=tours.map((t,i)=>{const name=i===3&&seasonWeek()===52?'Season-Ending Championship':t.name,[open,note]=tourAccess(i);return `<button class="tour" data-tour="${i}" ${open?'':'disabled'}>
+<b>${name}<span class="difficulty-badge">${t.level}</span>
+</b>
+<span>${open?`${money(t.cost)} entry · ${note}`:note}</span>
+</button>`}).join('');$('tournamentOverlay').classList.remove('hidden');}
     function startTournament(i){
-      $('tournamentOverlay').classList.add('hidden');const t={...tours[i]},finalEvent=i===3&&seasonWeek()===52;if(finalEvent)t.name='Season-Ending Championship';
+      const t={...tours[i]},finalEvent=i===3&&seasonWeek()===52;if(finalEvent)t.name='Season-Ending Championship';if(gameSettings.confirmTournament==='on'&&!window.confirm(`Enter ${t.name} for ${money(t.cost)}?`))return;$('tournamentOverlay').classList.add('hidden');
       if(p.money<t.cost){log(`The ${t.name} is unaffordable. No week passes.`,'Finances');return;}
       p.money-=t.cost;p.tournaments++;
-      const rounds=p.ranking>100?['Qualification','Round of 64','Round of 32','Round of 16','Quarter-Final','Semi-Final','Final']:['Round of 64','Round of 32','Round of 16','Quarter-Final','Semi-Final','Final'];
+      const tierRounds=[['Semi-Final','Final'],['Quarter-Final','Semi-Final','Final'],['Round of 32','Round of 16','Quarter-Final','Semi-Final','Final'],['Round of 64','Round of 32','Round of 16','Quarter-Final','Semi-Final','Final']],rounds=[...tierRounds[i]];if(p.ranking>100&&i>=2)rounds.unshift('Qualification');
       tournamentRun={t,tier:i,finalEvent,rounds,roundIndex:0,used:[],wins:0};$('matchOverlay').classList.remove('hidden');prepareMatch();render();
     }
     function chooseOpponent(){
-      const target=tournamentRun.t.difficulty+10+tournamentRun.roundIndex*2.5-(tournamentRun.rounds[0]==='Qualification'?3:0);
-      const pool=worldPlayers.filter(o=>!o.retired&&o.injury!=='Serious Injury'&&(p.gender==='Non-binary'||o.gender===p.gender));
-      const available=pool.filter(o=>!tournamentRun.used.includes(o.name)).sort((a,b)=>Math.abs(a.rating-target)-Math.abs(b.rating-target));
-      const shortlist=available.slice(0,Math.min(4,available.length));const picked=shortlist[rand(0,shortlist.length-1)];tournamentRun.used.push(picked.name);return picked;
+      const bands=[[58,69],[58,76],[70,89],[82,100]],band=bands[tournamentRun.tier],roundProgress=tournamentRun.roundIndex/Math.max(1,tournamentRun.rounds.length-1),target=band[0]+(band[1]-band[0])*roundProgress;
+      const pool=worldPlayers.filter(o=>BWF_RANKINGS[o.name]&&!o.retired&&o.injury!=='Serious Injury'&&aiOverall(o)>=band[0]&&aiOverall(o)<=band[1]&&(p.gender==='Non-binary'||p.gender==='Mixed'||o.gender===p.gender));
+      const unused=pool.filter(o=>!tournamentRun.used.includes(o.name)),fresh=unused.filter(o=>!p.recentOpponents.includes(o.name)),available=(fresh.length?fresh:unused).sort((a,b)=>Math.abs(aiOverall(a)-target)-Math.abs(aiOverall(b)-target));
+      const shortlist=available.slice(0,Math.min(5,available.length));const picked=shortlist[rand(0,shortlist.length-1)];tournamentRun.used.push(picked.name);p.recentOpponents.push(picked.name);if(p.recentOpponents.length>12)p.recentOpponents.shift();return picked;
     }
     function prepareMatch(){
       currentOpponent=chooseOpponent();matchResolved=false;pendingMatch=null;const round=tournamentRun.rounds[tournamentRun.roundIndex];
-      $('matchTournament').textContent=tournamentRun.t.name;$('matchRound').textContent=round;$('matchPlayerAvatar').src=p.avatar;$('matchOpponentAvatar').src=currentOpponent.avatar;$('matchOpponentAvatar').onerror=()=>{$('matchOpponentAvatar').src=opponentPlaceholder(currentOpponent.name);};$('matchPlayer').textContent=p.name;$('matchPlayerRating').textContent=`${p.age} · ${p.nationality} · OVR ${overall()} · World #${p.ranking}`;$('matchOpponent').textContent=currentOpponent.name;$('matchOpponentRating').innerHTML=`Age ${currentOpponent.age} · ${currentOpponent.gender} · ${currentOpponent.nationality}<br>OVR ${aiOverall(currentOpponent)} · World #${currentOpponent.ranking}<br>${currentOpponent.wins}–${currentOpponent.losses} · Official BWF photo`;$('matchOpponentRating').title=currentOpponent.story;$('matchBwfLink').href=currentOpponent.bwfProfileUrl;
+      $('matchTournament').textContent=tournamentRun.t.name;$('matchRound').textContent=round;$('matchPlayerAvatar').src=p.avatar;$('matchOpponentAvatar').src=currentOpponent.avatar;$('matchOpponentAvatar').onerror=()=>{$('matchOpponentAvatar').src=opponentPlaceholder(currentOpponent.name);};$('matchPlayer').textContent=p.name;$('matchPlayerRating').textContent=`${p.age} · ${p.nationality} · OVR ${overall()} · Career World #${p.ranking}`;const officialName=currentOpponent.bwfOfficialName||currentOpponent.name;$('matchOpponent').textContent=officialName;const presentAge=ageFromBirthDate(currentOpponent.bwfBirthDate)||currentOpponent.bwfAge||currentOpponent.age,worldRank=currentOpponent.bwfRank?`#${currentOpponent.bwfRank}`:'Not ranked',raceRank=currentOpponent.bwfRaceRank?`#${currentOpponent.bwfRaceRank}`:'Not ranked',highestRank=currentOpponent.bwfHighestRank?`#${currentOpponent.bwfHighestRank}`:'Not listed',country=currentOpponent.bwfCountry||currentOpponent.nationality||'Not listed',updated=currentOpponent.bwfRankingDate||'stored snapshot';$('matchOpponentRating').innerHTML=[['Name',officialName],['Present Age',presentAge],['Gender',currentOpponent.gender],['Country',country],['Current World Ranking',worldRank],['HSBC Race to Finals Ranking',raceRank],['Highest Ranking',highestRank]].map(([label,value])=>`<div class="profile-row"><span class="profile-label">${label}</span><span class="profile-value">${value}</span></div>`).join('')+`<small>BWF profile/ranking data updated: ${updated}</small>`;$('matchOpponentRating').title=currentOpponent.story;$('matchBwfLink').href=currentOpponent.bwfProfileUrl;$('matchBwfLink').classList.toggle('hidden',!BWF_PLAYER_IDS[currentOpponent.name]);
+      $('matchPlayerRadar').innerHTML=compactRadar(p,'Your profile');$('matchOpponentRadar').innerHTML=compactRadar(currentOpponent,'Opponent profile');
       $('bracket').innerHTML=tournamentRun.rounds.map((r,i)=>`<div class="round-chip ${i<tournamentRun.roundIndex?'done':i===tournamentRun.roundIndex?'current':''}">${r}</div>`).join('');$('scoreboard').textContent='The players are warming up.';$('playMatch').textContent='Play match';
     }
     function gameScore(winner){const loser=rand(8,19);return winner?`21–${loser}`:`${loser}–21`;}
+    function playResultTone(won){if(gameSettings.sound!=='on')return;try{const AudioContext=window.AudioContext||window.webkitAudioContext,ctx=new AudioContext(),osc=ctx.createOscillator(),gain=ctx.createGain();osc.frequency.value=won?660:220;gain.gain.setValueAtTime(.045,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.18);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.18);}catch(e){}}
     function simulateMatch(){
       let playerRating=overall()+p.form*.32+(p.stamina-70)*.08,opponentRating=aiOverall(currentOpponent)+currentOpponent.form*.28;let chance=1/(1+Math.exp(-(playerRating-opponentRating)/8));chance=Math.max(.07,Math.min(.93,chance));const won=Math.random()<chance,three=Math.random()<.38;let scores;
       if(won)scores=three?[gameScore(true),gameScore(false),gameScore(true)]:[gameScore(true),gameScore(true)];else scores=three?[gameScore(false),gameScore(true),gameScore(false)]:[gameScore(false),gameScore(false)];
-      p.stamina=clamp(p.stamina-rand(4,8));p.wins+=won?1:0;p.losses+=won?0:1;p.losingStreak=won?0:p.losingStreak+1;p.form=clamp(p.form+(won?.65:-.8),-10,10);p.confidence=clamp(p.confidence+(won?.18:-.22));const slumpLoss=losingStreakPenalty(p);if(slumpLoss)log(`A ${p.losingStreak}-match losing streak causes a -${slumpLoss.toFixed(1)} skill decline.`,'Burnout');currentOpponent.wins+=won?0:1;currentOpponent.losses+=won?1:0;currentOpponent.losingStreak=won?(currentOpponent.losingStreak||0)+1:0;currentOpponent.form=clamp(currentOpponent.form+(won?-.55:.45),-10,10);currentOpponent.confidence=clamp(currentOpponent.confidence+(won?-.15:.12));currentOpponent.rankingPoints+=won?2:8;losingStreakPenalty(currentOpponent);refreshAIRating(currentOpponent);updateRivalry(currentOpponent,won);injure(.008);matchResolved=true;pendingMatch={won,scores};$('scoreboard').innerHTML=`<strong>${won?'MATCH WON':'MATCH LOST'}</strong><br>${p.name} ${scores.join(' · ')} ${currentOpponent.name}`;
+      p.stamina=clamp(p.stamina-rand(4,8));p.wins+=won?1:0;p.losses+=won?0:1;p.losingStreak=won?0:p.losingStreak+1;p.form=clamp(p.form+(won?.65:-.8),-10,10);p.mentality=clamp(p.mentality+(won?.18:-.22));syncLegacyStats(p);const slumpLoss=losingStreakPenalty(p);if(slumpLoss)log(`A ${p.losingStreak}-match losing streak causes a -${slumpLoss.toFixed(1)} mentality decline.`,'Burnout');currentOpponent.wins+=won?0:1;currentOpponent.losses+=won?1:0;currentOpponent.losingStreak=won?(currentOpponent.losingStreak||0)+1:0;currentOpponent.form=clamp(currentOpponent.form+(won?-.55:.45),-10,10);currentOpponent.mentality=clamp(currentOpponent.mentality+(won?-.15:.12));currentOpponent.rankingPoints+=won?2:8;losingStreakPenalty(currentOpponent);refreshAIRating(currentOpponent);updateRivalry(currentOpponent,won);injure(.008);matchResolved=true;pendingMatch={won,scores};$('scoreboard').innerHTML=`<strong>${won?'MATCH WON':'MATCH LOST'}</strong>
+<br>${p.name} ${scores.join(' · ')} ${currentOpponent.name}`;const board=$('scoreboard');if(gameSettings.matchPace==='normal'){board.style.opacity='0';board.style.transform='translateY(5px)';requestAnimationFrame(()=>{board.style.opacity='1';board.style.transform='none';});}playResultTone(won);requestSave();
       log(`${p.name} ${won?'defeats':'loses to'} <strong>${currentOpponent.name}</strong> (${aiOverall(currentOpponent)} OVR) in the ${tournamentRun.rounds[tournamentRun.roundIndex]}: ${scores.join(', ')}.`,'Match result','Match');
       const last=tournamentRun.roundIndex===tournamentRun.rounds.length-1;$('playMatch').textContent=won&&!last?'Continue to next round':'Complete tournament';
     }
@@ -433,8 +1083,8 @@
       if(pendingMatch.won&&last)result='Champion';else if(round==='Final')result='Runner-Up';else if(round==='Semi-Final')result='Semi-Finalist';else if(round==='Quarter-Final')result='Quarter-Finalist';else result='Early Exit';finishTournament(result);
     }
     function finishTournament(result){
-      const run=tournamentRun,[pm,rm]=multipliers[result],prize=Math.round(run.t.prize*pm),points=Math.max(1,Math.round(run.t.points*rm));p.money+=prize;p.earnings+=prize;p.rankingPoints+=points;const old=p.ranking;p.ranking=Math.min(p.ranking,Math.max(1,1000-Math.floor(p.rankingPoints*1.65)));p.rankingChange=old-p.ranking;p.bestRank=Math.min(p.bestRank,p.ranking);const conf={Champion:2,'Runner-Up':1.1,'Semi-Finalist':.55,'Quarter-Finalist':.1,'Early Exit':-1}[result];let development=0;if(result==='Champion')development=run.tier===3?realisticSkillGain(1,3,p.skill):realisticSkillGain(.5,2,p.skill);else if(result==='Runner-Up')development=realisticSkillGain(.8,2,p.skill);else if(result==='Semi-Finalist')development=realisticSkillGain(.6,1.5,p.skill);else if(result==='Quarter-Finalist')development=realisticSkillGain(.5,1,p.skill);p.confidence=clamp(p.confidence+conf);p.skill=clamp(p.skill+development);if(result==='Champion'){p.titles++;p.achievements.push(`${run.t.name} champion`);if(run.finalEvent)p.seasonWon=true;if(p.titles===1){log(`${p.name}'s first career title transforms an underdog story into a genuine rise through the sport.`,'News','News');addStoryChapter('Achievement',`${p.name} captures a first professional title at the ${run.t.name}. The achievement permanently changes how the badminton world views this career.`);}}if(result==='Runner-Up')p.runnerUps++;
-      log(`<strong>${result}</strong> at the ${run.t.name} after ${run.wins} match win${run.wins===1?'':'s'}. Prize ${money(prize)}, +${points} ranking points, and +${development.toFixed(2)} skill from competitive experience.`,'Tournament','Match');addStoryChapter('Match result',result==='Champion'?`${p.name} completes a championship run at the ${run.t.name}, turning growing promise into a defining career achievement.`:result==='Early Exit'?`An early loss at the ${run.t.name} creates a difficult chapter for ${p.name}, with questions growing around form and preparation.`:`A ${result.toLowerCase()} finish at the ${run.t.name} moves ${p.name}'s career forward while leaving unfinished business.`);if(old!==p.ranking){log(`${p.name} moves from world #${old} to <strong>#${p.ranking}</strong>.`,'Ranking','Ranking');addStoryChapter('Ranking',`${p.name}'s latest results produce a ranking move from #${old} to #${p.ranking}, changing expectations for the next stretch of the season.`);}
+      const run=tournamentRun,[pm,rm]=multipliers[result],prize=Math.round(run.t.prize*pm),points=Math.max(1,Math.round(run.t.points*rm));p.money+=prize;p.earnings+=prize;p.rankingPoints+=points;const old=p.ranking;p.ranking=Math.min(p.ranking,Math.max(1,1000-Math.floor(p.rankingPoints*1.65)));p.rankingChange=old-p.ranking;p.bestRank=Math.min(p.bestRank,p.ranking);const mentalChange={Champion:2,'Runner-Up':1.1,'Semi-Finalist':.55,'Quarter-Finalist':.1,'Early Exit':-1}[result];let development=0;if(result==='Champion')development=run.tier===3?realisticSkillGain(1,3,p.technique):realisticSkillGain(.5,2,p.technique);else if(result==='Runner-Up')development=realisticSkillGain(.8,2,p.technique);else if(result==='Semi-Finalist')development=realisticSkillGain(.6,1.5,p.technique);else if(result==='Quarter-Finalist')development=realisticSkillGain(.5,1,p.technique);p.mentality=clamp(p.mentality+mentalChange);p.technique=clamp(p.technique+development*.5);p.defense=clamp(p.defense+development*.25);p.power=clamp(p.power+development*.25);syncLegacyStats(p);if(result==='Champion'){p.titles++;p.achievements.push(`${run.t.name} champion`);if(run.finalEvent)p.seasonWon=true;if(p.titles===1){log(`${p.name}'s first career title transforms an underdog story into a genuine rise through the sport.`,'News','News');addStoryChapter('Achievement',`${p.name} captures a first professional title at the ${run.t.name}. The achievement permanently changes how the badminton world views this career.`);}}if(result==='Runner-Up')p.runnerUps++;
+      log(`<strong>${result}</strong> at the ${run.t.name} after ${run.wins} match win${run.wins===1?'':'s'}. Prize ${money(prize)}, +${points} ranking points, and ${development.toFixed(2)} distributed attribute growth.`,'Tournament','Match');addStoryChapter('Match result',result==='Champion'?`${p.name} completes a championship run at the ${run.t.name}, turning growing promise into a defining career achievement.`:result==='Early Exit'?`An early loss at the ${run.t.name} creates a difficult chapter for ${p.name}, with questions growing around form and preparation.`:`A ${result.toLowerCase()} finish at the ${run.t.name} moves ${p.name}'s career forward while leaving unfinished business.`);if(old!==p.ranking){log(`${p.name} moves from world #${old} to <strong>#${p.ranking}</strong>.`,'Ranking','Ranking');addStoryChapter('Ranking',`${p.name}'s latest results produce a ranking move from #${old} to #${p.ranking}, changing expectations for the next stretch of the season.`);}
       if(old>100&&p.ranking<=100){p.achievements.push('Entered world top 100');log(`${p.name} breaks into the world top 100, completing the first major chapter of the career.`,'News','News');addStoryChapter('Achievement',`${p.name} enters the world top 100 for the first time—a landmark achievement that changes the career from hopeful journey to international contender story.`);}
       $('matchOverlay').classList.add('hidden');tournamentRun=null;finishWeek();
     }
@@ -442,47 +1092,75 @@
     function randomEvent(){
       if(Math.random()>.2)return;const e=rand(0,6);
       if(e===0){const x=rand(500,3500)+p.titles*250;p.money+=x;p.earnings+=x;log(`A sponsor invests ${money(x)} in the career after noticing the recent storyline.`,'Sponsorship');}
-      if(e===1){const x=(.18+Math.random()*.24)*playerGrowth('skill');p.skill=clamp(p.skill+x);log(`A respected coach identifies a technical detail. Skill improves by a realistic ${x.toFixed(2)}.`,'Training');}
-      if(e===2){const names=Object.keys(p.rivalries);if(names.length){const rival=names[rand(0,names.length-1)],x=.3+Math.random()*.5;p.confidence=clamp(p.confidence+(Math.random()<.55?x:-x));log(`Comments from ${rival}'s camp add tension to the next chapter of the rivalry.`,'Rivalry','Rivalry');}else log('A highly rated prospect publicly names your player as someone to watch.','News','News');}
+      if(e===1){const x=(.18+Math.random()*.24)*playerGrowth('technique');p.technique=clamp(p.technique+x);syncLegacyStats(p);log(`A respected coach identifies a technical detail. Technique improves by ${x.toFixed(2)}.`,'Training');}
+      if(e===2){const names=Object.keys(p.rivalries);if(names.length){const rival=names[rand(0,names.length-1)],x=.3+Math.random()*.5;p.mentality=clamp(p.mentality+(Math.random()<.55?x:-x));syncLegacyStats(p);log(`Comments from ${rival}'s camp add tension to the next chapter of the rivalry.`,'Rivalry','Rivalry');}else log('A highly rated prospect publicly names your player as someone to watch.','News','News');}
       if(e===3){const x=rand(10,22);p.stamina=clamp(p.stamina-x);p.form=clamp(p.form-.7,-10,10);log(`Illness drains ${x} stamina and interrupts the player's form.`,'Illness');}
       if(e===4){log('A practice slip puts the body at risk.','Injury');injure(.75);}
-      if(e===5){const x=.6+Math.random()*.8;p.confidence=clamp(p.confidence-x);p.stamina=clamp(p.stamina-8);p.form=clamp(p.form-1.2,-10,10);log(`Burnout costs ${x.toFixed(1)} confidence, eight stamina, and creates a worrying form slump.`,'Burnout');}
+      if(e===5){const x=.6+Math.random()*.8;p.mentality=clamp(p.mentality-x);p.stamina=clamp(p.stamina-8);p.form=clamp(p.form-1.2,-10,10);syncLegacyStats(p);log(`Burnout costs ${x.toFixed(1)} mentality, eight stamina, and creates a worrying form slump.`,'Burnout');}
       if(e===6){const x=rand(300,900);if(p.money>=x){p.money-=x;p.equipment=Math.min(4,p.equipment+.35);log(`New equipment costs ${money(x)} and adds a modest performance benefit.`,'Equipment');}else log('An equipment upgrade is out of budget.','Equipment');}
     }
     function finishWeek(){
       if(checkEnd())return;randomEvent();if(checkEnd())return;
       p.money-=p.ranking<200?65:45;p.weeksWithoutTraining=trainedThisWeek?0:p.weeksWithoutTraining+1;if(!trainedThisWeek)p.trainingStreak=Math.max(0,(p.trainingStreak||0)-1);
-      if(p.weeksWithoutTraining>10){p.skill=clamp(p.skill-.018);p.fitness=clamp(p.fitness-.025);if(p.weeksWithoutTraining===11)log('A long spell without focused training begins to erode sharpness.','News','News');}
-      if(p.injury==='Serious Injury')p.fitness=clamp(p.fitness-.035);
+      if(p.weeksWithoutTraining>10){p.technique=clamp(p.technique-.018);p.speed=clamp(p.speed-.025);syncLegacyStats(p);if(p.weeksWithoutTraining===11)log('A long spell without focused training begins to erode sharpness.','News','News');}
+      if(p.injury==='Serious Injury'){p.physicality=clamp(p.physicality-.035);syncLegacyStats(p);}
       p.form=clamp(p.form*.97,-10,10);
       if(p.injury!=='Healthy'&&p.injury!=='Career-Ending Injury'){p.injuryWeeks--;if(p.injuryWeeks<=0){p.injury='Healthy';p.injuryWeeks=0;log('The injury has healed. A comeback chapter begins now.','Medical update');addStoryChapter('Comeback',`${p.name} receives medical clearance after rehabilitation. Attention now turns to whether the comeback can restore lost form and momentum.`);}}
       simulateWorld();if(p.week%3===0&&p.ranking>1&&p.ranking<1000){const drift=rand(0,2);p.ranking=Math.min(1000,p.ranking+drift);}trackRivalRankings();
-      if(p.week%52===0){p.members.forEach(m=>m.age++);p.age=Math.max(...p.members.map(m=>m.age));p.avatar=avatarData(p.members[0].name,p.members[0].age,p.members[0].gender);if(p.members[1])p.partnerAvatar=avatarData(p.members[1].name,p.members[1].age,p.members[1].gender);if(p.age>29){const decline=clamp(decimalRand(.1,1)*Math.min(1,(p.age-28)/5),.1,1);p.skill=clamp(p.skill-decline);p.fitness=clamp(p.fitness-decline*.5);log(`Post-peak aging causes a gradual -${decline.toFixed(1)} skill decline this season.`,'Career development','Training');}p.rankingPoints*=.92;if(p.ranking>1){const old=p.ranking;p.ranking=Math.min(1000,p.ranking+rand(8,25));log(`Seasonal point decay moves ${p.name} from #${old} to #${p.ranking}.`,'Ranking','Ranking');}log(`A season ends. ${p.name} reaches age ${p.age}; the development curve now adjusts for age and recovery.`,'New season');}
+      if(p.week%52===0){p.members.forEach(m=>m.age++);p.age=Math.max(...p.members.map(m=>m.age));if(p.age>29){const decline=clamp(decimalRand(.1,1)*Math.min(1,(p.age-28)/5),.1,1);p.speed=clamp(p.speed-decline);p.physicality=clamp(p.physicality-decline*.7);p.power=clamp(p.power-decline*.25);syncLegacyStats(p);log(`Post-peak aging causes gradual speed and physicality decline this season.`,'Career development','Training');}p.rankingPoints*=.92;if(p.ranking>1){const old=p.ranking;p.ranking=Math.min(1000,p.ranking+rand(8,25));log(`Seasonal point decay moves ${p.name} from #${old} to #${p.ranking}.`,'Ranking','Ranking');}log(`A season ends. ${p.name} reaches age ${p.age}; the development curve now adjusts for age and recovery.`,'New season');}
       const newOverall=overall();if(p.lastOverall&&newOverall!==p.lastOverall){log(`${p.name}'s overall ${newOverall>p.lastOverall?'rises':'falls'} from ${p.lastOverall} to <strong>${newOverall} OVR</strong> after the latest run of training, form, health, and results.`,'Career development','Training');}p.lastOverall=newOverall;
       trainedThisWeek=false;p.week++;render();checkEnd();
     }
-    function checkEnd(){let won=false,reason='';if(p.ranking===1&&p.seasonWon){won=true;reason='World #1 and Season-Ending Champion—the ultimate double.';}else if(p.money<0)reason='The career has ended in financial ruin.';else if(p.injury==='Career-Ending Injury')reason='A career-ending injury forces an early retirement.';else if(p.age>=35)reason=p.ranking!==1?'Age 35 arrived before the climb to world #1 was complete.':'Retirement arrived before completing the championship double.';if(!won&&!reason)return false;ended=true;$('matchOverlay').classList.add('hidden');$('endIcon').textContent=won?'🏆':'🏸';$('endLabel').textContent=won?'Career victory':'Career complete';$('endTitle').textContent=won?`${p.name} conquered the world!`:`${p.name}'s final chapter`;$('endReason').textContent=reason;$('endStats').innerHTML=`Final overall: <b>${overall()}</b><br>Best ranking: <b>#${p.bestRank}</b><br>Titles: <b>${p.titles}</b> · Tournaments: <b>${p.tournaments}</b><br>Career earnings: <b>${money(p.earnings)}</b><br>Final skill / fitness: <b>${p.skill} / ${p.fitness}</b>`;$('endOverlay').classList.remove('hidden');return true;}
+    function checkEnd(){let won=false,reason='';if(p.ranking===1&&p.seasonWon){won=true;reason='World #1 and Season-Ending Champion—the ultimate double.';}else if(p.money<0)reason='The career has ended in financial ruin.';else if(p.injury==='Career-Ending Injury')reason='A career-ending injury forces an early retirement.';else if(p.age>=35)reason=p.ranking!==1?'Age 35 arrived before the climb to world #1 was complete.':'Retirement arrived before completing the championship double.';if(!won&&!reason)return false;ended=true;$('matchOverlay').classList.add('hidden');$('endIcon').textContent=won?'🏆':'🏸';$('endLabel').textContent=won?'Career victory':'Career complete';$('endTitle').textContent=won?`${p.name} conquered the world!`:`${p.name}'s final chapter`;$('endReason').textContent=reason;$('endStats').innerHTML=`Final overall: <b>${overall()}</b>
+<br>Best ranking: <b>#${p.bestRank}</b>
+<br>Titles: <b>${p.titles}</b> · Tournaments: <b>${p.tournaments}</b>
+<br>Career earnings: <b>${money(p.earnings)}</b>
+<br>Technique / Speed / Power: <b>${p.technique.toFixed(1)} / ${p.speed.toFixed(1)} / ${p.power.toFixed(1)}</b><br>Defense / Physicality / Mentality: <b>${p.defense.toFixed(1)} / ${p.physicality.toFixed(1)} / ${p.mentality.toFixed(1)}</b>`;$('endOverlay').classList.remove('hidden');requestSave();return true;}
     function showOnboarding(id){['onboardingRules','onboardingCreate','onboardingStory'].forEach(step=>$(step).classList.toggle('hidden',step!==id));}
     function toggleEntryFields(){const type=$('eventTypeInput').value,isTeam=type!=='Singles';$('partnerFields').classList.toggle('hidden',!isTeam);$('playerOneHeading').textContent=isTeam?'Player 1':'Player';$('creationError').textContent='';if(type==='Mixed'){$('genderInput').value='Male';$('partnerGenderInput').value='Female';}else if(type==='Doubles')$('partnerGenderInput').value=$('genderInput').value;}
-    function generatePlayer(){
+    const portraitState={player:{confirmed:'',pending:'',stream:null},partner:{confirmed:'',pending:'',stream:null}};
+    function portraitId(prefix,suffix){return prefix?prefix+suffix[0].toUpperCase()+suffix.slice(1):suffix;}
+    function portraitSlot(prefix=''){return portraitState[prefix||'player'];}
+    function stopCamera(prefix=''){const state=portraitSlot(prefix);if(state.stream)state.stream.getTracks().forEach(track=>track.stop());state.stream=null;const video=$(portraitId(prefix,'cameraVideo'));if(video)video.srcObject=null;}
+    function customPortrait(prefix=''){return customAvatarData($(portraitId(prefix,'skinInput')).value,$(portraitId(prefix,'hairInput')).value,$(portraitId(prefix,'shirtInput')).value,$(portraitId(prefix,'eyesInput')).value,$(portraitId(prefix,'mouthInput')).value,$(portraitId(prefix,'racketInput')).value,$(portraitId(prefix,'backgroundInput')).value);}
+    function updateCustomPreview(prefix=''){$(portraitId(prefix,'customPreview')).src=customPortrait(prefix);}
+    function togglePortraitFields(prefix=''){const mode=$(portraitId(prefix,'portraitMode')).value;['custom','upload','camera'].forEach(type=>$(portraitId(prefix,type+'Fields')).classList.toggle('hidden',mode!==type));if(mode!=='camera')stopCamera(prefix);}
+    async function startCamera(prefix=''){const state=portraitSlot(prefix),error=$(portraitId(prefix,'cameraError'));error.textContent='';if(!navigator.mediaDevices?.getUserMedia){error.textContent='Camera access is unavailable here. Try HTTPS or localhost, or upload a photo.';return;}try{stopCamera(prefix);state.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});const video=$(portraitId(prefix,'cameraVideo'));video.srcObject=state.stream;video.classList.remove('hidden');$(portraitId(prefix,'capturePhoto')).classList.remove('hidden');}catch(e){error.textContent='Camera permission was not granted. You can retry or choose Upload Photo.';}}
+    function captureCamera(prefix=''){const video=$(portraitId(prefix,'cameraVideo')),canvas=$(portraitId(prefix,'cameraCanvas')),state=portraitSlot(prefix);canvas.width=video.videoWidth||640;canvas.height=video.videoHeight||480;canvas.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);state.pending=canvas.toDataURL('image/jpeg',.9);$(portraitId(prefix,'cameraPreview')).src=state.pending;$(portraitId(prefix,'cameraConfirm')).classList.remove('hidden');video.classList.add('hidden');$(portraitId(prefix,'capturePhoto')).classList.add('hidden');}
+    function retakeCamera(prefix=''){portraitSlot(prefix).pending='';$(portraitId(prefix,'cameraConfirm')).classList.add('hidden');$(portraitId(prefix,'cameraVideo')).classList.remove('hidden');$(portraitId(prefix,'capturePhoto')).classList.remove('hidden');}
+    function confirmCamera(prefix=''){const state=portraitSlot(prefix);state.confirmed=state.pending;state.pending='';$(portraitId(prefix,'cameraConfirm')).classList.add('hidden');stopCamera(prefix);$(portraitId(prefix,'cameraError')).textContent='Photo confirmed.';}
+    function cancelCamera(prefix=''){const state=portraitSlot(prefix);state.pending='';state.confirmed='';$(portraitId(prefix,'cameraConfirm')).classList.add('hidden');stopCamera(prefix);$(portraitId(prefix,'portraitMode')).value='custom';togglePortraitFields(prefix);}
+    async function previewUpload(prefix=''){const input=$(portraitId(prefix,'photoInput')),state=portraitSlot(prefix),file=input.files[0];state.confirmed='';if(!file)return;if(!file.type.startsWith('image/')){$('creationError').textContent='Portrait files must be images.';input.value='';return;}state.pending=await fileData(file);$(portraitId(prefix,'uploadPreview')).src=state.pending;$(portraitId(prefix,'uploadConfirm')).classList.remove('hidden');}
+    function confirmUpload(prefix=''){const state=portraitSlot(prefix);state.confirmed=state.pending;state.pending='';$(portraitId(prefix,'uploadConfirm')).classList.add('hidden');$('creationError').textContent='';}
+    function cancelUpload(prefix=''){const state=portraitSlot(prefix);state.pending='';state.confirmed='';$(portraitId(prefix,'photoInput')).value='';$(portraitId(prefix,'uploadConfirm')).classList.add('hidden');}
+    function bindPortraitControls(prefix=''){const id=s=>$(portraitId(prefix,s));['skinInput','hairInput','eyesInput','mouthInput','racketInput','backgroundInput','shirtInput'].forEach(name=>id(name).addEventListener('change',()=>updateCustomPreview(prefix)));id('portraitMode').addEventListener('change',()=>togglePortraitFields(prefix));id('photoInput').addEventListener('change',()=>previewUpload(prefix));id('confirmUpload').onclick=()=>confirmUpload(prefix);id('cancelUpload').onclick=()=>cancelUpload(prefix);id('openCamera').onclick=()=>startCamera(prefix);id('capturePhoto').onclick=()=>captureCamera(prefix);id('retakePhoto').onclick=()=>retakeCamera(prefix);id('confirmCamera').onclick=()=>confirmCamera(prefix);id('cancelCamera').onclick=()=>cancelCamera(prefix);updateCustomPreview(prefix);togglePortraitFields(prefix);}
+    async function selectedPortrait(prefix=''){const mode=$(portraitId(prefix,'portraitMode')).value;if(mode==='custom')return customPortrait(prefix);const confirmed=portraitSlot(prefix).confirmed;if(!confirmed)throw new Error(mode==='camera'?'Capture and confirm the photo before creating the profile.':'Select and confirm the uploaded photo before creating the profile.');return confirmed;}
+    async function generatePlayer(){
       const eventType=$('eventTypeInput').value,members=[{name:$('nameInput').value.trim(),age:Number($('ageInput').value),gender:$('genderInput').value,nationality:$('nationalityInput').value.trim()}];
       if(eventType!=='Singles')members.push({name:$('partnerNameInput').value.trim(),age:Number($('partnerAgeInput').value),gender:$('partnerGenderInput').value,nationality:$('partnerNationalityInput').value.trim()});
       const invalid=members.find(m=>!m.name||!Number.isInteger(m.age)||m.age<14||m.age>35||!m.nationality);if(invalid){$('creationError').textContent='Complete every name, age (14–35), gender, and nationality field.';return;}
       if(eventType==='Doubles'&&members[0].gender!==members[1].gender){$('creationError').textContent='A doubles pair must enter the same gender. Choose Mixed Doubles for a male/female pair.';return;}
       if(eventType==='Mixed'&&new Set(members.map(m=>m.gender)).size<2){$('creationError').textContent='A mixed doubles pair must contain two different genders.';return;}
-      $('creationError').textContent='';p=newPlayer(members,eventType);p.story=generateStory(p);p.avatar=avatarData(members[0].name,members[0].age,members[0].gender);p.partnerAvatar=members[1]?avatarData(members[1].name,members[1].age,members[1].gender):'';
+      try{const avatar=await selectedPortrait(),partnerAvatar=members[1]?await selectedPortrait('partner'):'';$('creationError').textContent='';p=newPlayer(members,eventType);p.story=generateStory(p);p.avatar=avatar;p.partnerAvatar=partnerAvatar;}catch(error){$('creationError').textContent=error.message;return;}
       $('storyTitle').textContent=`Meet ${p.name}, ${overall()} OVR`;$('storyAvatar').src=p.avatar;$('storyAvatar2').src=p.partnerAvatar;$('storyAvatar2').classList.toggle('hidden',!p.partnerAvatar);$('storyText').textContent=p.story;showOnboarding('onboardingStory');
     }
-    function beginCareer(){createWorld();p.lastOverall=overall();$('startOverlay').classList.add('hidden');log(p.story,'Origin story');log(`${p.name} enters the tour at age ${p.age} with a ${overall()} overall rating, representing ${p.nationality} as a ${p.playingStyle.toLowerCase()}.`,'Career begins');log(`The season opens with established champions, ambitious prospects, and rankings that evolve every week—even when ${p.name} is not competing.`,'World news','News');render();}
+    function beginCareer(){stopCamera();stopCamera('partner');createWorld();p.lastOverall=overall();$('startOverlay').classList.add('hidden');log(p.story,'Origin story');log(`${p.name} enters the tour at age ${p.age} with a ${overall()} overall rating, representing ${p.nationality} as a ${p.playingStyle.toLowerCase()}.`,'Career begins');log(`The season opens with established champions, ambitious prospects, and rankings that evolve every week—even when ${p.name} is not competing.`,'World news','News');render();}
+
+    const defaultSettings={sound:'on',motion:'full',logDensity:'comfortable',matchPace:'normal',confirmTournament:'on'};
+    let gameSettings={...defaultSettings};
+    function loadSettings(){try{gameSettings={...defaultSettings,...JSON.parse(localStorage.getItem('badmintonCareerSettings')||'{}')};}catch(e){gameSettings={...defaultSettings};}applySettings();}
+    function applySettings(){document.body.classList.toggle('reduce-motion',gameSettings.motion==='reduced');document.body.classList.toggle('compact-log',gameSettings.logDensity==='compact');$('soundSetting').value=gameSettings.sound;$('motionSetting').value=gameSettings.motion;$('logDensitySetting').value=gameSettings.logDensity;$('matchPaceSetting').value=gameSettings.matchPace;$('confirmTournamentSetting').value=gameSettings.confirmTournament;}
+    function saveSettings(){gameSettings={sound:$('soundSetting').value,motion:$('motionSetting').value,logDensity:$('logDensitySetting').value,matchPace:$('matchPaceSetting').value,confirmTournament:$('confirmTournamentSetting').value};try{localStorage.setItem('badmintonCareerSettings',JSON.stringify(gameSettings));}catch(e){}applySettings();$('settingsOverlay').classList.add('hidden');requestSave();}
+    function openSettings(){applySettings();$('settingsOverlay').classList.remove('hidden');}
 
     $('toCreate').onclick=()=>showOnboarding('onboardingCreate');$('backToRules').onclick=()=>showOnboarding('onboardingRules');$('editPlayer').onclick=()=>showOnboarding('onboardingCreate');$('startBtn').onclick=generatePlayer;$('beginCareer').onclick=beginCareer;
-    $('eventTypeInput').addEventListener('change',toggleEntryFields);$('genderInput').addEventListener('change',()=>{if($('eventTypeInput').value==='Doubles')$('partnerGenderInput').value=$('genderInput').value;});toggleEntryFields();
+    $('eventTypeInput').addEventListener('change',toggleEntryFields);$('genderInput').addEventListener('change',()=>{if($('eventTypeInput').value==='Doubles')$('partnerGenderInput').value=$('genderInput').value;});toggleEntryFields();bindPortraitControls();bindPortraitControls('partner');
     $('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')generatePlayer();});
     document.querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>{if(ended)return;const a=b.dataset.action;if(a==='technical')train('skill');if(a==='fitness')train('fitness');if(a==='rest')rest();if(a==='tournament')showTournaments();if(a==='upgrade')showUpgrades();});
     $('tournamentList').addEventListener('click',e=>{const b=e.target.closest('[data-tour]');if(b)startTournament(+b.dataset.tour);});
     $('upgradeList').addEventListener('click',e=>{const b=e.target.closest('[data-upgrade]');if(b)buyUpgrade(b.dataset.upgrade);});
     $('logFilters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(!b)return;activeLogFilter=b.dataset.filter;logDisplayLimit=36;document.querySelectorAll('.filter-btn').forEach(x=>x.classList.toggle('active',x===b));renderLog();});$('loadMoreLog').onclick=()=>{logDisplayLimit+=36;renderLog();};
-    $('playMatch').onclick=continueTournament;$('cancelTournament').onclick=()=>$('tournamentOverlay').classList.add('hidden');$('closeUpgrade').onclick=()=>$('upgradeOverlay').classList.add('hidden');$('rulesBtn').onclick=()=>$('rulesOverlay').classList.remove('hidden');$('closeRules').onclick=()=>$('rulesOverlay').classList.add('hidden');
+    $('playMatch').onclick=continueTournament;$('cancelTournament').onclick=()=>$('tournamentOverlay').classList.add('hidden');$('closeUpgrade').onclick=()=>$('upgradeOverlay').classList.add('hidden');$('rulesBtn').onclick=()=>$('rulesOverlay').classList.remove('hidden');$('closeRules').onclick=()=>$('rulesOverlay').classList.add('hidden');$('settingsBtn').onclick=openSettings;$('bwfRefreshBtn').onclick=refreshBwfDatabase;$('saveSettings').onclick=saveSettings;$('closeSettings').onclick=()=>$('settingsOverlay').classList.add('hidden');loadSettings();loadBwfPlayers().finally(loadCareerSave);
   </script>
 </body>
 </html>

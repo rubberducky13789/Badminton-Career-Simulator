@@ -1,0 +1,26 @@
+{
+  "player": {
+    "name": "",
+    "age": 14,
+    "gender": "",
+    "nationality": "",
+    "skill": 40,
+    "fitness": 40,
+    "stamina": 70,
+    "confidence": 50,
+    "money": 1000,
+    "ranking": 1000,
+    "ranking_points": 0,
+    "titles": 0,
+    "wins": 0,
+    "runner_ups": 0,
+    "career_earnings": 0
+  },
+  "career": {
+    "week": 1,
+    "season": 1,
+    "status": "active"
+  },
+  "tournaments": [],
+  "rankings": []
+}
