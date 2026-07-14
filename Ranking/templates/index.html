@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BWF Ranking Browser</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">BWF WORLD RANKINGS</p>
+          <h1>Ranking Browser</h1>
+          <p class="subtitle">Search players and teams across all five disciplines.</p>
+        </div>
+        <button id="update-button" class="update-button" type="button">
+          <span id="update-icon" aria-hidden="true">↻</span>
+          <span id="update-label">Update Rankings</span>
+        </button>
+      </header>
+
+      <section class="status-panel" aria-live="polite">
+        <span id="status-dot" class="status-dot"></span>
+        <span id="status-text">Loading rankings...</span>
+      </section>
+
+      <section class="controls" aria-label="Ranking filters">
+        <label>
+          <span>Player or team</span>
+          <input id="search-input" type="search" placeholder="Search by name" autocomplete="off">
+        </label>
+        <label>
+          <span>Category</span>
+          <select id="category-select">
+            <option value="">All categories</option>
+            <option>Men's Singles</option>
+            <option>Women's Singles</option>
+            <option>Men's Doubles</option>
+            <option>Women's Doubles</option>
+            <option>Mixed Doubles</option>
+          </select>
+        </label>
+        <div class="result-total"><strong id="result-count">0</strong> rankings</div>
+      </section>
+
+      <section class="table-card">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th class="number">Rank</th>
+                <th>Player / Team</th>
+                <th>Country</th>
+                <th class="number">Points</th>
+                <th class="number">+/-</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-body"></tbody>
+          </table>
+        </div>
+        <div id="empty-state" class="empty-state" hidden>No matching rankings found.</div>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  </body>
+</html>
